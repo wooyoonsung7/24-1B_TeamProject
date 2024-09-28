@@ -13,9 +13,18 @@ public class PlayerController2 : MonoBehaviour
     public LayerMask whatIsTarget;
 
     private RaycastHit hitInfo;
+
+    private Vector3 camRotation;
+
+    public float test = 0;
+    public float test1 = 0;
+    public float test2 = 1;
     void Start()
     {
         playerCam = Camera.main;
+        playerCam = GetComponentInChildren<Camera>();
+
+        //camRotation = new Vector3(playerCam.transform.localEulerAngles.x, 0.0f, 0.0f);   //X축만 받으면 됨.
     }
 
     // Update is called once per frame
@@ -28,7 +37,7 @@ public class PlayerController2 : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            if (Physics.Raycast(rayOrigin, rayDir, out hitInfo, distance))
+            if (Physics.Raycast(rayOrigin, rayDir, out hitInfo, distance, whatIsTarget))
             {
                 Debug.Log("상호작용 실시");
 

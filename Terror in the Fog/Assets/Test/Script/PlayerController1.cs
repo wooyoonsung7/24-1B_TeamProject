@@ -74,11 +74,11 @@ public class PlayerController1 : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y") * mouseSenesitivity;   //마우스 상하 입력
 
         //수평 회전(theta 값)
-        targetHorizontalRotation += mouseX;  //마우스 입력값 추가
-        targetHorizontalRotation = Mathf.Repeat(targetHorizontalRotation, 360f);      //각도 값이 360을 넘지 않도록 조정
+        theta += mouseX;  //마우스 입력값 추가
+        theta = Mathf.Repeat(theta, 360f);      //각도 값이 360을 넘지 않도록 조정
 
         //수직 회전 처리
-        targetVerticalRotation += mouseY;
+        targetVerticalRotation -= mouseY;
         targetVerticalRotation = Mathf.Clamp(targetVerticalRotation, yMinLimit, yMaxLimit);   //수직 회전 제한
 
         phi = Mathf.MoveTowards(phi, targetVerticalRotation, RotationSpeed * Time.deltaTime);
@@ -89,7 +89,7 @@ public class PlayerController1 : MonoBehaviour
 
         if (isFirstPerson)
         {
-            firstPersonCamera.transform.localRotation = Quaternion.Euler(phi, theta, 0.0f);  //1인칭 카메라  회전
+            firstPersonCamera.transform.localRotation = Quaternion.Euler(phi, 0.0f, 0.0f);  //1인칭 카메라  회전
         }
         else
         {
