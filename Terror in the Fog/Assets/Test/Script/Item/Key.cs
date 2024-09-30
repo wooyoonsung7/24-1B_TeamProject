@@ -9,6 +9,11 @@ public class Key : MonoBehaviour, IItem
     public string itemName { get; set; }
     public Sprite itemImage { get; set; }
     public GameObject itemPrefab { get; set; }
+    private void Start()
+    {
+        type = ItemType.Used;
+        itemName = "¿­¼è";
+    }
     public void Use(GameObject target)
     {
         Debug.Log("¿­¼è »ç¿ë");

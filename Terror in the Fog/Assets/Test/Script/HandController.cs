@@ -2,14 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
 
 public class HandController : MonoBehaviour
 {
     private Camera playerCam;
 
     [SerializeField]
-    private float distance = 50f;
+    private float distance = 1f;
 
     private bool pickupActivated = false;
 
@@ -17,71 +17,85 @@ public class HandController : MonoBehaviour
 
     private RaycastHit hitInfo;
 
-    private TextMeshProUGUI actionText;
+    [SerializeField]
+    private Text actionText;
+
+    [SerializeField]
+    private Inventory theInventory;
 
     IItem item;
+
     void Start()
     {
         playerCam = Camera.main;
         playerCam = GetComponentInChildren<Camera>();
 
-        //camRotation = new Vector3(playerCam.transform.localEulerAngles.x, 0.0f, 0.0f);   //X√‡∏∏ πﬁ¿∏∏È µ .
     }
 
-    // Update is called once per frame
     void Update()
     {
         CheckItem();
         TryPickUp();
     }
 
-    private void TryPickUp()
+    private void TryPickUp() //æ∆¿Ã≈€ ¡›±‚
     {
         if (Input.GetButtonDown("Interaction"))
         {
             CheckItem();
-            CanPickUp(item);
+            CanPickUp();
         }
     }
-    private void CheckItem()
+    private void CheckItem() //æ∆¿Ã≈€¿Øπ´ »Æ¿Œ
     {
         Vector3 rayOrigin = playerCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0f));
         Vector3 rayDir = transform.forward;
 
-        Debug.DrawRay(rayOrigin, rayDir * 100f, Color.red);
+        Debug.DrawRay(rayOrigin, rayDir * distance, Color.red);
 
         if (Physics.Raycast(rayOrigin, rayDir, out hitInfo, distance, whatIsTarget))
         {
 
             item = hitInfo.collider.GetComponent<IItem>();
 
-            ItemInfoAppear(item);
+            ItemInfoAppear();
+        }
+        else
+        {
+            ItemInfoDisappear();
         }
     }
 
-    private void ItemInfoAppear(IItem item)
+    private void ItemInfoAppear() //æ∆¿Ã≈€»πµÊ «•Ω√ «œ±‚
     {
         pickupActivated = true;
         actionText.gameObject.SetActive(true);
-        //actionText.text = item.itemName+ "»πµÊ" + "<color=yellow>" + "(E)" + "</color>";
+        actionText.text = item.itemName+ "»πµÊ" + "<color=yellow>" + "(E)" + "</color>";
     }
-    private void ItemInfoDisappear()
+    private void ItemInfoDisappear() //æ∆¿Ã≈€»πµÊ «•Ω√ ≤Ù±‚
     {
         pickupActivated = false;
         actionText.gameObject.SetActive(false);
     }
-    private void CanPickUp(IItem item)
+    private void CanPickUp() //æ∆¿Ã≈€ »πµÊ
     {
        if (pickupActivated)
         {
             if (hitInfo.transform != null)
             {
                 Debug.Log(item.itemName + " »πµÊ «ﬂΩ¿¥œ¥Ÿ.");
+                theInventory.AcuquireItem(item);
                 Destroy(hitInfo.transform.gameObject);
                 ItemInfoDisappear();
             }
         }
     }
 
+    private void UseItem()
+    {
+        if (Input.GetButtonDown("Use Item"))
+        {
 
+        }
+    }
 }
