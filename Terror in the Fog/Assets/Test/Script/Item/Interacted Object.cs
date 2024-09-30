@@ -5,5 +5,5 @@ using UnityEngine;
 public class InteractedObject : MonoBehaviour
 {
     //¹æ¹®
-    
+
 }
