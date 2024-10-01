@@ -45,6 +45,7 @@ public class HandController : MonoBehaviour
         CheckItem();
         TryPickUp();
         SellectItem();
+        UseItem();
     }
         
     private void TryPickUp() //아이템 줍기
@@ -53,6 +54,7 @@ public class HandController : MonoBehaviour
         {
             CheckItem();
             CanPickUp();
+            Interaction();
         }
     }
     private void CheckItem() //아이템유무 확인
@@ -79,7 +81,7 @@ public class HandController : MonoBehaviour
     {
         pickupActivated = true;
         actionText.gameObject.SetActive(true);
-        actionText.text = item.itemName+ "획득" + "<color=yellow>" + "(E)" + "</color>";
+        actionText.text = item.itemName+ "상화작용" + "<color=yellow>" + "(E)" + "</color>";
     }
     private void ItemInfoDisappear() //아이템임을 표시 끄기
     {
@@ -88,14 +90,18 @@ public class HandController : MonoBehaviour
     }
     private void CanPickUp() //아이템 획득
     {
-       if (pickupActivated)
+        if (pickupActivated)
         {
             if (hitInfo.transform != null)
             {
-                Debug.Log(item.itemName + " 획득 했습니다.");
-                theInventory.AcuquireItem(item);
-                Destroy(hitInfo.transform.gameObject);
-                ItemInfoDisappear();
+                if (item.type == IItem.ItemType.Used || item.type == IItem.ItemType.Consumed)
+                {
+                    Debug.Log(item.itemName + " 획득 했습니다.");
+                    theInventory.AcuquireItem(item);
+                    Destroy(hitInfo.transform.gameObject);
+                    ItemInfoDisappear();
+
+                }
             }
         }
     }
@@ -106,36 +112,54 @@ public class HandController : MonoBehaviour
         {
             scrollPoint += scroll;
 
-            if (0f <= scrollPoint && scrollPoint < 1f)
+            if (0f >= scrollPoint && scrollPoint > -1f)
             {
                 i = 0;
             }
-            else if (1f <= scrollPoint && scrollPoint < 2f)
+            else if (-1f >= scrollPoint && scrollPoint > -2f)
             {
                 i = 1;
             }
-            else if (2f <= scrollPoint && scrollPoint < 3f)
+            else if (-2f >= scrollPoint && scrollPoint > -3f)
             {
                 i = 2;
             }
-            else if (3f <= scrollPoint && scrollPoint < 4f)
+            else if (-3f >= scrollPoint && scrollPoint > -4f)
             {
                 i = 3;
             }
-            else if (4f <= scrollPoint && scrollPoint <= 5f)
+            else if (-4f >= scrollPoint && scrollPoint >= -5f)
             {
                 i = 4;
             }
-            else if (scrollPoint > 5f)
+            else if (scrollPoint < -5f)
             {
                 scrollPoint = 0f;
             }
             else
             {
-                scrollPoint = 5f;
+                scrollPoint = -5f;
             }
         }
         theInventory_2.CheckCanUse(i);
     }
 
+    private void UseItem() //인벤안의 아이템 사용
+    {
+        if (Input.GetButtonDown("Use Item"))
+        {
+            theInventory_2.UsingItem();
+        }
+    }
+
+    private void Interaction() //가구등 상호작용
+    {
+        if (hitInfo.transform != null)
+        {
+            if (item.type == IItem.ItemType.interacted)
+            {
+                item.Use(transform.parent.gameObject);
+            }
+        }
+    }
 }

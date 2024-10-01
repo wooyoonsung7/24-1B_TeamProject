@@ -24,6 +24,8 @@ public class OutsideInventory : MonoBehaviour
     private GameObject player;
 
     public bool isCanUse = false;
+    private int i_idex;
+
     IItem item;
     private void Start()
     {
@@ -83,54 +85,45 @@ public class OutsideInventory : MonoBehaviour
     //마우스스크롤로 사용할 이미지 표시
     public void CheckCanUse(int idex)
     {
-        if (!checkImages[idex].activeSelf)                //해당 슬롯의 사용가능 표시안된 한번 실행
+        i_idex = idex;
+        for (int i = 0; i < o_InventoryCount; i++)
         {
-            for (int i = 0; i < o_InventoryCount; i++)
+            if (i != idex)                            //인벤토리의 사용가능표시, 아이템사용가능 초기화
             {
-                if (i != idex)                            //인벤토리의 사용가능표시, 아이템사용가능 초기화
-                {
-                    checkImages[i].SetActive(false);
+                checkImages[i].SetActive(false);
 
-                    if (i_slots[i].item != null)
-                    {
-                        i_slots[i].item.isCanUse = false;
-                    }
+                if (i_slots[i].item == null)
+                {
+                    i_slots[i].isCanUse = false;
                 }
             }
-
-            checkImages[idex].SetActive(true);            //인벤토리의 사용가능표시, 아이템사용가능 표시
-
-            if (i_slots[idex].item != null)
-            {
-                item = i_slots[idex].item;
-                item.isCanUse = true;
-            }
-
         }
-        if (i_slots[idex].item != null && checkImages[idex].activeSelf)
+
+        checkImages[idex].SetActive(true);           //인벤토리의 사용가능표시, 아이템사용가능 표시
+
+        if (i_slots[idex].item != null)
         {
-            Debug.Log("이거2");
-            if (Input.GetButtonDown("Use Item"))
-            {
-                Debug.Log("이거3");
-                UsingItem(player, idex);
-            }
-
+            item = i_slots[idex].item;
+            i_slots[idex].isCanUse = true;
         }
+
     }
 
-    public void UsingItem(GameObject player, int idex)
+    public void UsingItem()
     {
-        if (item.isCanUse)
+        if (i_slots[i_idex].isCanUse)
         {
-            Debug.Log("된다");
             item.Use(player);
 
             if (item.type == IItem.ItemType.Consumed)
             {
-                i_slots[idex].ClearSlot();
+                i_slots[i_idex].ClearSlot();
 
             }
+        }
+        else
+        {
+            Debug.Log("아이템이 없읍니다");
         }
     }
 

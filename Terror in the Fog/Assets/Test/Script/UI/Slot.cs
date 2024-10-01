@@ -13,6 +13,8 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     //아이템정보를 OutsideInventory스크립트로 가져가기 위한 변수
     public bool isItemExist = false;
 
+    public bool isCanUse = false;
+
     //아이템 이미지의 투명도 조절
     public void SetColor(float _alpha)
     {

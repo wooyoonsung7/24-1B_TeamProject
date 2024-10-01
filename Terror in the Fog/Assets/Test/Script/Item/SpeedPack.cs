@@ -17,43 +17,51 @@ public class SpeedPack : MonoBehaviour, IItem
     private Sprite itemImage_2;
     [SerializeField]
     private GameObject itemPrefab_2;
-
-    private float timer = 0f;
-    private float fullTime = 5f;
+    [SerializeField]
+    //private float fullTime = 5f;
 
     private float walkSpeed;
     private float runSpeed;
     private float crouchSpeed;
+    PlayerController p_Controller;
     private void Start()
     {
         type = ItemType.Consumed;
-        itemName = "진통제";
+        itemName = "속도약";
         itemImage = itemImage_2;
         itemPrefab = itemPrefab_2;
         isCanUse = false;
     }
+
+    private void Update()
+    {
+    }
+
     public void Use(GameObject target)
     {
-        Debug.Log("진통제 사용");
-        PlayerController p_Controller = target.GetComponent<PlayerController>();
+        Debug.Log("속도약 사용");
+        p_Controller = target.GetComponent<PlayerController>();
 
         crouchSpeed = p_Controller.crouchSpeed;
         runSpeed = p_Controller.runSpeed;
         walkSpeed = p_Controller.walkSpeed;
 
-        p_Controller.crouchSpeed *= 2;
-        p_Controller.runSpeed *= 2;
-        p_Controller.walkSpeed *= 2;
-        timer += Time.deltaTime;
+        p_Controller.crouchSpeed *= 1.5f;
+        p_Controller.runSpeed *= 1.5f;
+        p_Controller.walkSpeed *= 1.5f;
 
-        if (timer >= fullTime)
+        /*StartCoroutine(KeepEfect());
+
+        IEnumerator KeepEfect() //속도빨라지는 효과지속시간 및 종료
         {
+            yield return new WaitForSeconds(fullTime);
+
+            Debug.Log("속도약 사용완료");
             p_Controller.crouchSpeed = crouchSpeed;
             p_Controller.runSpeed = runSpeed;
             p_Controller.walkSpeed = walkSpeed;
-
-            Destroy(gameObject);
-        }
-
+            p_Controller.walkSpeed = walkSpeed;
+        }*/
     }
+
 }
