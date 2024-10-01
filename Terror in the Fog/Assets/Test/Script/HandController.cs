@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class HandController : MonoBehaviour
 {
@@ -21,23 +23,30 @@ public class HandController : MonoBehaviour
     private Text actionText;
 
     [SerializeField]
-    private Inventory theInventory;
+    private InsideInventory theInventory;
+    private OutsideInventory theInventory_2;
+
+    [SerializeField]
+    private float scrollSpeed = 2f;
+    float scrollPoint = 0f;
+    int i = 0;
 
     IItem item;
-
+        
     void Start()
     {
         playerCam = Camera.main;
         playerCam = GetComponentInChildren<Camera>();
-
+        theInventory_2 = FindObjectOfType<OutsideInventory>();
     }
 
     void Update()
     {
         CheckItem();
         TryPickUp();
+        SellectItem();
     }
-
+        
     private void TryPickUp() //아이템 줍기
     {
         if (Input.GetButtonDown("Interaction"))
@@ -53,7 +62,7 @@ public class HandController : MonoBehaviour
 
         Debug.DrawRay(rayOrigin, rayDir * distance, Color.red);
 
-        if (Physics.Raycast(rayOrigin, rayDir, out hitInfo, distance, whatIsTarget))
+        if (Physics.Raycast(rayOrigin, rayDir, out hitInfo, distance, whatIsTarget)) //해당 아이템이 아이템임을 인식
         {
 
             item = hitInfo.collider.GetComponent<IItem>();
@@ -66,13 +75,13 @@ public class HandController : MonoBehaviour
         }
     }
 
-    private void ItemInfoAppear() //아이템획득 표시 하기
+    private void ItemInfoAppear() //아이템임을 표시 하기
     {
         pickupActivated = true;
         actionText.gameObject.SetActive(true);
         actionText.text = item.itemName+ "획득" + "<color=yellow>" + "(E)" + "</color>";
     }
-    private void ItemInfoDisappear() //아이템획득 표시 끄기
+    private void ItemInfoDisappear() //아이템임을 표시 끄기
     {
         pickupActivated = false;
         actionText.gameObject.SetActive(false);
@@ -90,12 +99,43 @@ public class HandController : MonoBehaviour
             }
         }
     }
-
-    private void UseItem()
+    public void SellectItem()
     {
-        if (Input.GetButtonDown("Use Item"))
+        float scroll = Input.GetAxis("Mouse ScrollWheel") * scrollSpeed;
+        if (scroll != 0)
         {
+            scrollPoint += scroll;
 
+            if (0f <= scrollPoint && scrollPoint < 1f)
+            {
+                i = 0;
+            }
+            else if (1f <= scrollPoint && scrollPoint < 2f)
+            {
+                i = 1;
+            }
+            else if (2f <= scrollPoint && scrollPoint < 3f)
+            {
+                i = 2;
+            }
+            else if (3f <= scrollPoint && scrollPoint < 4f)
+            {
+                i = 3;
+            }
+            else if (4f <= scrollPoint && scrollPoint <= 5f)
+            {
+                i = 4;
+            }
+            else if (scrollPoint > 5f)
+            {
+                scrollPoint = 0f;
+            }
+            else
+            {
+                scrollPoint = 5f;
+            }
         }
+        theInventory_2.CheckCanUse(i);
     }
+
 }

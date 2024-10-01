@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6670948082962363156}
   - component: {fileID: -2030260267446394716}
   m_Layer: 5
-  m_Name: Slot
+  m_Name: I_Slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90,6 +90,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemImage: {fileID: 8316844694222966325}
+  isItemExist: 0
+  o_Inventory: {fileID: 0}
 --- !u!1 &2720107819816795768
 GameObject:
   m_ObjectHideFlags: 0

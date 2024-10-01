@@ -9,6 +9,7 @@ public class HealPack : MonoBehaviour, IItem
     public string itemName { get; set; }
     public Sprite itemImage { get; set; }
     public GameObject itemPrefab { get; set; }
+    public bool isCanUse { get; set; }
     private void Start()
     {
         type = ItemType.Used;

@@ -10,6 +10,7 @@ public class ToolKit : MonoBehaviour, IItem
     public string itemName { get; set; }
     public Sprite itemImage { get; set; }
     public GameObject itemPrefab { get; set; }
+    public bool isCanUse { get; set; }
 
     [SerializeField]
     private Sprite itemImage_2;
@@ -22,9 +23,11 @@ public class ToolKit : MonoBehaviour, IItem
         itemName = "도구함";
         itemImage = itemImage_2;
         itemPrefab = itemPrefab_2;
+        isCanUse = false;
     }
     public void Use(GameObject target)
     {
         Debug.Log("도구함 사용");
+        //Destroy(gameObject);
     }
 }
