@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO.IsolatedStorage;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
+using DG.Tweening;
+using System.Threading;
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,6 +16,8 @@ public class PlayerController : MonoBehaviour
     public float crouchSpeed = 1.1f;
     public float playerHigh = 0.8f;
     public float crouchDgree = 0.3f;
+    public int stamina_Time = 5;
+    public int recover_stamina_Time = 7;
 
     //카메라 설정 변수
     [Header("Camera Settings")]
@@ -34,14 +38,25 @@ public class PlayerController : MonoBehaviour
 
     public float mouseSenesitivity = 2f;  //마우스 감도
 
-    //내부 변수들
     private bool isCrouching = false;     //1인치 모드 인지 여부
     private Rigidbody rb;
 
+    [Header("Ext Setting")]
     public GameObject head;
+    public Slider s_slider;        //플레이어의 기력을 나타나탤 UI
+    public GameObject s_Fill;
+    public float Fade_Duration = 5f;    //스태미너 흐릿하게 하는 지속시간
+    private bool playerCanRun = true;
+    private Image[] s_Image = new Image[2];
+    private bool isFadeIn = false;
+    private bool isFadeOut = true;
+    private float timer = 0f;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        s_Image[0] = s_slider.GetComponentInChildren<Image>();
+        s_Image[1] = s_slider.transform.GetChild(1).GetComponentInChildren<Image>();
 
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;          //마우스 커서를 잠그고 숨긴다
         UnityEngine.Cursor.visible = false;
@@ -107,15 +122,41 @@ public class PlayerController : MonoBehaviour
 
     void HandleRun()
     {
-        if (Input.GetButton("Run") && !isCrouching)
+
+        if (Input.GetButton("Run") && !isCrouching && playerCanRun)
         {
             moveSpeed = runSpeed;
+
+            s_slider.value -= Time.deltaTime / stamina_Time;
+            if (s_slider.value <= 0.01f)
+            {
+                playerCanRun = false;
+                s_Fill.SetActive(false);
+                timer = Time.time;
+            }
+
+            FadeIn();                  //페이드 한번만 처리하기 위한 불값
             Debug.Log("뛰다.");
             Debug.Log(moveSpeed);
         }
-        else if (!isCrouching)
+        else
         {
-            moveSpeed = walkSpeed;
+            if (Time.time >= timer + 0.3f)
+            {
+                s_Fill.SetActive(true);
+
+                if (!isCrouching)
+                    moveSpeed = walkSpeed;
+
+                s_slider.value += Time.deltaTime / recover_stamina_Time;
+                if (s_slider.value == 1)
+                {
+                    playerCanRun = true;
+                    Fadeout();
+
+                }
+            }
+
         }
     }
 
@@ -141,5 +182,29 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+    }
+
+    private void FadeIn()
+    {
+        if (isFadeIn)
+        {
+            for (int i = 0; i < s_Image.Length; i++)
+            {
+                s_Image[i].DOFade(1f, 0.2f).SetEase(Ease.InOutQuad).SetAutoKill(false).OnComplete(() => isFadeOut = true);
+            }
+            isFadeIn = false;
+        }
+    }
+
+    private void Fadeout()
+    {
+        if (isFadeOut)
+        {
+            for (int i = 0; i < s_Image.Length; i++)
+            {
+                s_Image[i].DOFade(0f, 0.2f).SetEase(Ease.InOutQuad).SetAutoKill(false).OnComplete(() => isFadeIn = true);
+            }
+            isFadeOut = false;
+        }
     }
 }
