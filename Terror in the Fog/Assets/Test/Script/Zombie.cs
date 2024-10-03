@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEngine.AI; // AI, 내비게이션 시스템 관련 코드 가져오기
 
 // 좀비 AI 구현
-public class Zombie : LivingEntity
+public class Zombie : MonoBehaviour//: LivingEntity
 {
-    public LayerMask whatIsTarget; // 추적 대상 레이어
+    /*public LayerMask whatIsTarget; // 추적 대상 레이어
 
     private LivingEntity targetEntity; // 추적 대상
     private NavMeshAgent navMeshAgent; // 경로 계산 AI 에이전트
@@ -115,5 +115,5 @@ public class Zombie : LivingEntity
         }
 
         // 트리거 충돌한 상대방 게임 오브젝트가 추적 대상이라면 공격 실행
-    }
+    }*/
 }

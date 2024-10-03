@@ -14,7 +14,7 @@ public class Door : MonoBehaviour, IItem
     public bool isCanUse { get; set; }
 
     [SerializeField]
-    private float tweenDuration = 3f;
+    //private float tweenDuration = 3f;
     private void Start()
     {
         type = ItemType.interacted;
