@@ -1424,12 +1424,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4382c6b8c64443346acedd5ef9d478f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 100
-  whatIsTarget:
-    serializedVersion: 2
-    m_Bits: 8
-  damage: 20
-  timeBetAttack: 0.5
 --- !u!195 &397001354
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2017,7 +2011,6 @@ GameObject:
   - component: {fileID: 551147994}
   - component: {fileID: 551147993}
   - component: {fileID: 551147992}
-  - component: {fileID: 551147991}
   - component: {fileID: 551147990}
   m_Layer: 0
   m_Name: Player
@@ -2046,6 +2039,7 @@ MonoBehaviour:
   crouchDgree: 0.3
   stamina_Time: 5
   recover_stamina_Time: 7
+  isHide: 0
   firstPersonCamera: {fileID: 330585545}
   radius: 5
   minRadius: 1
@@ -2057,22 +2051,6 @@ MonoBehaviour:
   s_slider: {fileID: 1442154380}
   s_Fill: {fileID: 1935332931}
   Fade_Duration: 0
---- !u!114 &551147991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 551147989}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e705d969d5bbef4448a1f9c040b93586, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startingHealth: 100
-  deathClip: {fileID: 8300000, guid: 4265c953ea2b74edabac0c972182dcba, type: 3}
-  hitClip: {fileID: 8300000, guid: cbfb3a79860ac42c89b09fc131ef4b61, type: 3}
-  itemPickupClip: {fileID: 8300000, guid: 519ad2e4de69341948a938bf2a31e33b, type: 3}
 --- !u!82 &551147992
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2580,7 +2558,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.033333335
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: d16d6fba959206a4c9972392b079c296, type: 2}
   m_BuildHeightMesh: 0

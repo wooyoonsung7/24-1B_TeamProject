@@ -2,17 +2,62 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStateClass : MonoBehaviour
+public class Research : IState
 {
-    // Start is called before the first frame update
-    void Start()
+    public void StateEnter(Enemy enemy)
     {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    }
+    public void StateFixUpdate(Enemy enemy)
     {
-        
+
+    }
+    public void StateUpdate(Enemy enemy)
+    {
+
+    }
+    public void StateExit(Enemy enemy)
+    {
+
+    }
+}
+
+public class FeelStrange : IState
+{
+    public void StateEnter(Enemy enemy)
+    {
+
+    }
+    public void StateFixUpdate(Enemy enemy)
+    {
+
+    }
+    public void StateUpdate(Enemy enemy)
+    {
+
+    }
+    public void StateExit(Enemy enemy)
+    {
+
+    }
+}
+
+public class ChaseState : IState
+{
+    public void StateEnter(Enemy enemy)
+    {
+
+    }
+    public void StateFixUpdate(Enemy enemy)
+    {
+
+    }
+    public void StateUpdate(Enemy enemy)
+    {
+
+    }
+    public void StateExit(Enemy enemy)
+    {
+
     }
 }

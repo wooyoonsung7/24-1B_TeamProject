@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using System.Threading;
+using System.Runtime.CompilerServices;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
     public float crouchDgree = 0.3f;
     public int stamina_Time = 5;
     public int recover_stamina_Time = 7;
+    public bool isHide = false;
 
     //카메라 설정 변수
     [Header("Camera Settings")]
@@ -52,6 +54,8 @@ public class PlayerController : MonoBehaviour
     private bool isFadeOut = true;
     private float timer = 0f;
 
+    public bool isCanMove = true;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -82,23 +86,26 @@ public class PlayerController : MonoBehaviour
     //카메라 및 캐릭터 회전처리하는 함수
     void HandleRotation()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSenesitivity;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSenesitivity;
+        if (isCanMove)
+        {
+            float mouseX = Input.GetAxis("Mouse X") * mouseSenesitivity;
+            float mouseY = Input.GetAxis("Mouse Y") * mouseSenesitivity;
 
-        //수평 회전(theta 값)
-        theta += mouseX;
-        theta = Mathf.Repeat(theta, 360f);
+            //수평 회전(theta 값)
+            theta += mouseX;
+            theta = Mathf.Repeat(theta, 360f);
 
-        //수직 회전 처리
-        targetVerticalRotation -= mouseY;
-        targetVerticalRotation = Mathf.Clamp(targetVerticalRotation, yMinLimit, yMaxLimit);
+            //수직 회전 처리
+            targetVerticalRotation -= mouseY;
+            targetVerticalRotation = Mathf.Clamp(targetVerticalRotation, yMinLimit, yMaxLimit);
 
-        phi = Mathf.MoveTowards(phi, targetVerticalRotation, RotationSpeed * Time.deltaTime);
+            phi = Mathf.MoveTowards(phi, targetVerticalRotation, RotationSpeed * Time.deltaTime);
 
-        //플레이어, 머리회전 처리
-        head.gameObject.transform.localRotation = Quaternion.Euler(phi, 0.0f, 0.0f);
-        gameObject.transform.rotation = Quaternion.Euler(0.0f, theta, 0.0f);
+            //플레이어, 머리회전 처리
+            head.gameObject.transform.localRotation = Quaternion.Euler(phi, 0.0f, 0.0f);
+            gameObject.transform.rotation = Quaternion.Euler(0.0f, theta, 0.0f);
 
+        }
     }
 
     //카메라 초기 위치 및 회전을 설정하는 함수
@@ -111,12 +118,15 @@ public class PlayerController : MonoBehaviour
     //플레이어 행동처리 함수
     void HandleMovement()
     {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+        if (isCanMove)
+        {
+            float moveHorizontal = Input.GetAxis("Horizontal");
+            float moveVertical = Input.GetAxis("Vertical");
 
-        //캐릭터 기준으로 이동
-        Vector3 movement = transform.right * moveHorizontal + transform.forward * moveVertical;
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);  //물리기반 이동
+            //캐릭터 기준으로 이동
+            Vector3 movement = transform.right * moveHorizontal + transform.forward * moveVertical;
+            rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);  //물리기반 이동
+        }
 
     }
 
@@ -152,7 +162,7 @@ public class PlayerController : MonoBehaviour
                 if (s_slider.value == 1)
                 {
                     playerCanRun = true;
-                    Fadeout();
+                    FadeOut();
 
                 }
             }
@@ -195,8 +205,7 @@ public class PlayerController : MonoBehaviour
             isFadeIn = false;
         }
     }
-
-    private void Fadeout()
+    private void FadeOut()
     {
         if (isFadeOut)
         {
