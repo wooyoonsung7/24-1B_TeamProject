@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.AI;
 using DG.Tweening;
@@ -24,33 +23,31 @@ public class Enemy : MonoBehaviour
     [Range(0f, 360f)][SerializeField] float ViewAngle = 0f;
     [SerializeField] float ViewRadius = 1f;
     [SerializeField] LayerMask TargetMask;
-    [SerializeField] LayerMask ObstacleMask;
     Vector3 myPos;
     Vector3 lookDir;
 
-    List<Collider> hitTargetList = new List<Collider>();
+    public List<Collider> hitTargetList = new List<Collider>();
+    RaycastHit hit;
 
     float move;
     float rotate;
     Rigidbody rb;
-    private NavMeshAgent navMeshAgent; // 경로 계산 AI 에이전트
-    bool isFindPlayer = true;
+    public NavMeshAgent navMeshAgent; // 경로 계산 AI 에이전트
 
     float floorHigh = 3f;
     float bottomHigh = 0.5f;
-    float findTime = 3f;               //플레이어가 숨었을 경우, 어그로가 풀릴 때까지의 시간
-    float timer = 0f;
-    float seizeRadius = 0.5f;
-    bool isChacking = false;
+    public float seizeRadius = 0.5f;
+    Collider[] target = new Collider[0];
 
     Sequence sequence;
     void Start()
     {
+        _stateMachine = new StateMachine(this, Research.GetInstance());
         navMeshAgent = GetComponent<NavMeshAgent>();
-        myPos = transform.position + Vector3.up * 0.5f;
         rb = GetComponent<Rigidbody>();
 
         sequence = DOTween.Sequence();
+        myPos = transform.position + Vector3.up * 0.5f;
     }
 
     Vector3 AngleToDir(float angle)
@@ -61,17 +58,22 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        CheckObject();
-        ChasePlayer();
+        if (_stateMachine != null)
+        {
+            _stateMachine.FixedUpdateState(this);
+        }
     }
 
     void Update()
     {
-        CheckDeath();
-        //EnemyMove();
+        if (_stateMachine != null)
+        {
+            _stateMachine.UpdateState(this);
+        }
+
     }
 
-    private void CheckObject()
+    public void CheckObject()
     {
         float lookingAngle = transform.eulerAngles.y;
         Vector3 rightDir = AngleToDir(transform.eulerAngles.y + ViewAngle * 0.5f);
@@ -90,18 +92,19 @@ public class Enemy : MonoBehaviour
             Vector3 targetPos = PlayerColli.transform.position;
             Vector3 targetDir = (targetPos - myPos).normalized;
             float targetAngle = Mathf.Acos(Vector3.Dot(lookDir, targetDir)) * Mathf.Rad2Deg;
-            if (targetAngle <= ViewAngle * 0.5f && !Physics.Raycast(myPos, targetDir, ViewRadius, ObstacleMask))
+            if (targetAngle <= ViewAngle * 0.5f)
             {
-                Vector3 maxHigh = transform.position * floorHigh;
-                Vector3 minHigh = transform.position * bottomHigh;
-                if (maxHigh.y > targetPos.y && minHigh.y < targetPos.y)
+                Physics.Raycast(myPos, targetDir, out hit, ViewRadius);
+                if (!hit.collider.gameObject.CompareTag("Object"))
                 {
-                    if (isFindPlayer)
+                    Vector3 maxHigh = transform.position * floorHigh;
+                    Vector3 minHigh = transform.position * bottomHigh;
+                    if (maxHigh.y > targetPos.y && minHigh.y < targetPos.y)
                     {
-                        hitTargetList.Add(PlayerColli);
-                        isFindPlayer = false;
+                        hitTargetList.Add(hit.collider);
+
+                        Debug.DrawLine(myPos, targetPos, Color.red);
                     }
-                    Debug.DrawLine(myPos, targetPos, Color.red);
                 }
             }
         }
@@ -115,67 +118,42 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, seizeRadius);
     }
 
-    private void ChasePlayer()
+    public void ChasePlayer()
     {
-        if (!isFindPlayer)                                                   //플레이어를 쫓아간다.
+        navMeshAgent.isStopped = false;
+        navMeshAgent.SetDestination(hitTargetList[0].transform.position);
+
+        target = Physics.OverlapSphere(transform.position, seizeRadius, TargetMask);
+    }
+
+    public void CheckDeath()
+    {
+        if (target.Length >= 1)
         {
-            navMeshAgent.isStopped = false;
-            navMeshAgent.SetDestination(hitTargetList[0].transform.position);
+            //playerController.transform.DOLocalMove(transform.position + Vector3. * 1.5f, 1f);
+            playerController.gameObject.SetActive(false);
         }
     }
 
-    private void CheckDeath()
+    public void CheckAround()
     {
-        Collider[] target = Physics.OverlapSphere(transform.position, seizeRadius, TargetMask);
-        if (playerController.isHide)                                         //플레이어가 숨기성공했을 때
-        {
-            timer += Time.deltaTime;
-            if (findTime <= timer)
-            {
-                navMeshAgent.isStopped = true;
-                hitTargetList.Clear();
-                isFindPlayer = true;
-                timer = 0f;              //타이머초기화
-                seizeRadius = 0.5f;      //일시적으로 범위를 늘린다.
-                isChacking = true;       //해당 동작을 한번만 실행하기위한 불값
-                if (isChacking)
-                {
-                    Vector3 act_1 = transform.rotation.eulerAngles;
-                    act_1.y += 90f;
-                    Vector3 act_2 = transform.rotation.eulerAngles;
-                    act_2.y -= 90f;
+        navMeshAgent.isStopped = true;
+        hitTargetList.Clear();
 
+        Vector3 act_1 = transform.rotation.eulerAngles;
+        act_1.y += 90f;
+        Vector3 act_2 = transform.rotation.eulerAngles;
+        act_2.y -= 90f;
 
-                    sequence.Append(transform.DORotate(act_2, 2f))
-                            .Append(transform.DORotate(act_2, 2f))
-                            .Prepend(transform.DORotate(act_1, 2f));
-                    isChacking = false;
-
-                    //보수해야됨 //몬스터 행동전환 별도로 판단하는 시스템 필요(AI)
-                }
-            }
-            else
-            {
-                seizeRadius = 1f;
-                if (target.Length >= 1)
-                {
-                    //playerController.transform.DOLocalMove(transform.position + Vector3. * 1.5f, 1f);
-                    playerController.gameObject.SetActive(false);
-                }
-            }
-        }
-        else
-        {
-            if (target.Length >= 1)
-            {
-                //playerController.transform.position = transform.position + Vector3.forward * 1.5f;
-                playerController.gameObject.SetActive(false);
-            }
-        }
+        sequence.Append(transform.DOLocalRotate(act_2, 2f))
+                .Append(transform.DOLocalRotate(act_2, 2f))
+                .Prepend(transform.DOLocalRotate(act_1, 2f));
     }
 
-    private void Research()
+    public void ResearchArea()
     {
+        //Debug.Log("탐색재시작");
 
     }
+
 }

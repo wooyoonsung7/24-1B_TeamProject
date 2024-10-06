@@ -13,7 +13,7 @@ public class StateMachine
 {
     public IState currentState;
 
-    public void Statemachine(Enemy enemy, IState defaultState)
+    public StateMachine(Enemy enemy, IState defaultState)
     {
         currentState = defaultState;
         currentState.StateEnter(enemy);

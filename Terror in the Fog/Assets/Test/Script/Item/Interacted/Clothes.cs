@@ -20,8 +20,9 @@ public class Clothes : MonoBehaviour, IItem
     {
         type = ItemType.interacted;
         itemName = "ø ¿Â";
-
+        
         transObject = transform.GetChild(0);
+
     }
     private void Update()
     {
@@ -38,7 +39,7 @@ public class Clothes : MonoBehaviour, IItem
             currentRotation.y = -90;
 
             target.transform.DOMove(transObject.position, m_duration);
-            target.transform.DORotate(currentRotation, r_duration);
+            target.transform.DOLocalRotate(currentRotation, r_duration);
             playerController.isCanMove = false;
             playerController.isHide = true;
         }
