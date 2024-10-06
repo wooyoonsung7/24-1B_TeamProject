@@ -146,8 +146,6 @@ public class PlayerController : MonoBehaviour
             }
 
             FadeIn();                  //페이드 한번만 처리하기 위한 불값
-            Debug.Log("뛰다.");
-            Debug.Log(moveSpeed);
         }
         else
         {
@@ -178,14 +176,12 @@ public class PlayerController : MonoBehaviour
 
             if (isCrouching)
             {
-                Debug.Log("앉다");
                 gameObject.transform.localScale = new Vector3(0.0f, crouchDgree, 0.0f);
                 moveSpeed = crouchSpeed;
                 Debug.Log(moveSpeed);
             }
             else
             {
-                Debug.Log("일어남");
                 gameObject.transform.localScale = new Vector3(0.0f, playerHigh, 0.0f);
                 moveSpeed = walkSpeed;
                 Debug.Log(moveSpeed);

@@ -12,8 +12,9 @@ public class Door : MonoBehaviour, IItem
     public GameObject itemPrefab { get; set; }
     public bool isCanUse { get; set; }
 
-    public float tweenDuration = 1f;
+    //public float tweenDuration = 0.01f;
     public bool isOpen = false;
+    private bool canOpen = true;
     private void Start()
     {
         type = ItemType.interacted;
@@ -28,18 +29,17 @@ public class Door : MonoBehaviour, IItem
     {
         Vector3 doorPos = transform.position;
         isOpen = !isOpen;
-        isCanUse = true;
-        if (isOpen)
+        if (isOpen && canOpen)
         {
-            doorPos += new Vector3(1.2f, 0f, 0f);
+            doorPos += new Vector3(1.6f, 0f, 0f);
             Debug.Log("문 열기");
-            transform.DOLocalMove(doorPos, tweenDuration).OnComplete(()=> isCanUse = false);
+            transform.DOLocalMove(doorPos, 0.1f).OnComplete(()=> canOpen = false);
         }
-        else
+        else if(!isOpen && !canOpen)
         {
-            doorPos += new Vector3(-1.2f, 0.0f, 0.0f);
+            doorPos += new Vector3(-1.6f, 0.0f, 0.0f);
             Debug.Log("문 닫기");
-            transform.DOLocalMove(doorPos, tweenDuration);
+            transform.DOLocalMove(doorPos, 0.1f).OnComplete(()=> canOpen = true);
         }
     }
 
@@ -48,25 +48,25 @@ public class Door : MonoBehaviour, IItem
         if (collision.collider.gameObject.CompareTag("Enemy"))
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-            if (enemy != null)
+            if (enemy != null && !isOpen)
             {
-                if (!isOpen)
-                {
-                    Use(gameObject);
-                    enemy.navMeshAgent.isStopped = true;
-                    StartCoroutine(CloseDoor(enemy));
-                }
+                StartCoroutine(E_InteractDoor(enemy));
             }
         }
     }
-    IEnumerator CloseDoor(Enemy _enemy)
+    IEnumerator E_InteractDoor(Enemy _enemy)
     {
         Enemy enemy = _enemy;
-        if (!isCanUse)
+        if (!isOpen)
         {
-            yield return null;
             Use(gameObject);
-            enemy.navMeshAgent.isStopped = false; //오루수정필요
+            enemy.navMeshAgent.isStopped = true;
         }
+
+        yield return new WaitForSeconds(0.1f);
+        enemy.navMeshAgent.isStopped = false;
+        yield return new WaitForSeconds(0.1f);
+        Use(gameObject);
+
     }
 }

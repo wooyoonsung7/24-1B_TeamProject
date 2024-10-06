@@ -38,7 +38,11 @@ public class Enemy : MonoBehaviour
     float bottomHigh = 0.5f;
     public float seizeRadius = 0.5f;
     Collider[] target = new Collider[0];
+    private bool isFind = false; //타이머기능용
+    public bool isFindPlayer = false;  //chase상테에서만 적용하기위한 불값
 
+    public float timer = 0f; //플레이 놓침타이머
+    public bool isCheckAround = false;
     Sequence sequence;
     void Start()
     {
@@ -46,7 +50,7 @@ public class Enemy : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
 
-        sequence = DOTween.Sequence();
+        sequence = DOTween.Sequence().SetAutoKill(false);
         myPos = transform.position + Vector3.up * 0.5f;
     }
 
@@ -86,6 +90,8 @@ public class Enemy : MonoBehaviour
 
         Collider[] Targets = Physics.OverlapSphere(myPos, ViewRadius, TargetMask);
 
+        isFind = false; //플레이어감지 불값 끄기
+
         if (Targets.Length == 0) return;
         foreach (Collider PlayerColli in Targets)
         {
@@ -103,12 +109,13 @@ public class Enemy : MonoBehaviour
                     {
                         hitTargetList.Add(hit.collider);
 
+                        isFind = true; //플레이어감지 불값 켜기
+                        Debug.Log("보인다");
                         Debug.DrawLine(myPos, targetPos, Color.red);
                     }
                 }
             }
         }
-        Debug.Log(hitTargetList);
     }
 
     public void OnDrawGizmos()
@@ -118,9 +125,25 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, seizeRadius);
     }
 
+    public void StopFinding()
+    {
+        if (isFindPlayer)
+        {
+            if (isFind)
+            {
+                timer = 0f;
+            }
+            else
+            {
+                timer += Time.deltaTime;
+            }
+        }
+    }
+
     public void ChasePlayer()
     {
-        navMeshAgent.isStopped = false;
+        Debug.Log("쫓는다");
+        Debug.Log("쫓을 사람 : " + hitTargetList);
         navMeshAgent.SetDestination(hitTargetList[0].transform.position);
 
         target = Physics.OverlapSphere(transform.position, seizeRadius, TargetMask);
@@ -137,22 +160,26 @@ public class Enemy : MonoBehaviour
 
     public void CheckAround()
     {
+        isCheckAround = true;
+        Debug.Log("상태전환확인");
         navMeshAgent.isStopped = true;
         hitTargetList.Clear();
 
         Vector3 act_1 = transform.rotation.eulerAngles;
         act_1.y += 90f;
         Vector3 act_2 = transform.rotation.eulerAngles;
+        Vector3 act_3 = transform.rotation.eulerAngles;
         act_2.y -= 90f;
 
-        sequence.Append(transform.DOLocalRotate(act_2, 2f))
-                .Append(transform.DOLocalRotate(act_2, 2f))
-                .Prepend(transform.DOLocalRotate(act_1, 2f));
+        sequence.Append(transform.DOLocalRotate(act_2, 3f))
+                .Append(transform.DOLocalRotate(act_3, 3f))
+                .Prepend(transform.DOLocalRotate(act_1, 3f)).OnComplete(()=> isCheckAround = false);
     }
 
     public void ResearchArea()
     {
         //Debug.Log("탐색재시작");
+        
 
     }
 

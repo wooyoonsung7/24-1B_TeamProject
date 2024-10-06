@@ -31,12 +31,15 @@ public class Research : IState
     private static Research Instance = new Research();
     private Research() { }
     public static Research GetInstance() { return Instance; }
+
+    private bool isFindPlayer = true;
     public void StateEnter(Enemy enemy)
     {
         if (enemy.navMeshAgent != null)
         {
             enemy.navMeshAgent.isStopped = false;
         }
+        isFindPlayer = true;
     }
     public void StateFixUpdate(Enemy enemy)
     {
@@ -47,7 +50,7 @@ public class Research : IState
     {
         if (enemy != null)
         {
-            if (enemy.hitTargetList.Count > 0)
+            if (enemy.hitTargetList.Count > 0 && isFindPlayer)
             {
                 enemy.stateMachine.SetState(enemy, JudgeChase.GetInstance());
             }
@@ -55,7 +58,7 @@ public class Research : IState
     }
     public void StateExit(Enemy enemy)
     {
-
+        isFindPlayer = false;
     }
 }
 
@@ -74,7 +77,7 @@ public class FeelStrage : IState
     }
     public void StateUpdate(Enemy enemy)
     {
-        if (enemy != null)
+         if (enemy != null && !enemy.isCheckAround)
         {
             if (enemy.hitTargetList.Count == 0)
             {
@@ -141,20 +144,24 @@ public class ChaseState : IState
     float seizeRadius = 1f;
 
     //숨지 않았을 때의 변수
-    float chaseTime = 5f;
-    float c_timer = 0f;
+    float notChaseTime = 10f;
 
     PlayerController playerController;
     public void StateEnter(Enemy enemy)
     {
         playerController = enemy.playerController;
+        enemy.navMeshAgent.isStopped = false;
+        enemy.isFindPlayer = true;
     }
     public void StateFixUpdate(Enemy enemy)
     {
+        enemy.CheckObject();
         enemy.ChasePlayer();                  //플레이어를 쫓는다.
     }
     public void StateUpdate(Enemy enemy)
     {
+        enemy.StopFinding();  //시선안에 없어진 후 쿨타임
+
         if (playerController.isHide)
         {
             f_timer += Time.deltaTime;
@@ -162,18 +169,19 @@ public class ChaseState : IState
             {
                 enemy.seizeRadius = 0.5f;         //사망용 감지범위 초기화
                 enemy.stateMachine.SetState(enemy, FeelStrage.GetInstance());
+                Debug.Log("숨기 성공");
             }
             else
             {
                 enemy.seizeRadius = seizeRadius;  //사망용 감지범위 늘리기
                 enemy.CheckDeath();
+                Debug.Log("숨기 실패");
             }
         }
         else
         {
             enemy.CheckDeath();
-            c_timer += Time.deltaTime;
-            if (c_timer >= chaseTime)
+            if (enemy.timer >= notChaseTime)
             {
                 enemy.stateMachine.SetState(enemy, FeelStrage.GetInstance());
             }
@@ -182,5 +190,7 @@ public class ChaseState : IState
     public void StateExit(Enemy enemy)
     {
         f_timer = 0f;                   //타이머초기화
+        enemy.timer = 0f;
+        enemy.isFindPlayer = false;
     }
 }
