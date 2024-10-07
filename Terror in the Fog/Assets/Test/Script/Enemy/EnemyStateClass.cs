@@ -37,6 +37,8 @@ public class Research : IState
     private bool isFindPlayer = true;
     public void StateEnter(Enemy enemy)
     {
+        enemy.StartState();
+
         if (enemy.navMeshAgent != null)
         {
             enemy.navMeshAgent.isStopped = false;

@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
-using UnityEngine.UIElements;
+
 
 
 [System.Serializable]
@@ -18,59 +19,125 @@ public class GameManager : MonoBehaviour
     Vector3 moveToPos;
     [SerializeField] private Enemy enemy;
 
-    int moveIndex = 0;
-    int roomNumber = 4;
-    int currentroomNumber = 3;
-    bool isSearchroom = false;
+    int moveIndex = 0;         //방번호를 대신하는 인덱스(배열의 순서)
+    int roomNumber = 4;        //방의 총수
+    int currentroomNumber = 3; //최근 방의 개수(변수)
     public List<int> isDoneIdex = new List<int>();
+
+    public enum ENEMYSTATE
+    {
+        OPENDOOR,
+        ENTERROOM,
+        LOOKAROUND,
+        LOOKBACK,
+        STOPACTION
+    }
+
+    public ENEMYSTATE enemystate;
+
     void Start()
     {
         instance = this; //싱글톤 패턴사용
         StartCoroutine(ResetIdex());
-        ResearchRoom();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void RESEARCH()
     {
-        
+        switch (enemystate)
+        {
+            case ENEMYSTATE.OPENDOOR:
+                OpenDoor();
+                break;
+
+            case ENEMYSTATE.ENTERROOM:
+                EnterRoom();
+                break;
+
+            case ENEMYSTATE.LOOKAROUND:
+                LookAround();
+                break;
+
+            case ENEMYSTATE.LOOKBACK:
+                LookBack();
+                break;
+
+            case ENEMYSTATE.STOPACTION:
+                StopAction();
+                break;
+        }
     }
+
+    private void ChangeEnemyState(ENEMYSTATE newState)
+    {
+        enemystate = newState;
+    }
+
     public void ResearchArea()
     {
-        if (!isSearchroom)
+        Debug.Log("찾은 것 취소");
+
+        isDoneIdex.Remove(moveIndex);
+        --currentroomNumber;
+        int randomNumber = Random.Range(0, currentroomNumber);
+        moveIndex = isDoneIdex[randomNumber];
+
+        if (isDoneIdex.Count == currentroomNumber)
         {
-            Debug.Log("찾은 것 취소");
 
-            isDoneIdex.Remove(moveIndex);
-            --currentroomNumber;
-            int randomNumber = Random.Range(0, currentroomNumber);
-            moveIndex = isDoneIdex[randomNumber];
+        }
 
-            if (currentroomNumber <= 0)
-            {
-                StartCoroutine(ResetIdex());
-            }
+        if (currentroomNumber <= 0)
+        {
+            StartCoroutine(ResetIdex());
         }
     }
 
-    public void ResearchRoom()
+    public void OpenDoor()
     {
-        isSearchroom = true;
-
         moveToPos = floorIndex[0].columns[moveIndex].transform.position;
         enemy.navMeshAgent.SetDestination(moveToPos);
+        ChangeEnemyState(ENEMYSTATE.ENTERROOM);
+    }
 
-        if (enemy.transform.position == moveToPos)
+    private void EnterRoom()
+    {   
+        moveToPos = floorIndex[0].columns[moveIndex + 4].transform.position;
+        enemy.navMeshAgent.SetDestination(moveToPos);
+
+        int randomNumber = Random.Range(0, 4);
+        if (randomNumber == 0)
         {
-            Debug.Log("방문 앞도착");
-            moveToPos = floorIndex[0].columns[moveIndex + roomNumber].transform.position;
-            enemy.navMeshAgent.SetDestination(moveToPos);
+            ChangeEnemyState(ENEMYSTATE.LOOKBACK);
         }
-        if (enemy.transform.position == moveToPos)
+        else
         {
-            Debug.Log("방문 안으로 입장");
-            isSearchroom = false;
+            ChangeEnemyState(ENEMYSTATE.LOOKAROUND);
         }
+    }
+
+    private void LookAround()
+    {
+        bool isEnd = false;
+        Vector3 act_1 = transform.rotation.eulerAngles;
+        act_1.y += 90f;
+        Vector3 act_2 = transform.rotation.eulerAngles;
+        act_1.y += 180f;
+        Vector3 act_3 = transform.rotation.eulerAngles;
+        act_1.y -= 90f;
+        transform.DOLocalRotate(act_2, 2f).OnComplete(() => transform.DOLocalRotate(act_1, 2f).OnComplete(() => transform.DOLocalRotate(act_3, 2f).OnComplete(() => isEnd = true)));
+        if (isEnd)
+        {
+            ResearchArea();
+        }
+    }
+    private void LookBack()
+    {
+
+    }
+
+    private void StopAction()
+    {
+
     }
 
     IEnumerator ResetIdex()

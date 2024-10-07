@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using DG.Tweening;
+using System.Threading.Tasks.Sources;
 
 public class Enemy : MonoBehaviour
 {
@@ -178,8 +179,12 @@ public class Enemy : MonoBehaviour
 
     public void ResearchArea()
     {
-        GameManager.instance.ResearchArea();
-        GameManager.instance.ResearchRoom();
+        GameManager.instance.RESEARCH();
+    }
+
+    public void StartState()
+    {
+        GameManager.instance.OpenDoor();
     }
 
 }
