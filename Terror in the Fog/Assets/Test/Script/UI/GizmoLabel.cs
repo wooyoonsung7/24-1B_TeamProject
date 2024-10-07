@@ -23,10 +23,10 @@ public class GizmoLabel : MonoBehaviour
         GUIStyle style = new GUIStyle();
         style.normal.textColor = gizmoColor;
         style.alignment = TextAnchor.MiddleCenter;
-        style.fontSize = 12;
+        style.fontSize = 14;
         style.fontStyle = FontStyle.Bold;
 
-        Vector3 position = transform.position + Vector3.up * 2f;
+        Vector3 position = transform.position + Vector3.up * 1.5f;
         UnityEditor.Handles.Label(position, label, style);
     }
 }

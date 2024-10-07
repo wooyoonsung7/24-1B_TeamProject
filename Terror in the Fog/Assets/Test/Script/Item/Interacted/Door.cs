@@ -33,13 +33,13 @@ public class Door : MonoBehaviour, IItem
         {
             doorPos += new Vector3(1.6f, 0f, 0f);
             Debug.Log("문 열기");
-            transform.DOLocalMove(doorPos, 0.1f).OnComplete(()=> canOpen = false);
+            transform.DOLocalMove(doorPos, 0.5f).OnComplete(()=> canOpen = false);
         }
         else if(!isOpen && !canOpen)
         {
             doorPos += new Vector3(-1.6f, 0.0f, 0.0f);
             Debug.Log("문 닫기");
-            transform.DOLocalMove(doorPos, 0.1f).OnComplete(()=> canOpen = true);
+            transform.DOLocalMove(doorPos, 0.5f).OnComplete(()=> canOpen = true);
         }
     }
 

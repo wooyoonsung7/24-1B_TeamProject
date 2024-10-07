@@ -26,6 +26,8 @@ public class Idle : IState
 
     }
 }
+
+
 public class Research : IState
 {
     private static Research Instance = new Research();
@@ -62,6 +64,7 @@ public class Research : IState
     }
 }
 
+
 public class FeelStrage : IState
 {
     private static FeelStrage Instance = new FeelStrage();
@@ -90,6 +93,7 @@ public class FeelStrage : IState
 
     }
 }
+
 
 public class JudgeChase : IState
 {
@@ -131,6 +135,7 @@ public class JudgeChase : IState
         //적이 이상함을 느끼는 애니메이션 종료
     }
 }
+
 
 public class ChaseState : IState
 {

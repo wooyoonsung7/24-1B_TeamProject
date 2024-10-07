@@ -178,9 +178,8 @@ public class Enemy : MonoBehaviour
 
     public void ResearchArea()
     {
-        //Debug.Log("탐색재시작");
-        
-
+        GameManager.instance.ResearchArea();
+        GameManager.instance.ResearchRoom();
     }
 
 }
