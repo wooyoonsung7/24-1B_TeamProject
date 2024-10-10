@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using DG.Tweening;
 using System.Threading.Tasks.Sources;
+using static GameManager;
 
 public class Enemy : MonoBehaviour
 {
@@ -184,7 +185,7 @@ public class Enemy : MonoBehaviour
 
     public void StartState()
     {
-        GameManager.instance.OpenDoor();
+        GameManager.instance.ChangeEnemyState(ENEMYSTATE.ENTERROOM);
     }
 
 }

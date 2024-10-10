@@ -22,10 +22,14 @@ public class GameManager : MonoBehaviour
     int moveIndex = 0;         //방번호를 대신하는 인덱스(배열의 순서)
     int roomNumber = 4;        //방의 총수
     int currentroomNumber = 3; //최근 방의 개수(변수)
-    public List<int> isDoneIdex = new List<int>();
+    [SerializeField] private List<int> isDoneIdex = new List<int>();  //랜덤하게 숫자를 넣어주기 위한 변수;
+
+    private float timer = 0f;
+    [SerializeField] private float pauseTime = 3f;
 
     public enum ENEMYSTATE
     {
+        CHANGEROOM,
         OPENDOOR,
         ENTERROOM,
         LOOKAROUND,
@@ -38,13 +42,17 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         instance = this; //싱글톤 패턴사용
-        StartCoroutine(ResetIdex());
+        ResetIdex();
     }
 
     public void RESEARCH()
     {
         switch (enemystate)
         {
+            case ENEMYSTATE.CHANGEROOM:
+                ChangeRoom();
+                break;
+
             case ENEMYSTATE.OPENDOOR:
                 OpenDoor();
                 break;
@@ -67,12 +75,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void ChangeEnemyState(ENEMYSTATE newState)
+    public void ChangeEnemyState(ENEMYSTATE newState)
     {
         enemystate = newState;
     }
 
-    public void ResearchArea()
+    public void ChangeRoom()
     {
         Debug.Log("찾은 것 취소");
 
@@ -83,12 +91,14 @@ public class GameManager : MonoBehaviour
 
         if (isDoneIdex.Count == currentroomNumber)
         {
-
-        }
-
-        if (currentroomNumber <= 0)
-        {
-            StartCoroutine(ResetIdex());
+            if (currentroomNumber > 0)
+            {
+                ChangeEnemyState(ENEMYSTATE.ENTERROOM);
+            }
+            else
+            {
+                ResetIdex();
+            }
         }
     }
 
@@ -127,12 +137,37 @@ public class GameManager : MonoBehaviour
         transform.DOLocalRotate(act_2, 2f).OnComplete(() => transform.DOLocalRotate(act_1, 2f).OnComplete(() => transform.DOLocalRotate(act_3, 2f).OnComplete(() => isEnd = true)));
         if (isEnd)
         {
-            ResearchArea();
+            ChangeEnemyState(ENEMYSTATE.CHANGEROOM);
         }
     }
     private void LookBack()
     {
-
+        bool isEnd = false;
+        bool startTimer = false;
+        bool isOneTime = true;
+        Vector3 act_1 = transform.rotation.eulerAngles;
+        act_1.y += 180f;
+        Vector3 act_2 = transform.rotation.eulerAngles;
+        act_1.y -= 180f;
+        if (isOneTime)
+        {
+            transform.DOLocalRotate(act_1, 2f).OnComplete(() => startTimer = true);
+            isOneTime = false;
+        }
+        if (startTimer)
+        {
+            timer += Time.deltaTime;
+            if (timer >= pauseTime)
+            {
+                transform.DOLocalRotate(act_2, 2f).OnComplete(() => isEnd = true);
+                timer = 0f;
+                startTimer = false;
+            }
+        }
+        if (isEnd)
+        {
+            ChangeEnemyState(ENEMYSTATE.LOOKAROUND);
+        }
     }
 
     private void StopAction()
@@ -140,13 +175,21 @@ public class GameManager : MonoBehaviour
 
     }
 
-    IEnumerator ResetIdex()
+    private void ResetIndex()
     {
-        currentroomNumber = roomNumber - 1;
-        for (int i = 1; i <= roomNumber; i++)
+        bool isEnd = false;
+        if (!isEnd)
         {
-            isDoneIdex.Add(i);  //0~3까지만 관리하는 의도
+            currentroomNumber = roomNumber;
+            for (int i = 0; i < roomNumber; i++)
+            {
+                isDoneIdex.Add(i);  //0~3까지만 관리하는 의도
+            }
+            isEnd = true;
         }
-        yield return null;
+        if (isDoneIdex.Count == roomNumber)
+        {
+            ChangeEnemyState(ENEMYSTATE.ENTERROOM);
+        }
     }
 }
