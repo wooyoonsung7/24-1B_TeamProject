@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
 
     int moveIndex = 0;         //방번호를 대신하는 인덱스(배열의 순서)
     int roomNumber = 4;        //방의 총수
+    int floorNumber = 0;
     int currentroomNumber = 3; //최근 방의 개수(변수)
     [SerializeField] private List<int> isDoneIdex = new List<int>();  //랜덤하게 숫자를 넣어주기 위한 변수;
     
@@ -41,6 +42,12 @@ public class GameManager : MonoBehaviour
 
     Vector3 dir;
     bool isheight = true;
+
+    //잠수타서 사용할 변수
+    Vector3 hidePos;
+    Vector3 lookPos;
+    float lookTime = 10f;
+    float lookTimer = 0f;
 
     public enum ENEMYSTATE
     {
@@ -72,32 +79,7 @@ public class GameManager : MonoBehaviour
         ChangeEnemyState(ENEMYSTATE.OPENDOOR);
         changeTime = Time.time;
 
-        sequence.Prepend(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 90, 0), 1.5f))
-        .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 180, 0), 1.5f))
-        .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, -90, 0), 1.5f))
-        .SetAutoKill(false)
-        .Pause()
-        .OnComplete(()=> stepNumber = 1);
-
-        sequence2.Prepend(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, -90, 0), 1.5f))
-        .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 1.5f))
-        .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 90, 0), 1.5f))
-        .SetAutoKill(false)
-        .Pause()
-        .OnComplete(() => stepNumber = 1);
-
-
-        sequence3.Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, -180, 0), 1.5f))
-         .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 1.5f))
-         .SetAutoKill(false)
-         .Pause()
-         .OnComplete(() => stepNumber = 2);
-
-        sequence4.Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 1.5f))
-         .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 180, 0), 1.5f))
-         .SetAutoKill(false)
-         .Pause()
-         .OnComplete(() => stepNumber = 2);
+        DOMotion();
     }
 
     public void RESEARCH()
@@ -130,6 +112,36 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void DOMotion()
+    {
+        sequence.Prepend(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 90, 0), 1.5f))
+       .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 180, 0), 1.5f))
+       .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, -90, 0), 1.5f))
+       .SetAutoKill(false)
+       .Pause()
+       .OnComplete(() => stepNumber = 1);
+
+        sequence2.Prepend(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, -90, 0), 1.5f))
+        .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 1.5f))
+        .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 90, 0), 1.5f))
+        .SetAutoKill(false)
+        .Pause()
+        .OnComplete(() => stepNumber = 1);
+
+
+        sequence3.Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, -180, 0), 1.5f))
+         .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 1.5f))
+         .SetAutoKill(false)
+         .Pause()
+         .OnComplete(() => stepNumber = 2);
+
+        sequence4.Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 1.5f))
+         .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 180, 0), 1.5f))
+         .SetAutoKill(false)
+         .Pause()
+         .OnComplete(() => stepNumber = 2);
+    }
+
     public void ChangeEnemyState(ENEMYSTATE newState)
     {
         enemystate = newState;
@@ -143,19 +155,26 @@ public class GameManager : MonoBehaviour
         isDoneIdex.Remove(moveIndex);
         --currentroomNumber;
         int randomNumber = Random.Range(0, currentroomNumber);
-        moveIndex = isDoneIdex[randomNumber];
 
-        if (isDoneIdex.Count == currentroomNumber)
+        if (currentroomNumber > 0)
         {
-            if (currentroomNumber > 0)
+            moveIndex = isDoneIdex[randomNumber];
+            ChangeEnemyState(ENEMYSTATE.OPENDOOR);
+            changeTime = Time.time;
+        }
+        else
+        {
+            //int randomNumber2 = Random.Range(0, 3);
+            int randomNumber2 = 0;
+            if (randomNumber2 == 0)
             {
-                ChangeEnemyState(ENEMYSTATE.OPENDOOR);
+                ChangeEnemyState(ENEMYSTATE.STOPACTION);
                 changeTime = Time.time;
+                stepNumber = 3;
             }
             else
             {
-                ResetIndex();
-                r_IsEnd = false;
+                ChangeFloor();
             }
         }
     }
@@ -164,7 +183,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log(1);
 
-        moveToPos = floorIndex[0].columns[moveIndex].transform.position;
+        moveToPos = floorIndex[floorNumber].columns[moveIndex].transform.position;
         enemy.navMeshAgent.SetDestination(moveToPos);
 
         if (enemy.navMeshAgent.remainingDistance <= enemy.navMeshAgent.stoppingDistance && Time.time >= changeTime + waitTime)
@@ -178,8 +197,7 @@ public class GameManager : MonoBehaviour
     private void EnterRoom()
     {
         Debug.Log(2);
-        Debug.Log(isheight);
-        moveToPos = floorIndex[0].columns[moveIndex + 4].transform.position;
+        moveToPos = floorIndex[floorNumber].columns[moveIndex + roomNumber].transform.position;
         enemy.navMeshAgent.SetDestination(moveToPos);
 
         dir = (moveToPos - enemy.transform.position).normalized;
@@ -223,7 +241,6 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("된다");
                 sequence2.Restart();
             }
             isOneTime = false;
@@ -260,7 +277,51 @@ public class GameManager : MonoBehaviour
 
     private void StopAction()
     {
+        if (stepNumber == 3)
+        {
+            int randomNum = Random.Range(0, roomNumber - 1);
+            hidePos = floorIndex[floorNumber + 2].columns[randomNum].transform.position;
+            lookPos = floorIndex[floorNumber].columns[randomNum].transform.position;
+            stepNumber = 4;
+        }
 
+        if (stepNumber == 4)
+        {
+            enemy.navMeshAgent.SetDestination(hidePos);
+        }
+        if (enemy.navMeshAgent.remainingDistance >= enemy.navMeshAgent.stoppingDistance && Time.time >= waitTime + changeTime)
+        {
+            enemy.gameObject.transform.DOLookAt(lookPos, 2f);
+
+            lookTimer += Time.deltaTime;
+            if (lookTime <= lookTimer)
+            {
+                ChangeFloor();
+            }
+        }
+    }
+
+    private void ChangeFloor()
+    {
+        if (floorNumber == 0)
+        {
+            floorNumber = 1;
+            roomNumber = floorIndex[floorNumber].columns.Length / 2;
+
+            if (roomNumber == floorIndex[floorNumber].columns.Length / 2)
+            {
+                Debug.Log("방의 개수는" + roomNumber);
+                Debug.Log("층은 " + floorNumber);
+                ResetIndex();
+                r_IsEnd = false;
+            }
+        }
+
+        if (floorNumber == 1)
+        {
+            floorNumber = 0;
+            roomNumber = floorIndex[floorNumber].columns.Length / 2;
+        }
     }
 
     private void ResetIndex()
@@ -276,7 +337,10 @@ public class GameManager : MonoBehaviour
         }
         if (isDoneIdex.Count == roomNumber)
         {
-            ChangeEnemyState(ENEMYSTATE.ENTERROOM);
+            Debug.Log("바뀐 방의 개수는" + roomNumber);
+            ChangeEnemyState(ENEMYSTATE.OPENDOOR);
+            changeTime = Time.time;
+            lookTimer = 0f;
         }
     }
 }

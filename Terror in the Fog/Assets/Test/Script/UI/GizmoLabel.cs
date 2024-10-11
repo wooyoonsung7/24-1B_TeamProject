@@ -23,7 +23,7 @@ public class GizmoLabel : MonoBehaviour
         GUIStyle style = new GUIStyle();
         style.normal.textColor = gizmoColor;
         style.alignment = TextAnchor.MiddleCenter;
-        style.fontSize = 14;
+        style.fontSize = 12;
         style.fontStyle = FontStyle.Bold;
 
         Vector3 position = transform.position + Vector3.up * 1.5f;
