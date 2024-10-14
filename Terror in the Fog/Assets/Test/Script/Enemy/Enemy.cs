@@ -161,22 +161,19 @@ public class Enemy : MonoBehaviour
 
     public void CheckAround()
     {
+        float checkSpeed = 1;
         isCheckAround = true;
         Debug.Log("상태전환확인");
         navMeshAgent.isStopped = true;
         hitTargetList.Clear();
 
-        Vector3 act_1 = transform.rotation.eulerAngles;
-        act_1.y += 90f;
-        Vector3 act_2 = transform.rotation.eulerAngles;
-        Vector3 act_3 = transform.rotation.eulerAngles;
-        act_2.y -= 90f;
+        Quaternion quaternion = Quaternion.identity;
 
-        sequence.Append(transform.DOLocalRotate(act_2, 3f))
-                .Append(transform.DOLocalRotate(act_3, 3f))
-                .Prepend(transform.DOLocalRotate(act_1, 3f)).OnComplete(()=> isCheckAround = false);
+        float targetpos_y;
+        targetpos_y = Mathf.Lerp(0, 90, checkSpeed * Time.deltaTime);
+        quaternion.eulerAngles += new Vector3(0, targetpos_y, 0);
     }
-
+    
     public void ResearchArea()
     {
         GameManager.instance.RESEARCH();

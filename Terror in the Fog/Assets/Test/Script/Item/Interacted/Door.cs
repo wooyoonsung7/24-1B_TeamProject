@@ -12,7 +12,6 @@ public class Door : MonoBehaviour, IItem
     public GameObject itemPrefab { get; set; }
     public bool isCanUse { get; set; }
 
-    //public float tweenDuration = 0.01f;
     public bool isOpen = false;
     private bool canOpen = true;
     private void Start()
@@ -23,7 +22,7 @@ public class Door : MonoBehaviour, IItem
     }
     private void Update()
     {
-
+        //Debug.Log(GameManager.instance.isLookBack);
     }
     public void Use(GameObject target)
     {
@@ -31,13 +30,13 @@ public class Door : MonoBehaviour, IItem
         isOpen = !isOpen;
         if (isOpen && canOpen)
         {
-            doorPos += new Vector3(1.6f, 0f, 0f);
+            doorPos += new Vector3(1.4f, 0f, 0f);
             Debug.Log("문 열기");
             transform.DOLocalMove(doorPos, 0.5f).OnComplete(()=> canOpen = false);
         }
         else if(!isOpen && !canOpen)
         {
-            doorPos += new Vector3(-1.6f, 0.0f, 0.0f);
+            doorPos += new Vector3(-1.4f, 0.0f, 0.0f);
             Debug.Log("문 닫기");
             transform.DOLocalMove(doorPos, 0.5f).OnComplete(()=> canOpen = true);
         }
@@ -65,8 +64,14 @@ public class Door : MonoBehaviour, IItem
 
         yield return new WaitForSeconds(0.1f);
         enemy.navMeshAgent.isStopped = false;
-        yield return new WaitForSeconds(0.1f);
-        Use(gameObject);
+        yield return new WaitForSeconds(1f);
 
+        while (GameManager.instance.isLookBack)
+        {
+            Debug.Log("뒤 보는 중");
+            yield return null;
+        }
+
+        Use(gameObject);
     }
 }

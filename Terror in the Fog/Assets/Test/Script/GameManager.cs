@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using UnityEditor.Build.Reporting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -48,7 +49,8 @@ public class GameManager : MonoBehaviour
     Vector3 lookPos;
     float lookTime = 10f;
     float lookTimer = 0f;
-
+    
+    public bool isLookBack = false;
     public enum ENEMYSTATE
     {
         CHANGEROOM,
@@ -149,7 +151,7 @@ public class GameManager : MonoBehaviour
 
     public void ChangeRoom()
     {
-        Debug.Log("방 교체");
+        //Debug.Log("방 교체");
         stepNumber = 0;
 
         isDoneIdex.Remove(moveIndex);
@@ -164,8 +166,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            //int randomNumber2 = Random.Range(0, 3);
-            int randomNumber2 = 0;
+            int randomNumber2 = Random.Range(0, 3);
             if (randomNumber2 == 0)
             {
                 ChangeEnemyState(ENEMYSTATE.STOPACTION);
@@ -181,7 +182,9 @@ public class GameManager : MonoBehaviour
 
     public void OpenDoor()
     {
-        Debug.Log(1);
+        //Debug.Log(1);
+        //Debug.Log("진짜 층은 " + floorNumber);
+        //Debug.Log("바뀐 방의 개수는" + roomNumber);
 
         moveToPos = floorIndex[floorNumber].columns[moveIndex].transform.position;
         enemy.navMeshAgent.SetDestination(moveToPos);
@@ -196,7 +199,7 @@ public class GameManager : MonoBehaviour
     }
     private void EnterRoom()
     {
-        Debug.Log(2);
+        //Debug.Log(2);
         moveToPos = floorIndex[floorNumber].columns[moveIndex + roomNumber].transform.position;
         enemy.navMeshAgent.SetDestination(moveToPos);
 
@@ -214,7 +217,16 @@ public class GameManager : MonoBehaviour
             isOneTime = false;
         }
 
-        int randomNumber = Random.Range(0, 4);
+        int randomNumber = Random.Range(0, 3);
+
+        if (randomNumber == 0)
+        {
+            isLookBack = true;
+        }
+        else
+        {
+            isLookBack = false;
+        }
         if (enemy.navMeshAgent.remainingDistance <= enemy.navMeshAgent.stoppingDistance && Time.time >= waitTime + changeTime)
         {
             if (randomNumber == 0)
@@ -254,7 +266,6 @@ public class GameManager : MonoBehaviour
     private void LookBack()
     {
         Debug.Log(4);
-
         if (isOneTime)
         {
             if (isheight)
@@ -272,11 +283,13 @@ public class GameManager : MonoBehaviour
         {
             ChangeEnemyState(ENEMYSTATE.LOOKAROUND);
             isOneTime = true;
+            isLookBack = false;
         }
     }
 
     private void StopAction()
     {
+        //Debug.Log(5);
         if (stepNumber == 3)
         {
             int randomNum = Random.Range(0, roomNumber - 1);
@@ -289,38 +302,42 @@ public class GameManager : MonoBehaviour
         {
             enemy.navMeshAgent.SetDestination(hidePos);
         }
-        if (enemy.navMeshAgent.remainingDistance >= enemy.navMeshAgent.stoppingDistance && Time.time >= waitTime + changeTime)
+        if (enemy.navMeshAgent.remainingDistance <= 0.1f && Time.time >= waitTime + changeTime)
         {
-            enemy.gameObject.transform.DOLookAt(lookPos, 2f);
+            enemy.gameObject.transform.DOLookAt(lookPos, 1f);
 
             lookTimer += Time.deltaTime;
             if (lookTime <= lookTimer)
             {
                 ChangeFloor();
+                lookTimer = 0f;
             }
         }
     }
 
     private void ChangeFloor()
     {
-        if (floorNumber == 0)
+        if (floorNumber == 0 && stepNumber != 7)
         {
+            stepNumber = 7;
+
             floorNumber = 1;
             roomNumber = floorIndex[floorNumber].columns.Length / 2;
-
-            if (roomNumber == floorIndex[floorNumber].columns.Length / 2)
-            {
-                Debug.Log("방의 개수는" + roomNumber);
-                Debug.Log("층은 " + floorNumber);
-                ResetIndex();
-                r_IsEnd = false;
-            }
+            //Debug.Log("방의 개수는" + roomNumber);
+            //Debug.Log("층은 " + floorNumber);
+            r_IsEnd = false;
+            ResetIndex();
         }
-
-        if (floorNumber == 1)
+        else if (floorNumber == 1 && stepNumber !=7)
         {
+            stepNumber = 7;
             floorNumber = 0;
             roomNumber = floorIndex[floorNumber].columns.Length / 2;
+
+            //Debug.Log("방의 개수는" + roomNumber);
+            //Debug.Log("층은 " + floorNumber);
+            r_IsEnd = false;
+            ResetIndex();
         }
     }
 
@@ -337,10 +354,8 @@ public class GameManager : MonoBehaviour
         }
         if (isDoneIdex.Count == roomNumber)
         {
-            Debug.Log("바뀐 방의 개수는" + roomNumber);
             ChangeEnemyState(ENEMYSTATE.OPENDOOR);
             changeTime = Time.time;
-            lookTimer = 0f;
         }
     }
 }

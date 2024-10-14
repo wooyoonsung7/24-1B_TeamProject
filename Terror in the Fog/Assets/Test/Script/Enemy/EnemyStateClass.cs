@@ -75,6 +75,7 @@ public class FeelStrage : IState
     public void StateEnter(Enemy enemy)
     {
         enemy.CheckAround();
+        enemy.navMeshAgent.updateRotation = false;
     }
     public void StateFixUpdate(Enemy enemy)
     {
@@ -92,7 +93,7 @@ public class FeelStrage : IState
     }
     public void StateExit(Enemy enemy)
     {
-
+        enemy.navMeshAgent.updateRotation = true;
     }
 }
 
