@@ -13,10 +13,10 @@ public class Enemy : MonoBehaviour
     public Animator animator { get { return _animator; } }
     public PlayerController playerController;
     public bool IsCanChase = false;
-    //¹è°æÀ½¾Ç, »ç¿îµå ½ºÅ©¸³Æ¼ ¼±¾ğ
+    //ë°°ê²½ìŒì•…, ì‚¬ìš´ë“œ ìŠ¤í¬ë¦½í‹° ì„ ì–¸
 
     private StateMachine _stateMachine;
-    private int moveDirection; //ÀÌµ¿¹æÇâ
+    private int moveDirection; //ì´ë™ë°©í–¥
     private Rigidbody _rigidBody;
     private Animator _animator;
 
@@ -33,16 +33,16 @@ public class Enemy : MonoBehaviour
     float move;
     float rotate;
     Rigidbody rb;
-    public NavMeshAgent navMeshAgent; // °æ·Î °è»ê AI ¿¡ÀÌÀüÆ®
+    public NavMeshAgent navMeshAgent; // ê²½ë¡œ ê³„ì‚° AI ì—ì´ì „íŠ¸
 
     float floorHigh = 3f;
     float bottomHigh = 0.5f;
     public float seizeRadius = 0.5f;
     Collider[] target = new Collider[0];
-    private bool isFind = false; //Å¸ÀÌ¸Ó±â´É¿ë
-    public bool isFindPlayer = false;  //chase»óÅ×¿¡¼­¸¸ Àû¿ëÇÏ±âÀ§ÇÑ ºÒ°ª
+    private bool isFind = false; //íƒ€ì´ë¨¸ê¸°ëŠ¥ìš©
+    public bool isFindPlayer = false;  //chaseìƒí…Œì—ì„œë§Œ ì ìš©í•˜ê¸°ìœ„í•œ ë¶ˆê°’
 
-    public float timer = 0f; //ÇÃ·¹ÀÌ ³õÄ§Å¸ÀÌ¸Ó
+    public float timer = 0f; //í”Œë ˆì´ ë†“ì¹¨íƒ€ì´ë¨¸
     public bool isCheckAround = false;
     Sequence sequence;
     void Start()
@@ -91,7 +91,7 @@ public class Enemy : MonoBehaviour
 
         Collider[] Targets = Physics.OverlapSphere(myPos, ViewRadius, TargetMask);
 
-        isFind = false; //ÇÃ·¹ÀÌ¾î°¨Áö ºÒ°ª ²ô±â
+        isFind = false; //í”Œë ˆì´ì–´ê°ì§€ ë¶ˆê°’ ë„ê¸°
 
         if (Targets.Length == 0) return;
         foreach (Collider PlayerColli in Targets)
@@ -110,8 +110,8 @@ public class Enemy : MonoBehaviour
                     {
                         hitTargetList.Add(hit.collider);
 
-                        isFind = true; //ÇÃ·¹ÀÌ¾î°¨Áö ºÒ°ª ÄÑ±â
-                        Debug.Log("º¸ÀÎ´Ù");
+                        isFind = true; //í”Œë ˆì´ì–´ê°ì§€ ë¶ˆê°’ ì¼œê¸°
+                        Debug.Log("ë³´ì¸ë‹¤");
                         Debug.DrawLine(myPos, targetPos, Color.red);
                     }
                 }
@@ -143,8 +143,8 @@ public class Enemy : MonoBehaviour
 
     public void ChasePlayer()
     {
-        Debug.Log("ÂÑ´Â´Ù");
-        Debug.Log("ÂÑÀ» »ç¶÷ : " + hitTargetList);
+        Debug.Log("ì«“ëŠ”ë‹¤");
+        Debug.Log("ì«“ì„ ì‚¬ëŒ : " + hitTargetList);
         navMeshAgent.SetDestination(hitTargetList[0].transform.position);
 
         target = Physics.OverlapSphere(transform.position, seizeRadius, TargetMask);
@@ -156,6 +156,7 @@ public class Enemy : MonoBehaviour
         {
             //playerController.transform.DOLocalMove(transform.position + Vector3. * 1.5f, 1f);
             playerController.gameObject.SetActive(false);
+            playerController.Death();
         }
     }
 
@@ -163,7 +164,7 @@ public class Enemy : MonoBehaviour
     {
         float checkSpeed = 1;
         isCheckAround = true;
-        Debug.Log("»óÅÂÀüÈ¯È®ÀÎ");
+        Debug.Log("ìƒíƒœì „í™˜í™•ì¸");
         navMeshAgent.isStopped = true;
         hitTargetList.Clear();
 
