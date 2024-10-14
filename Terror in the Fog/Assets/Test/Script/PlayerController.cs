@@ -1,11 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.IO.IsolatedStorage;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using System.Threading;
-using System.Runtime.CompilerServices;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
@@ -59,12 +54,13 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+
         rb = GetComponent<Rigidbody>();
         s_Image[0] = s_slider.GetComponentInChildren<Image>();
         s_Image[1] = s_slider.transform.GetChild(1).GetComponentInChildren<Image>();
 
-        UnityEngine.Cursor.lockState = CursorLockMode.Locked;          //마우스 커서를 잠그고 숨긴다
-        UnityEngine.Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;          //마우스 커서를 잠그고 숨긴다
+        Cursor.visible = false;
         SetupCameras();
         SetActiveCamera();
     }
@@ -217,4 +213,5 @@ public class PlayerController : MonoBehaviour
     {
        SceneManager.LoadScene("TestScene3");
     }
+
 }

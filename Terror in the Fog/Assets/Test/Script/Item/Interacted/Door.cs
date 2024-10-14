@@ -14,16 +14,18 @@ public class Door : MonoBehaviour, IItem
 
     public bool isOpen = false;
     private bool canOpen = true;
+
+    private void Awake()
+    {
+        
+    }
     private void Start()
     {
         type = ItemType.interacted;
         itemName = "Door";
         isCanUse = false; //몬스터전용 불값
     }
-    private void Update()
-    {
-        //Debug.Log(GameManager.instance.isLookBack);
-    }
+
     public void Use(GameObject target)
     {
         Vector3 doorPos = transform.position;

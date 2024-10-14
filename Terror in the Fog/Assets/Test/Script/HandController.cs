@@ -1,10 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class HandController : MonoBehaviour
 {
@@ -32,7 +29,11 @@ public class HandController : MonoBehaviour
     int i = 0;
 
     IItem item;
-        
+
+    private void Awake()
+    {
+
+    }
     void Start()
     {
         playerCam = Camera.main;
