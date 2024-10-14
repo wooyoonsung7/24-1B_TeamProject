@@ -6,10 +6,11 @@ using UnityEngine.UI;
 using DG.Tweening;
 using System.Threading;
 using System.Runtime.CompilerServices;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    //ÇÃ·¹ÀÌ¾îÀÇ ¿òÁ÷ÀÓ ¼Óµµ¸¦ ¼³Á¤ÇÏ´Â º¯¼ö
+    //í”Œë ˆì´ì–´ì˜ ì›€ì§ì„ ì†ë„ë¥¼ ì„¤ì •í•˜ëŠ” ë³€ìˆ˜
     [Header("Player Movement")]
     public float moveSpeed = 5.0f;
     public float walkSpeed = 2.5f;
@@ -21,33 +22,33 @@ public class PlayerController : MonoBehaviour
     public int recover_stamina_Time = 7;
     public bool isHide = false;
 
-    //Ä«¸Ş¶ó ¼³Á¤ º¯¼ö
+    //ì¹´ë©”ë¼ ì„¤ì • ë³€ìˆ˜
     [Header("Camera Settings")]
-    public Camera firstPersonCamera;      //1ÀÎÄª Ä«¸Ş¶ó
+    public Camera firstPersonCamera;      //1ì¸ì¹­ ì¹´ë©”ë¼
 
-    public float radius = 5.0f;          //3ÀÎÄª Ä«¸Ş¶ó¿Í ÇÃ·¹ÀÌ¾î °£ÀÇ °Å¸®
-    public float minRadius = 1.0f;       //Ä«¸Ş¶ó ÃÖ¼Ò °Å¸®
-    public float maxRadius = 10.0f;      //Ä«¸Ş¶ó ÃÖ´ë °Å¸®
+    public float radius = 5.0f;          //3ì¸ì¹­ ì¹´ë©”ë¼ì™€ í”Œë ˆì´ì–´ ê°„ì˜ ê±°ë¦¬
+    public float minRadius = 1.0f;       //ì¹´ë©”ë¼ ìµœì†Œ ê±°ë¦¬
+    public float maxRadius = 10.0f;      //ì¹´ë©”ë¼ ìµœëŒ€ ê±°ë¦¬
 
 
-    public float yMinLimit = 30;         //Ä«¸Ş¶ó ¼öÁ÷ È¸Àü ÃÖ¼Ò°¢
-    public float yMaxLimit = 90;         //Ä«¸Ş¶ó ¼öÁ÷ È¸Àü ÃÖ´ë°¢        
+    public float yMinLimit = 30;         //ì¹´ë©”ë¼ ìˆ˜ì§ íšŒì „ ìµœì†Œê°
+    public float yMaxLimit = 90;         //ì¹´ë©”ë¼ ìˆ˜ì§ íšŒì „ ìµœëŒ€ê°        
 
-    private float theta = 0.0f;                  //Ä«¸Ş¶ó ¼öÆòÈ¸Àü °¢µµ
-    private float phi = 0.0f;                    //Ä«¸Ş¶óÀÇ ¼öÁ÷È¸Àü °¢µµ
-    private float targetVerticalRotation;         //¸ñÇ¥ ¼öÁ÷ È¸Àü °¢µµ
-    private float RotationSpeed = 240f;           //¼öÁ÷ È¸Àü ¼Óµµ
+    private float theta = 0.0f;                  //ì¹´ë©”ë¼ ìˆ˜í‰íšŒì „ ê°ë„
+    private float phi = 0.0f;                    //ì¹´ë©”ë¼ì˜ ìˆ˜ì§íšŒì „ ê°ë„
+    private float targetVerticalRotation;         //ëª©í‘œ ìˆ˜ì§ íšŒì „ ê°ë„
+    private float RotationSpeed = 240f;           //ìˆ˜ì§ íšŒì „ ì†ë„
 
-    public float mouseSenesitivity = 2f;  //¸¶¿ì½º °¨µµ
+    public float mouseSenesitivity = 2f;  //ë§ˆìš°ìŠ¤ ê°ë„
 
-    private bool isCrouching = false;     //1ÀÎÄ¡ ¸ğµå ÀÎÁö ¿©ºÎ
+    private bool isCrouching = false;     //1ì¸ì¹˜ ëª¨ë“œ ì¸ì§€ ì—¬ë¶€
     private Rigidbody rb;
 
     [Header("Ext Setting")]
     public GameObject head;
-    public Slider s_slider;        //ÇÃ·¹ÀÌ¾îÀÇ ±â·ÂÀ» ³ªÅ¸³ªÅÅ UI
+    public Slider s_slider;        //í”Œë ˆì´ì–´ì˜ ê¸°ë ¥ì„ ë‚˜íƒ€ë‚˜íƒ¤ UI
     public GameObject s_Fill;
-    public float Fade_Duration = 5f;    //½ºÅÂ¹Ì³Ê Èå¸´ÇÏ°Ô ÇÏ´Â Áö¼Ó½Ã°£
+    public float Fade_Duration = 5f;    //ìŠ¤íƒœë¯¸ë„ˆ íë¦¿í•˜ê²Œ í•˜ëŠ” ì§€ì†ì‹œê°„
     private bool playerCanRun = true;
     private Image[] s_Image = new Image[2];
     private bool isFadeIn = false;
@@ -62,7 +63,7 @@ public class PlayerController : MonoBehaviour
         s_Image[0] = s_slider.GetComponentInChildren<Image>();
         s_Image[1] = s_slider.transform.GetChild(1).GetComponentInChildren<Image>();
 
-        UnityEngine.Cursor.lockState = CursorLockMode.Locked;          //¸¶¿ì½º Ä¿¼­¸¦ Àá±×°í ¼û±ä´Ù
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;          //ë§ˆìš°ìŠ¤ ì»¤ì„œë¥¼ ì ê·¸ê³  ìˆ¨ê¸´ë‹¤
         UnityEngine.Cursor.visible = false;
         SetupCameras();
         SetActiveCamera();
@@ -77,13 +78,13 @@ public class PlayerController : MonoBehaviour
         HandleCrouch();
     }
 
-    //È°¼ºÈ­ Ä«¸Ş¶ó¸¦ ¼³Á¤ÇÏ´Â ÇÔ¼ö
+    //í™œì„±í™” ì¹´ë©”ë¼ë¥¼ ì„¤ì •í•˜ëŠ” í•¨ìˆ˜
     void SetActiveCamera()
     {
         firstPersonCamera.gameObject.SetActive(true);
     }
 
-    //Ä«¸Ş¶ó ¹× Ä³¸¯ÅÍ È¸ÀüÃ³¸®ÇÏ´Â ÇÔ¼ö
+    //ì¹´ë©”ë¼ ë° ìºë¦­í„° íšŒì „ì²˜ë¦¬í•˜ëŠ” í•¨ìˆ˜
     void HandleRotation()
     {
         if (isCanMove)
@@ -91,31 +92,31 @@ public class PlayerController : MonoBehaviour
             float mouseX = Input.GetAxis("Mouse X") * mouseSenesitivity;
             float mouseY = Input.GetAxis("Mouse Y") * mouseSenesitivity;
 
-            //¼öÆò È¸Àü(theta °ª)
+            //ìˆ˜í‰ íšŒì „(theta ê°’)
             theta += mouseX;
             theta = Mathf.Repeat(theta, 360f);
 
-            //¼öÁ÷ È¸Àü Ã³¸®
+            //ìˆ˜ì§ íšŒì „ ì²˜ë¦¬
             targetVerticalRotation -= mouseY;
             targetVerticalRotation = Mathf.Clamp(targetVerticalRotation, yMinLimit, yMaxLimit);
 
             phi = Mathf.MoveTowards(phi, targetVerticalRotation, RotationSpeed * Time.deltaTime);
 
-            //ÇÃ·¹ÀÌ¾î, ¸Ó¸®È¸Àü Ã³¸®
+            //í”Œë ˆì´ì–´, ë¨¸ë¦¬íšŒì „ ì²˜ë¦¬
             head.gameObject.transform.localRotation = Quaternion.Euler(phi, 0.0f, 0.0f);
             gameObject.transform.rotation = Quaternion.Euler(0.0f, theta, 0.0f);
 
         }
     }
 
-    //Ä«¸Ş¶ó ÃÊ±â À§Ä¡ ¹× È¸ÀüÀ» ¼³Á¤ÇÏ´Â ÇÔ¼ö
+    //ì¹´ë©”ë¼ ì´ˆê¸° ìœ„ì¹˜ ë° íšŒì „ì„ ì„¤ì •í•˜ëŠ” í•¨ìˆ˜
     void SetupCameras()
     {
         firstPersonCamera.transform.localPosition = new Vector3(0f, 0f, -0.75f);
         firstPersonCamera.transform.localRotation = Quaternion.identity;
     }
 
-    //ÇÃ·¹ÀÌ¾î Çàµ¿Ã³¸® ÇÔ¼ö
+    //í”Œë ˆì´ì–´ í–‰ë™ì²˜ë¦¬ í•¨ìˆ˜
     void HandleMovement()
     {
         if (isCanMove)
@@ -123,9 +124,9 @@ public class PlayerController : MonoBehaviour
             float moveHorizontal = Input.GetAxis("Horizontal");
             float moveVertical = Input.GetAxis("Vertical");
 
-            //Ä³¸¯ÅÍ ±âÁØÀ¸·Î ÀÌµ¿
+            //ìºë¦­í„° ê¸°ì¤€ìœ¼ë¡œ ì´ë™
             Vector3 movement = transform.right * moveHorizontal + transform.forward * moveVertical;
-            rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);  //¹°¸®±â¹İ ÀÌµ¿
+            rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);  //ë¬¼ë¦¬ê¸°ë°˜ ì´ë™
         }
 
     }
@@ -145,7 +146,7 @@ public class PlayerController : MonoBehaviour
                 timer = Time.time;
             }
 
-            FadeIn();                  //ÆäÀÌµå ÇÑ¹ø¸¸ Ã³¸®ÇÏ±â À§ÇÑ ºÒ°ª
+            FadeIn();                  //í˜ì´ë“œ í•œë²ˆë§Œ ì²˜ë¦¬í•˜ê¸° ìœ„í•œ ë¶ˆê°’
         }
         else
         {
@@ -211,5 +212,9 @@ public class PlayerController : MonoBehaviour
             }
             isFadeOut = false;
         }
+    }
+    public void Death()
+    {
+       
     }
 }
