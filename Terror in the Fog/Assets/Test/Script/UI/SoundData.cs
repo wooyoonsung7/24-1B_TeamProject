@@ -1,36 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Object/SoundData", fileName = "SoundData", order = int.MaxValue)]
-public class SoundData : ScriptableObject
+public class SoundData : MonoBehaviour
 {
-    [SerializeField]
-    private string soundname;
-    public string SoundName { get { return soundname; } }
+    //public string[] soundname = new string[3];
 
-    [SerializeField]
-    private int soundLevel;
-    public int SoundLevel { get { return soundLevel; } }
+    //public int[] soundLevel = new int[3];
 
-    [SerializeField]
-    private AudioClip clip;
-    public AudioClip Clip { get { return clip; } }
+    public List<string> soundname = new List<string>();
+    public List<int> soundLevel = new List<int>();
 
-    [SerializeField]
-    [Range(0f, 1f)]
-    private float volume = 1.0f;
-    public float Volume { get { return volume; } }
+    public void Start()
+    {
+        foreach (string s in soundname)
+        {
+            Debug.Log(s);
+        }
 
-    [SerializeField]
-    [Range(0.1f, 3f)]
-    private float pitch = 1.0f;
-    public float Pitch { get { return pitch; } }
-
-    [SerializeField] private bool loop;
-    public bool Loop { get { return loop; } }
-
-
-    [HideInInspector]
-    public AudioSource source;
+        foreach (int i in soundLevel)
+        {
+            Debug.Log(i);
+        }
+    }
 }

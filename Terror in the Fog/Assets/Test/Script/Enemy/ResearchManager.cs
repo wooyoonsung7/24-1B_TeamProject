@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
-using UnityEditor.Build.Reporting;
 using UnityEngine;
-using UnityEngine.AI;
 
 
 
@@ -13,9 +11,9 @@ public class FloorDate
     public GameObject[] columns;
 }
 
-public class GameManager : MonoBehaviour
+public class ResearchManager : MonoBehaviour
 {
-    public static GameManager instance;
+    public static ResearchManager instance;
 
     public FloorDate[] floorIndex;
     Vector3 moveToPos;
@@ -244,7 +242,7 @@ public class GameManager : MonoBehaviour
     }
     private void LookAround()
     {
-        Debug.Log(3);
+        //Debug.Log(3);
         if (isOneTime)
         {
             if (isheight)
@@ -265,7 +263,7 @@ public class GameManager : MonoBehaviour
     }
     private void LookBack()
     {
-        Debug.Log(4);
+        //Debug.Log(4);
         if (isOneTime)
         {
             if (isheight)

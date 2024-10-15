@@ -19,7 +19,7 @@ public class Clothes : MonoBehaviour, IItem
 
     private void Awake()
     {
-
+        
     }
     private void Start()
     {

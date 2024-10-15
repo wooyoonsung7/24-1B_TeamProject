@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
@@ -52,8 +54,20 @@ public class PlayerController : MonoBehaviour
 
     public bool isCanMove = true;
 
+    private SoundData soundData;
+    private bool isOneTime = false;
+    private bool isOneTime_2 = true;
+
+    public enum SoundState
+    {
+        Idle, Walk, Run, Crouch
+    }
+    SoundState soundstate;
+
     void Start()
     {
+
+        soundData = GetComponent<SoundData>();
 
         rb = GetComponent<Rigidbody>();
         s_Image[0] = s_slider.GetComponentInChildren<Image>();
@@ -72,6 +86,8 @@ public class PlayerController : MonoBehaviour
         HandleRotation();
         HandleRun();
         HandleCrouch();
+
+        SetSound();
     }
 
     //활성화 카메라를 설정하는 함수
@@ -123,8 +139,17 @@ public class PlayerController : MonoBehaviour
             //캐릭터 기준으로 이동
             Vector3 movement = transform.right * moveHorizontal + transform.forward * moveVertical;
             rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);  //물리기반 이동
-        }
 
+            if (moveHorizontal != 0f || moveVertical != 0f && !isCrouching && !Input.GetButton("Run")) 
+            {
+                ChangeState(SoundState.Walk);
+            }
+            
+            if(movement == Vector3.zero && !isCrouching)
+            {
+               ChangeState(SoundState.Idle);
+            }
+        }
     }
 
     void HandleRun()
@@ -143,6 +168,8 @@ public class PlayerController : MonoBehaviour
             }
 
             FadeIn();                  //페이드 한번만 처리하기 위한 불값
+
+            ChangeState(SoundState.Run);
         }
         else
         {
@@ -151,7 +178,14 @@ public class PlayerController : MonoBehaviour
                 s_Fill.SetActive(true);
 
                 if (!isCrouching)
+                {
                     moveSpeed = walkSpeed;
+
+                    if (!playerCanRun)
+                    {
+                        ChangeState(SoundState.Walk);
+                    }
+                }
 
                 s_slider.value += Time.deltaTime / recover_stamina_Time;
                 if (s_slider.value == 1)
@@ -173,6 +207,7 @@ public class PlayerController : MonoBehaviour
 
             if (isCrouching)
             {
+                ChangeState(SoundState.Crouch);
                 gameObject.transform.localScale = new Vector3(0.0f, crouchDgree, 0.0f);
                 moveSpeed = crouchSpeed;
                 Debug.Log(moveSpeed);
@@ -214,4 +249,72 @@ public class PlayerController : MonoBehaviour
        SceneManager.LoadScene("TestScene3");
     }
 
+    public void SetSound()
+    {
+        if (isOneTime)
+        {
+            switch (soundstate)
+            {
+                case SoundState.Walk:
+                    SetState(SoundState.Walk);
+                    break;
+
+                case SoundState.Run:
+                    SetState(SoundState.Run);
+                    break;
+
+                case SoundState.Crouch:
+                    SetState(SoundState.Crouch);
+                    break;
+
+                case SoundState.Idle:
+                    SetState(SoundState.Idle);
+                    break;
+
+            }
+            isOneTime = false;
+        }
+    }
+
+    public void SetState(SoundState state)
+    {
+        SoundState _soundstate = state;
+        SoundManager.instance.PlaySound(_soundstate.ToString());
+        StartCoroutine(SetLevel(_soundstate.ToString()));
+        Debug.Log(state.ToString());
+    }
+
+    public void ChangeState(SoundState state)
+    {
+        if (soundstate != state)
+        {
+            isOneTime_2 = true;
+        }
+        if (isOneTime_2)
+        {
+            isOneTime = true;
+            SoundState r_soundstate = soundstate;
+            SoundManager.instance.PauseSound(r_soundstate.ToString());
+            soundstate = state;
+
+            isOneTime_2 = false;
+        }
+    }
+
+    IEnumerator SetLevel(string name)
+    {
+        for (int i = 0; i < soundData.soundLevel.Count; i++)
+        {
+            if (soundData.soundname[i] == name)
+            {
+                SoundDetector.instance.g_level = soundData.soundLevel[i];
+                
+                if (soundData.soundLevel[i] == 3)
+                {
+                    SoundDetector.instance.SoundPos.Add(transform.position);
+                }
+            }
+        }
+        yield return null;
+    }
 }

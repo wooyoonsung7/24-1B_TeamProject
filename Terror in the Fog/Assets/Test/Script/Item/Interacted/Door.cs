@@ -68,7 +68,7 @@ public class Door : MonoBehaviour, IItem
         enemy.navMeshAgent.isStopped = false;
         yield return new WaitForSeconds(1f);
 
-        while (GameManager.instance.isLookBack)
+        while (ResearchManager.instance.isLookBack)
         {
             Debug.Log("뒤 보는 중");
             yield return null;
