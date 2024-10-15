@@ -66,7 +66,6 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-
         soundData = GetComponent<SoundData>();
 
         rb = GetComponent<Rigidbody>();
@@ -140,7 +139,7 @@ public class PlayerController : MonoBehaviour
             Vector3 movement = transform.right * moveHorizontal + transform.forward * moveVertical;
             rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);  //물리기반 이동
 
-            if (moveHorizontal != 0f || moveVertical != 0f && !isCrouching && !Input.GetButton("Run")) 
+            if ((moveHorizontal != 0f || moveVertical != 0f) && !isCrouching && !Input.GetButton("Run")) 
             {
                 ChangeState(SoundState.Walk);
             }
@@ -149,6 +148,16 @@ public class PlayerController : MonoBehaviour
             {
                ChangeState(SoundState.Idle);
             }
+        }
+
+        if (isHide) //플레이가 숨었을 때, 기본 상태로 변경
+        {
+            ChangeState(SoundState.Idle);
+        }
+
+        if (transform.position.y < -10f)
+        {
+            Death();
         }
     }
 

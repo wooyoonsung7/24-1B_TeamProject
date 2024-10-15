@@ -22,7 +22,7 @@ public class ResearchManager : MonoBehaviour
     int moveIndex = 0;         //방번호를 대신하는 인덱스(배열의 순서)
     int roomNumber = 4;        //방의 총수
     int floorNumber = 0;
-    int currentroomNumber = 3; //최근 방의 개수(변수)
+    int currentroomNumber = 4; //최근 방의 개수(변수)
     [SerializeField] private List<int> isDoneIdex = new List<int>();  //랜덤하게 숫자를 넣어주기 위한 변수;
     
     //ResetIndex()를 위한 전역불값
@@ -51,12 +51,12 @@ public class ResearchManager : MonoBehaviour
     public bool isLookBack = false;
     public enum ENEMYSTATE
     {
-        CHANGEROOM,
         OPENDOOR,
         ENTERROOM,
         LOOKAROUND,
         LOOKBACK,
-        STOPACTION
+        STOPACTION,
+        CHANGEROOM
     }
 
     public ENEMYSTATE enemystate;
@@ -75,8 +75,14 @@ public class ResearchManager : MonoBehaviour
     }
     void Start()
     {
-        ResetIndex();
+        //ResetIndex();
+        /*
+        for (int i = 0; i < roomNumber; i++)
+        {
+            isDoneIdex.Add(i);  //0~3까지만 관리하는 의도
+        }
         ChangeEnemyState(ENEMYSTATE.OPENDOOR);
+        */
         changeTime = Time.time;
 
         DOMotion();
@@ -86,9 +92,6 @@ public class ResearchManager : MonoBehaviour
     {
         switch (enemystate)
         {
-            case ENEMYSTATE.CHANGEROOM:
-                ChangeRoom();
-                break;
 
             case ENEMYSTATE.OPENDOOR:
                 OpenDoor();
@@ -108,6 +111,10 @@ public class ResearchManager : MonoBehaviour
 
             case ENEMYSTATE.STOPACTION:
                 StopAction();
+                break;
+
+            case ENEMYSTATE.CHANGEROOM:
+                ChangeRoom();
                 break;
         }
     }
@@ -147,11 +154,11 @@ public class ResearchManager : MonoBehaviour
         enemystate = newState;
     }
 
-    public void ChangeRoom()
+    private void ChangeRoom()
     {
-        //Debug.Log("방 교체");
+        Debug.Log("방 교체");
         stepNumber = 0;
-
+        Debug.Log("설정값이 " + currentroomNumber);
         isDoneIdex.Remove(moveIndex);
         --currentroomNumber;
         int randomNumber = Random.Range(0, currentroomNumber);
@@ -180,11 +187,12 @@ public class ResearchManager : MonoBehaviour
 
     public void OpenDoor()
     {
-        //Debug.Log(1);
+        Debug.Log(1);
         //Debug.Log("진짜 층은 " + floorNumber);
         //Debug.Log("바뀐 방의 개수는" + roomNumber);
 
         moveToPos = floorIndex[floorNumber].columns[moveIndex].transform.position;
+
         enemy.navMeshAgent.SetDestination(moveToPos);
 
         if (enemy.navMeshAgent.remainingDistance <= enemy.navMeshAgent.stoppingDistance && Time.time >= changeTime + waitTime)
@@ -197,7 +205,7 @@ public class ResearchManager : MonoBehaviour
     }
     private void EnterRoom()
     {
-        //Debug.Log(2);
+        Debug.Log(2);
         moveToPos = floorIndex[floorNumber].columns[moveIndex + roomNumber].transform.position;
         enemy.navMeshAgent.SetDestination(moveToPos);
 
@@ -242,7 +250,7 @@ public class ResearchManager : MonoBehaviour
     }
     private void LookAround()
     {
-        //Debug.Log(3);
+        Debug.Log(3);
         if (isOneTime)
         {
             if (isheight)
@@ -263,7 +271,7 @@ public class ResearchManager : MonoBehaviour
     }
     private void LookBack()
     {
-        //Debug.Log(4);
+        Debug.Log(4);
         if (isOneTime)
         {
             if (isheight)
@@ -287,7 +295,7 @@ public class ResearchManager : MonoBehaviour
 
     private void StopAction()
     {
-        //Debug.Log(5);
+        Debug.Log(5);
         if (stepNumber == 3)
         {
             int randomNum = Random.Range(0, roomNumber - 1);
@@ -339,8 +347,9 @@ public class ResearchManager : MonoBehaviour
         }
     }
 
-    private void ResetIndex()
+    public void ResetIndex()
     {
+        Debug.Log("초기화");
         if (!r_IsEnd)
         {
             currentroomNumber = roomNumber;
@@ -349,6 +358,7 @@ public class ResearchManager : MonoBehaviour
                 isDoneIdex.Add(i);  //0~3까지만 관리하는 의도
             }
             r_IsEnd = true;
+            Debug.Log(isDoneIdex.Count);
         }
         if (isDoneIdex.Count == roomNumber)
         {

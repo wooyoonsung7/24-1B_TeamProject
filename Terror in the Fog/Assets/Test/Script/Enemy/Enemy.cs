@@ -29,9 +29,6 @@ public class Enemy : MonoBehaviour
     public List<Collider> hitTargetList = new List<Collider>();
     RaycastHit hit;
 
-    float move;
-    float rotate;
-    Rigidbody rb;
     public NavMeshAgent navMeshAgent; // 경로 계산 AI 에이전트
 
     float floorHigh = 3f;
@@ -43,14 +40,13 @@ public class Enemy : MonoBehaviour
 
     public float timer = 0f; //플레이 놓침타이머
     public bool isCheckAround = false;
-    Sequence sequence;
+    
+    public bool pauseResearch = false;
     void Start()
     {
         _stateMachine = new StateMachine(this, Research.GetInstance());
         navMeshAgent = GetComponent<NavMeshAgent>();
-        rb = GetComponent<Rigidbody>();
 
-        sequence = DOTween.Sequence().SetAutoKill(false);
         myPos = transform.position + Vector3.up * 0.5f;
     }
 
@@ -123,6 +119,7 @@ public class Enemy : MonoBehaviour
         myPos = gameObject.transform.position + Vector3.up * 0.5f;
         Gizmos.DrawWireSphere(myPos, ViewRadius);
         Gizmos.DrawWireSphere(transform.position, seizeRadius);
+        //Gizmos.DrawWireSphere(myPos, 11f);
     }
 
     public void StopFinding()
@@ -154,34 +151,51 @@ public class Enemy : MonoBehaviour
         if (target.Length >= 1)
         {
             //playerController.transform.DOLocalMove(transform.position + Vector3. * 1.5f, 1f);
-            playerController.gameObject.SetActive(false);
+            //playerController.gameObject.SetActive(false);
             playerController.Death();
         }
     }
 
-    public void CheckAround()
+    public void CheckAround()  //초기화
     {
-        float checkSpeed = 1;
-        isCheckAround = true;
+        //isCheckAround = true;
         Debug.Log("상태전환확인");
-        navMeshAgent.isStopped = true;
         hitTargetList.Clear();
 
-        Quaternion quaternion = Quaternion.identity;
+        //주변확인 애니메이션 및 회전
 
-        float targetpos_y;
-        targetpos_y = Mathf.Lerp(0, 90, checkSpeed * Time.deltaTime);
-        quaternion.eulerAngles += new Vector3(0, targetpos_y, 0);
+        navMeshAgent.isStopped = true;
+        isCheckAround = false;                              //동작완료
+        //float checkSpeed = 1;
+        //Quaternion quaternion = Quaternion.identity;
+
+        //float targetpos_y;
+        //targetpos_y = Mathf.Lerp(0, 90, checkSpeed * Time.deltaTime);
+        //quaternion.eulerAngles += new Vector3(0, targetpos_y, 0);
     }
-    
+
     public void ResearchArea()
     {
-        //ResearchManager.instance.RESEARCH();
+        if (!pauseResearch)
+        {
+            ResearchManager.instance.RESEARCH();
+        }
     }
 
-    public void StartState()
+    public void DetectToSound()
     {
-        //ResearchManager.instance.ChangeEnemyState(ENEMYSTATE.OPENDOOR);
+        SoundDetector.instance.CheckLevel();
+        SoundDetector.instance.OnDetect();
     }
 
+    public void ResetResearch()
+    {
+        //ResearchManager.instance.ChangeEnemyState(ResearchManager.ENEMYSTATE.OPENDOOR);
+        ResearchManager.instance.ResetIndex();
+    }
+
+    public void ResetSound()
+    {
+        SoundDetector.instance.ChangeLevelState(SoundDetector.LEVEL.Level0);
+    }
 }

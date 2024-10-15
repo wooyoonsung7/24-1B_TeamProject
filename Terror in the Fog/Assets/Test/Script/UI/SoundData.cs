@@ -12,16 +12,4 @@ public class SoundData : MonoBehaviour
     public List<string> soundname = new List<string>();
     public List<int> soundLevel = new List<int>();
 
-    public void Start()
-    {
-        foreach (string s in soundname)
-        {
-            Debug.Log(s);
-        }
-
-        foreach (int i in soundLevel)
-        {
-            Debug.Log(i);
-        }
-    }
 }

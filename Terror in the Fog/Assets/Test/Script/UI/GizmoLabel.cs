@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GizmoLabel : MonoBehaviour
-{
+{ /*
     public string label;
 
     [SerializeField]
@@ -29,4 +29,5 @@ public class GizmoLabel : MonoBehaviour
         Vector3 position = transform.position + Vector3.up * 1.5f;
         UnityEditor.Handles.Label(position, label, style);
     }
+    */
 }

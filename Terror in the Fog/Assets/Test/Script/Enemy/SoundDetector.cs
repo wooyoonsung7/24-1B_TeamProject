@@ -18,31 +18,25 @@ public class SoundDetector : MonoBehaviour
     private bool isPlay_1 = false;
 
     bool isHurry = true;
-    private bool isFind = false;
+    public bool isFind = false;
 
     [SerializeField]
-    private float detectRadius = 1f;
+    private float detectRadius = 11f;
     [SerializeField]
     private LayerMask layerMask;
 
     private Vector3 myPos;
 
-    private enum LEVEL
+    public enum LEVEL
     {
         Level3, Level2, Level1, Level0
     }
-    private LEVEL level;
+    public LEVEL level;
     void Awake()
     {
         instance = this;
         enemy = GetComponent<Enemy>();
-        ChangeState(LEVEL.Level0);
-    }
-
-    void Update()
-    {
-        CheckLevel();
-        OnDetect();
+        ChangeLevelState(LEVEL.Level0);
     }
 
     public void OnDetect()
@@ -69,7 +63,7 @@ public class SoundDetector : MonoBehaviour
 
         }
     }
-    private void ChangeState(LEVEL newLevel)
+    public void ChangeLevelState(LEVEL newLevel)
     {
         level = newLevel;
     }
@@ -78,7 +72,7 @@ public class SoundDetector : MonoBehaviour
     {
         if(g_level == 3)
         {
-            ChangeState(LEVEL.Level3);
+            ChangeLevelState(LEVEL.Level3);
             isHurry = true;
             isPlay_2 = false;
             isPlay_1 = false;
@@ -87,7 +81,7 @@ public class SoundDetector : MonoBehaviour
         {
             if (!isPlay_3)
             {
-                ChangeState(LEVEL.Level2);
+                ChangeLevelState(LEVEL.Level2);
                 isPlay_1 = false;
             }
         }
@@ -95,14 +89,14 @@ public class SoundDetector : MonoBehaviour
         {
             if (!isPlay_2 && !isPlay_3)
             {
-                ChangeState(LEVEL.Level1);
+                ChangeLevelState(LEVEL.Level1);
             }
         }
         if (g_level == 0)
         {
             if (!isPlay_2 && !isPlay_3 && !isPlay_1)
             {
-                ChangeState(LEVEL.Level0);
+                ChangeLevelState(LEVEL.Level0);
             }
         }
     }
@@ -114,9 +108,6 @@ public class SoundDetector : MonoBehaviour
             enemy.navMeshAgent.SetDestination(SoundPos[0]);
             isHurry = false;
         }
-        //Debug.Log("남은 거리 : " + enemy.navMeshAgent.remainingDistance);
-        //Debug.Log("멈추었는가 : " + enemy.navMeshAgent.velocity.sqrMagnitude);
-        //Debug.Log("존재하는가 : " + enemy.navMeshAgent.hasPath);
 
         if (!enemy.navMeshAgent.pathPending && enemy.navMeshAgent.remainingDistance <= enemy.navMeshAgent.stoppingDistance)
         {
@@ -125,7 +116,7 @@ public class SoundDetector : MonoBehaviour
                 Debug.Log("도착했다");
                 SoundPos.Clear();
                 isPlay_3 = false;
-                g_level = 0;
+                g_level = defultLevel;
             }
         }
     }
@@ -139,33 +130,32 @@ public class SoundDetector : MonoBehaviour
         foreach (Collider p_collider in target)
         {
             isPlay_1 = true;
-            Vector3 targetPos = p_collider.transform.position;
+            SoundPos.Add(p_collider.transform.position);
             enemy.navMeshAgent.updateRotation = false;
-            enemy.transform.DOLookAt(targetPos, 0.5f).OnComplete(() => enemy.navMeshAgent.updateRotation = true);
-            if (isFind)
-            {
-                //이때, 시각감지코드와 연결
-            }
-            else
-            {
-                enemy.navMeshAgent.SetDestination(targetPos);
-            }
+            enemy.transform.DOLookAt(SoundPos[0], 0.5f).OnComplete(() => enemy.navMeshAgent.updateRotation = true);
+
+            enemy.navMeshAgent.SetDestination(SoundPos[0]);                                                             //언제든지 상태가 바뀔 수 있음 따라서 초기화가 필요함.
         }
 
         if (!enemy.navMeshAgent.pathPending && enemy.navMeshAgent.remainingDistance <= enemy.navMeshAgent.stoppingDistance)
         {
             if (enemy.navMeshAgent.hasPath || enemy.navMeshAgent.velocity.sqrMagnitude == 0f)
             {
-
+                SoundPos.Clear();
                 isPlay_1 = false;
-                g_level = 0;
+                g_level = defultLevel;
             }
         }
     }
 
     public void ResetPos()
     {
-        Debug.Log("아무런 것도 없다");
+        isPlay_1 = false;
+        isPlay_2 = false;
+        isPlay_3 = false;
+        g_level = defultLevel;
+        SoundPos.Clear();
+        //Debug.Log("아무런 것도 없다");
     }
 
     public void OnDrawGizmos()
