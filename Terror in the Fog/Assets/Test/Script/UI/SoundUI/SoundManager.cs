@@ -8,8 +8,6 @@ using UnityEngine.Audio;
 [System.Serializable]
 public class Sound
 {
-    public string name;
-    
 
     public string soundname;
 
@@ -89,7 +87,7 @@ public class SoundManager : MonoBehaviour
     }
     public void StopSound(string name)
     {
-        Sound soundToStop = sounds.Find(sound => sound.name == name);
+        Sound soundToStop = sounds.Find(sound => sound.soundname == name);
 
         if (soundToStop != null)
         {
