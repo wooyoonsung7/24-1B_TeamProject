@@ -16960,8 +16960,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  walkSpeed: 10
-  runSpeed: 7.5
+  walkSpeed: 7.5
+  runSpeed: 10
   crouchSpeed: 1.1
   playerHigh: 0.8
   crouchDgree: 0.3
@@ -17105,17 +17105,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2005591629}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0afb32d535b789b478d34196fe4bd701, type: 3}
+  m_Script: {fileID: 11500000, guid: 342e5842ef133ce48b2c56ec6e6413c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  g_level: 0
-  SoundPos: []
-  isFind: 0
-  detectRadius: 11
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  level: 0
+  soundname: []
+  soundLevel: 
 --- !u!1001 &2011363579
 PrefabInstance:
   m_ObjectHideFlags: 0

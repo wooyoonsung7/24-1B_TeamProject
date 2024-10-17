@@ -289,7 +289,11 @@ public class PlayerController : MonoBehaviour
     {
         SoundState _soundstate = state;
         SoundManager.instance.PlaySound(_soundstate.ToString());
-        StartCoroutine(SetLevel(_soundstate.ToString()));
+
+        if (SoundDetector.instance != null)
+        {
+            StartCoroutine(SetLevel(_soundstate.ToString()));
+        }
         Debug.Log(state.ToString());
     }
 
