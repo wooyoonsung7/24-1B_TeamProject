@@ -7,8 +7,9 @@ using UnityEngine.SceneManagement;
 public class SettingsMenu : MonoBehaviour
 {
     public GameObject settingsPanel;
-    public bool Paused = false;
-    bool isquick = false;
+    public bool Paused = false; // 게임이 일시정지 상태인지 확인하는 변수
+   
+
     void Start()
     {
         settingsPanel.SetActive(false);
@@ -31,21 +32,15 @@ public class SettingsMenu : MonoBehaviour
     }
     public void OpenSettingsMenu()
     {
-        settingsPanel.SetActive(true);
-        if (Time.timeScale != 0f)
-        {
-            Time.timeScale = 0f; // 게임 시간 재개
-        }
-        Paused = true;
+        settingsPanel.SetActive(true); 
+        Time.timeScale = 0f; 
+        Paused = true; 
     }
 
     public void CloseSettingsMenu()
     {
-        settingsPanel.SetActive(false);
-        if (Time.timeScale != 1f)
-        {
-            Time.timeScale = 1f; // 게임 시간 재개
-        }
+        settingsPanel.SetActive(false); 
+        Time.timeScale = 1f; 
         Paused = false;
     }
 
@@ -72,5 +67,6 @@ public class SettingsMenu : MonoBehaviour
             Time.timeScale = 1f; // 게임 시간 재개
         }
         SceneManager.LoadScene("TestScene3");
+        Time.timeScale = 1f;
     }
 }
