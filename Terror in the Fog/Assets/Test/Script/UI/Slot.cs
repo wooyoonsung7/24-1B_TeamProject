@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -9,6 +8,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 {
     public Image itemImage;
     public IItem item;
+    public string slotID;
 
     //아이템정보를 OutsideInventory스크립트로 가져가기 위한 변수
     public bool isItemExist = false;

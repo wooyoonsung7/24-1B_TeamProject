@@ -10,10 +10,17 @@ public class Key : MonoBehaviour, IItem
     public Sprite itemImage { get; set; }
     public GameObject itemPrefab { get; set; }
     public bool isCanUse { get; set; }
+
+    [SerializeField]
+    private Sprite _itemImage;
+    [SerializeField]
+    private GameObject _itemPrefab;
     private void Start()
     {
         type = ItemType.Used;
         itemName = "¿­¼è";
+        itemImage = _itemImage;
+        itemPrefab = _itemPrefab;
     }
     public void Use(GameObject target)
     {

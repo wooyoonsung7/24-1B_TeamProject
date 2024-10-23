@@ -3,20 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using static IItem;
 
-public class CigaretteLighter : MonoBehaviour, IItem
+public class Gear : MonoBehaviour, IItem
 {
     public ItemType type { get; set; }
     public string itemName { get; set; }
     public Sprite itemImage { get; set; }
     public GameObject itemPrefab { get; set; }
     public bool isCanUse { get; set; }
+
+    [SerializeField]
+    private Sprite _itemImage;
+    [SerializeField]
+    private GameObject _itemPrefab;
+
     private void Start()
     {
         type = ItemType.Used;
-        itemName = "라이터";
+        itemName = "톱니바퀴";
+        itemImage = _itemImage;
+        itemPrefab = _itemPrefab;
     }
     public void Use(GameObject target)
     {
-        Debug.Log("라이터 사용");
+        Debug.Log("톱니바퀴 사용");
     }
 }

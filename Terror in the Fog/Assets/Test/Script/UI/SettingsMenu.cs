@@ -8,7 +8,12 @@ public class SettingsMenu : MonoBehaviour
 {
     public GameObject settingsPanel;
     public bool Paused = false; // 게임이 일시정지 상태인지 확인하는 변수
-   
+
+    [SerializeField]
+    private PlayerController playerController;
+    [SerializeField]
+    private HandController handController;
+
 
     void Start()
     {
@@ -32,9 +37,14 @@ public class SettingsMenu : MonoBehaviour
     }
     public void OpenSettingsMenu()
     {
-        settingsPanel.SetActive(true); 
+        settingsPanel.SetActive(true);
         Time.timeScale = 0f; 
-        Paused = true; 
+        Paused = true;
+
+        playerController.enabled = false;  //playerController 스크립트 비활성화
+        handController.enabled = false;    //handController 스크립트 비활성화
+        Cursor.lockState = CursorLockMode.None;              //마우스조작 활성화
+        Cursor.visible = true;
     }
 
     public void CloseSettingsMenu()
@@ -42,6 +52,11 @@ public class SettingsMenu : MonoBehaviour
         settingsPanel.SetActive(false); 
         Time.timeScale = 1f; 
         Paused = false;
+
+        playerController.enabled = true;   //playerController 스크립트 활성화
+        handController.enabled = true;     //handController 스크립트 활성화
+        Cursor.lockState = CursorLockMode.Locked;              //마우스조작 비활성화
+        Cursor.visible = true;
     }
 
 

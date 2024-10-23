@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
 using static IItem;
 
-public class ToolKit : MonoBehaviour, IItem
+public class StaminaPack : MonoBehaviour, IItem
 {
     public ItemType type { get; set; }
     public string itemName { get; set; }
@@ -13,21 +12,19 @@ public class ToolKit : MonoBehaviour, IItem
     public bool isCanUse { get; set; }
 
     [SerializeField]
-    private Sprite itemImage_2;
+    private Sprite _itemImage;
     [SerializeField]
-    private GameObject itemPrefab_2;
+    private GameObject _itemPrefab;
 
     private void Start()
     {
-        type = ItemType.Used;
-        itemName = "도구함";
-        itemImage = itemImage_2;
-        itemPrefab = itemPrefab_2;
-        isCanUse = false;
+        type = ItemType.Consumed;
+        itemName = "스테미나회복제";
+        itemImage = _itemImage;
+        itemPrefab = _itemPrefab;
     }
     public void Use(GameObject target)
     {
-        Debug.Log("도구함 사용");
-        //Destroy(gameObject);
+        Debug.Log("스테미나회복제 사용");
     }
 }

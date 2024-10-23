@@ -14,9 +14,9 @@ public class SpeedPack : MonoBehaviour, IItem
     
 
     [SerializeField]
-    private Sprite itemImage_2;
+    private Sprite _itemImage;
     [SerializeField]
-    private GameObject itemPrefab_2;
+    private GameObject _itemPrefab;
     [SerializeField]
     //private float fullTime = 5f;
 
@@ -28,13 +28,9 @@ public class SpeedPack : MonoBehaviour, IItem
     {
         type = ItemType.Consumed;
         itemName = "¼Óµµ¾à";
-        itemImage = itemImage_2;
-        itemPrefab = itemPrefab_2;
+        itemImage = _itemImage;
+        itemPrefab = _itemPrefab;
         isCanUse = false;
-    }
-
-    private void Update()
-    {
     }
 
     public void Use(GameObject target)
