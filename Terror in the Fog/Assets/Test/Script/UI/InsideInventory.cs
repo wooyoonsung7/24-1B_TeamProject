@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class InsideInventory : MonoBehaviour
@@ -19,6 +21,8 @@ public class InsideInventory : MonoBehaviour
     private PlayerController playerController;
     [SerializeField]
     private HandController handController;
+
+    public bool isFull = false;
 
     void Start()
     {
@@ -97,8 +101,20 @@ public class InsideInventory : MonoBehaviour
         }
     }
 
-    public void SellectItem()
+    public void CheckSlotFull()
     {
-
+        int count = 0;
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].item != null)
+            {
+                count++;
+            }
+        }
+        if (count >= 9)
+        {
+            isFull = true;
+            Debug.Log("¿Œ∫•≈‰∏Æ∞° ∞°µÊ √°¿æ¥œ¥Ÿ");
+        }
     }
 }

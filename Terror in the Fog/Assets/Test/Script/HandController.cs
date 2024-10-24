@@ -28,7 +28,7 @@ public class HandController : MonoBehaviour
     float scrollPoint = 0f;
     int i = 0;
 
-    IItem item;
+    public IItem item;
 
     private void Awake()
     {
@@ -56,6 +56,7 @@ public class HandController : MonoBehaviour
             CheckItem();
             CanPickUp();
             Interaction();
+            theInventory.CheckSlotFull();
         }
     }
     private void CheckItem() //아이템유무 확인
@@ -91,7 +92,7 @@ public class HandController : MonoBehaviour
     }
     private void CanPickUp() //아이템 획득
     {
-        if (pickupActivated)
+        if (pickupActivated && !theInventory.isFull)
         {
             if (hitInfo.transform != null)
             {

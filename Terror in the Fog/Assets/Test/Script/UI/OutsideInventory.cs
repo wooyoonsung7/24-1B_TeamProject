@@ -24,7 +24,7 @@ public class OutsideInventory : MonoBehaviour
     private GameObject player;
 
     public bool isCanUse = false;
-    private int i_idex;
+    private int i_index;
 
     IItem item;
     private void Start()
@@ -83,12 +83,12 @@ public class OutsideInventory : MonoBehaviour
         }
     }
     //마우스스크롤로 사용할 이미지 표시
-    public void CheckCanUse(int idex)
+    public void CheckCanUse(int index)
     {
-        i_idex = idex;
+        i_index = index;
         for (int i = 0; i < o_InventoryCount; i++)
         {
-            if (i != idex)                            //인벤토리의 사용가능표시, 아이템사용가능 초기화
+            if (i != index)                            //인벤토리의 사용가능표시, 아이템사용가능 초기화
             {
                 checkImages[i].SetActive(false);
 
@@ -99,27 +99,22 @@ public class OutsideInventory : MonoBehaviour
             }
         }
 
-        checkImages[idex].SetActive(true);           //인벤토리의 사용가능표시, 아이템사용가능 표시
+        checkImages[index].SetActive(true);           //인벤토리의 사용가능표시, 아이템사용가능 표시
 
-        if (i_slots[idex].item != null)
+        if (i_slots[index].item != null)
         {
-            item = i_slots[idex].item;
-            i_slots[idex].isCanUse = true;
+            item = i_slots[index].item;
+            i_slots[index].isCanUse = true;
         }
 
     }
 
     public void UsingItem()
     {
-        if (i_slots[i_idex].isCanUse)
+        if (i_slots[i_index].isCanUse)
         {
             item.Use(player);
-
-            if (item.type == IItem.ItemType.Consumed)
-            {
-                i_slots[i_idex].ClearSlot();
-
-            }
+            StartCoroutine(Clearslot());
         }
         else
         {
@@ -127,4 +122,17 @@ public class OutsideInventory : MonoBehaviour
         }
     }
 
+    IEnumerator Clearslot()
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        if (item.type == IItem.ItemType.Consumed)
+        {
+            i_slots[i_index].ClearSlot();
+        }
+        if (item.type == IItem.ItemType.Used && item.isCanUse)
+        {
+            i_slots[i_index].ClearSlot();
+        }
+    }
 }

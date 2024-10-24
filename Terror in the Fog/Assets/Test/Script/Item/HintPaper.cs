@@ -7,13 +7,21 @@ public class HintPaper : MonoBehaviour, IItem
 {
     public ItemType type { get; set; }
     public string itemName { get; set; }
+    public int index { get; set; }
     public Sprite itemImage { get; set; }
     public GameObject itemPrefab { get; set; }
     public bool isCanUse { get; set; }
+
+    [SerializeField]
+    private Sprite _itemImage;
+    [SerializeField]
+    private GameObject _itemPrefab;
     private void Start()
     {
-        type = ItemType.Used;
+        type = ItemType.ETC;
         itemName = "»˘∆Æ¡æ¿Ã";
+        itemImage = _itemImage;
+        itemPrefab = _itemPrefab;
     }
     public void Use(GameObject target)
     {
