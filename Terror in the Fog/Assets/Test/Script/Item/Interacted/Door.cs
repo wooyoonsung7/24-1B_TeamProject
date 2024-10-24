@@ -8,12 +8,16 @@ public class Door : MonoBehaviour, IItem
 {
     public ItemType type { get; set; }
     public string itemName { get; set; }
+    public int index { get; set; }
     public Sprite itemImage { get; set; }
     public GameObject itemPrefab { get; set; }
     public bool isCanUse { get; set; }
 
     public bool isOpen = false;
     private bool canOpen = true;
+
+    public bool isOpened = true; //잠긴문인지 확인
+    public int doorIndex = 0;     //문아이디
 
     private void Awake()
     {
@@ -23,24 +27,32 @@ public class Door : MonoBehaviour, IItem
     {
         type = ItemType.interacted;
         itemName = "Door";
-        isCanUse = false; //몬스터전용 불값
+        isCanUse = isOpened; //몬스터전용 불값
+        index = doorIndex;
     }
 
     public void Use(GameObject target)
     {
-        Vector3 doorPos = transform.position;
-        isOpen = !isOpen;
-        if (isOpen && canOpen)
+        if (isCanUse)
         {
-            doorPos += new Vector3(1.4f, 0f, 0f);
-            Debug.Log("문 열기");
-            transform.DOLocalMove(doorPos, 0.5f).OnComplete(()=> canOpen = false);
+            Vector3 doorPos = transform.position;
+            isOpen = !isOpen;
+            if (isOpen && canOpen)
+            {
+                doorPos += new Vector3(1.4f, 0f, 0f);
+                Debug.Log("문 열기");
+                transform.DOLocalMove(doorPos, 0.5f).OnComplete(() => canOpen = false);
+            }
+            else if (!isOpen && !canOpen)
+            {
+                doorPos += new Vector3(-1.4f, 0.0f, 0.0f);
+                Debug.Log("문 닫기");
+                transform.DOLocalMove(doorPos, 0.5f).OnComplete(() => canOpen = true);
+            }
         }
-        else if(!isOpen && !canOpen)
+        else
         {
-            doorPos += new Vector3(-1.4f, 0.0f, 0.0f);
-            Debug.Log("문 닫기");
-            transform.DOLocalMove(doorPos, 0.5f).OnComplete(()=> canOpen = true);
+            Debug.Log("문이 잠겼습니다");
         }
     }
 

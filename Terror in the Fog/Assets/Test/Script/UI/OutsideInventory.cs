@@ -114,10 +114,7 @@ public class OutsideInventory : MonoBehaviour
         if (i_slots[i_index].isCanUse)
         {
             item.Use(player);
-            if (item.type == IItem.ItemType.Consumed || item.type == IItem.ItemType.Used)
-            {
-                i_slots[i_index].ClearSlot();
-            }
+            StartCoroutine(Clearslot());
         }
         else
         {
@@ -125,4 +122,17 @@ public class OutsideInventory : MonoBehaviour
         }
     }
 
+    IEnumerator Clearslot()
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        if (item.type == IItem.ItemType.Consumed)
+        {
+            i_slots[i_index].ClearSlot();
+        }
+        if (item.type == IItem.ItemType.Used && item.isCanUse)
+        {
+            i_slots[i_index].ClearSlot();
+        }
+    }
 }

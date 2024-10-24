@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
-using Unity.VisualScripting;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour
@@ -18,6 +17,10 @@ public class PlayerController : MonoBehaviour
     public int stamina_Time = 5;
     public int recover_stamina_Time = 7;
     public bool isHide = false;
+
+    private float defaultWalkSpeed = 0f;
+    private float defaultRunSpeed = 0f;
+    private float defaultCrouchSpeed = 0f;
 
     //카메라 설정 변수
     [Header("Camera Settings")]
@@ -46,10 +49,11 @@ public class PlayerController : MonoBehaviour
     public Slider s_slider;        //플레이어의 기력을 나타나탤 UI
     public GameObject s_Fill;
     public float Fade_Duration = 5f;    //스태미너 흐릿하게 하는 지속시간
+    public float speedPackDuration = 3f;
     private bool playerCanRun = true;
     private Image[] s_Image = new Image[2];
     private bool isFadeIn = false;
-    private bool isFadeOut = true;
+    public bool isFadeOut = true;
     private float timer = 0f;
 
     public bool isCanMove = true;
@@ -57,6 +61,8 @@ public class PlayerController : MonoBehaviour
     private SoundData soundData;
     private bool isOneTime = false;
     private bool isOneTime_2 = true;
+
+    private float speedPackTimer = 0f;
 
     public enum SoundState
     {
@@ -72,6 +78,11 @@ public class PlayerController : MonoBehaviour
         s_Image[0] = s_slider.GetComponentInChildren<Image>();
         s_Image[1] = s_slider.transform.GetChild(1).GetComponentInChildren<Image>();
 
+        defaultWalkSpeed = walkSpeed;
+        defaultRunSpeed = runSpeed;
+        defaultCrouchSpeed = crouchSpeed;
+        speedPackTimer = speedPackDuration;
+
         Cursor.lockState = CursorLockMode.Locked;          //마우스 커서를 잠그고 숨긴다
         Cursor.visible = false;
         SetupCameras();
@@ -85,7 +96,7 @@ public class PlayerController : MonoBehaviour
         HandleRotation();
         HandleRun();
         HandleCrouch();
-
+        ETC();
         SetSound();
     }
 
@@ -148,16 +159,6 @@ public class PlayerController : MonoBehaviour
             {
                ChangeState(SoundState.Idle);
             }
-        }
-
-        if (isHide) //플레이가 숨었을 때, 기본 상태로 변경
-        {
-            ChangeState(SoundState.Idle);
-        }
-
-        if (transform.position.y < -10f)
-        {
-            Death();
         }
     }
 
@@ -256,6 +257,34 @@ public class PlayerController : MonoBehaviour
     public void Death()
     {
        SceneManager.LoadScene("TestScene3");
+    }
+
+    public void ETC()
+    {
+        if (defaultWalkSpeed != walkSpeed || defaultRunSpeed != runSpeed || defaultCrouchSpeed != crouchSpeed)
+        {
+
+            speedPackTimer -= Time.deltaTime;
+            Debug.Log(speedPackTimer);
+            if (speedPackTimer <= 0)
+            {
+                Debug.Log("된다2");
+                walkSpeed = defaultWalkSpeed;
+                runSpeed = defaultRunSpeed;
+                crouchSpeed = defaultCrouchSpeed;
+                speedPackTimer = speedPackDuration;
+            }
+        }
+
+        if (isHide) //플레이가 숨었을 때, 기본 상태로 변경
+        {
+            ChangeState(SoundState.Idle);
+        }
+
+        if (transform.position.y < -10f) //낙사
+        {
+            Death();
+        }
     }
 
     public void SetSound()

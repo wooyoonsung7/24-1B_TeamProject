@@ -50,13 +50,14 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     //마우스 드래그가 시작 됐을 때 발생하는 이벤트
     public void OnBeginDrag(PointerEventData eventData)
     {
+        Debug.Log("된다0");
         if (item != null)
         {
             DragSlot.instance.dragSlot = this;
             DragSlot.instance.DragSetImage(itemImage);
             DragSlot.instance.transform.position = eventData.position;
 
-            //SetColor(0);
+            Debug.Log("된다1");        
         }
     }
 
@@ -66,6 +67,8 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         if (item != null)
         {
             DragSlot.instance.transform.position = eventData.position;
+
+            Debug.Log("된다2");
         }
     }
 

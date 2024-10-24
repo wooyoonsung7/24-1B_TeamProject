@@ -7,6 +7,7 @@ public class SpeedPack : MonoBehaviour, IItem
 {
     public ItemType type { get; set; }
     public string itemName { get; set; }
+    public int index { get; set; }
     public Sprite itemImage { get; set; }
     public GameObject itemPrefab { get; set; }
     public bool isCanUse { get; set; } // 아이템을 사용가능한지를 판단
@@ -18,46 +19,24 @@ public class SpeedPack : MonoBehaviour, IItem
     [SerializeField]
     private GameObject _itemPrefab;
     [SerializeField]
-    //private float fullTime = 5f;
-
-    private float walkSpeed;
-    private float runSpeed;
-    private float crouchSpeed;
-    PlayerController p_Controller;
+    private float speedUpValue = 1.5f;
     private void Start()
     {
         type = ItemType.Consumed;
         itemName = "속도약";
         itemImage = _itemImage;
         itemPrefab = _itemPrefab;
-        isCanUse = false;
+        isCanUse = true;
     }
 
     public void Use(GameObject target)
     {
         Debug.Log("속도약 사용");
-        p_Controller = target.GetComponent<PlayerController>();
+        PlayerController p_Controller = target.GetComponent<PlayerController>();
 
-        crouchSpeed = p_Controller.crouchSpeed;
-        runSpeed = p_Controller.runSpeed;
-        walkSpeed = p_Controller.walkSpeed;
-
-        p_Controller.crouchSpeed *= 1.5f;
-        p_Controller.runSpeed *= 1.5f;
-        p_Controller.walkSpeed *= 1.5f;
-
-        /*StartCoroutine(KeepEfect());
-
-        IEnumerator KeepEfect() //속도빨라지는 효과지속시간 및 종료
-        {
-            yield return new WaitForSeconds(fullTime);
-
-            Debug.Log("속도약 사용완료");
-            p_Controller.crouchSpeed = crouchSpeed;
-            p_Controller.runSpeed = runSpeed;
-            p_Controller.walkSpeed = walkSpeed;
-            p_Controller.walkSpeed = walkSpeed;
-        }*/
+        p_Controller.moveSpeed *= speedUpValue;
+        p_Controller.crouchSpeed *= speedUpValue;
+        p_Controller.runSpeed *= speedUpValue;
+        p_Controller.walkSpeed *= speedUpValue;
     }
-
 }

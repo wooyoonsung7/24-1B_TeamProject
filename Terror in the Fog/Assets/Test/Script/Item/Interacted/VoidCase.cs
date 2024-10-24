@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
 using static IItem;
 
-public class Book : MonoBehaviour, IItem
+public class VoidCase : MonoBehaviour, IItem
 {
     public ItemType type { get; set; }
     public string itemName { get; set; }
@@ -14,24 +13,22 @@ public class Book : MonoBehaviour, IItem
     public bool isCanUse { get; set; }
 
     [SerializeField]
-    private Sprite _itemImage;
+    private int caseIndex = 0;
     [SerializeField]
-    private GameObject _itemPrefab;
-    [SerializeField]
-    private int bookIndex;
+    private GameObject generatedItem;
 
     private void Start()
     {
-        type = ItemType.Used;
-        itemName = "책";
-        itemImage = _itemImage;
-        itemPrefab = _itemPrefab;
+        type = ItemType.interacted;
+        itemName = "빈책장";
         isCanUse = false;
-        index = bookIndex;
+        index = caseIndex;
     }
     public void Use(GameObject target)
     {
-        Debug.Log("책 사용");
-        Debug.Log(index);
+        if (isCanUse)
+        {
+            Instantiate(generatedItem, transform.position + transform.forward * 0.1f, Quaternion.identity);
+        }
     }
 }

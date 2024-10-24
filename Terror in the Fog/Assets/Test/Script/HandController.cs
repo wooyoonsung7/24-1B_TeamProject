@@ -28,7 +28,7 @@ public class HandController : MonoBehaviour
     float scrollPoint = 0f;
     int i = 0;
 
-    IItem item;
+    public IItem item;
 
     private void Awake()
     {

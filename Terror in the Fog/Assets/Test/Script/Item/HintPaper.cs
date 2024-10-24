@@ -7,6 +7,7 @@ public class HintPaper : MonoBehaviour, IItem
 {
     public ItemType type { get; set; }
     public string itemName { get; set; }
+    public int index { get; set; }
     public Sprite itemImage { get; set; }
     public GameObject itemPrefab { get; set; }
     public bool isCanUse { get; set; }
