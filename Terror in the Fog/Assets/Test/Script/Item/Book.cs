@@ -32,6 +32,24 @@ public class Book : MonoBehaviour, IItem
     public void Use(GameObject target)
     {
         Debug.Log("책 사용");
-        Debug.Log(index);
+        HandController handController = target.GetComponentInChildren<HandController>();
+        if (handController != null)
+        {
+            if (handController.item != null)
+            {
+                if (handController.item.index == index)
+                {
+                    handController.item.isCanUse = true;
+                    isCanUse = true;
+                    handController.item.Use(target);
+                    Debug.Log("맞춰진다");
+                }
+                else
+                {
+                    Debug.Log("아이템이 유효하지 않습니다");
+                }
+            }
+        }
+
     }
 }

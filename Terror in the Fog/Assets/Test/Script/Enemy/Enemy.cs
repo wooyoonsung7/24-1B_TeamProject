@@ -23,6 +23,7 @@ public class Enemy : MonoBehaviour
     [Range(0f, 360f)][SerializeField] float ViewAngle = 0f;
     [SerializeField] float ViewRadius = 1f;
     [SerializeField] LayerMask TargetMask;
+    private int ObstacleMask = (1<<6) | (1<<7);
     Vector3 myPos;
     Vector3 lookDir;
 
@@ -94,21 +95,17 @@ public class Enemy : MonoBehaviour
             Vector3 targetPos = PlayerColli.transform.position;
             Vector3 targetDir = (targetPos - myPos).normalized;
             float targetAngle = Mathf.Acos(Vector3.Dot(lookDir, targetDir)) * Mathf.Rad2Deg;
-            if (targetAngle <= ViewAngle * 0.5f)
+            if (targetAngle <= ViewAngle * 0.5f && !Physics.Raycast(myPos, targetDir, ViewRadius, ObstacleMask))
             {
-                Physics.Raycast(myPos, targetDir, out hit, ViewRadius);
-                if (!hit.collider.gameObject.CompareTag("Object"))
+                Vector3 maxHigh = transform.position * floorHigh;
+                Vector3 minHigh = transform.position * bottomHigh;
+                if (maxHigh.y > targetPos.y && minHigh.y < targetPos.y)
                 {
-                    Vector3 maxHigh = transform.position * floorHigh;
-                    Vector3 minHigh = transform.position * bottomHigh;
-                    if (maxHigh.y > targetPos.y && minHigh.y < targetPos.y)
-                    {
-                        hitTargetList.Add(hit.collider);
+                    hitTargetList.Add(PlayerColli);
 
-                        isFind = true; //플레이어감지 불값 켜기
-                        Debug.Log("보인다");
-                        Debug.DrawLine(myPos, targetPos, Color.red);
-                    }
+                    isFind = true; //플레이어감지 불값 켜기
+                    Debug.Log("보인다");
+                    Debug.DrawLine(myPos, targetPos, Color.red);
                 }
             }
         }
@@ -118,7 +115,7 @@ public class Enemy : MonoBehaviour
     {
         myPos = gameObject.transform.position + Vector3.up * 0.5f;
         Gizmos.DrawWireSphere(myPos, ViewRadius);
-        Gizmos.DrawWireSphere(transform.position, seizeRadius);
+        Gizmos.DrawWireSphere(transform.position + Vector3.down * 0.7f, seizeRadius);
         //Gizmos.DrawWireSphere(myPos, 11f);
     }
 
@@ -141,9 +138,10 @@ public class Enemy : MonoBehaviour
     {
         Debug.Log("쫓는다");
         Debug.Log("쫓을 사람 : " + hitTargetList);
+
         navMeshAgent.SetDestination(hitTargetList[0].transform.position);
 
-        target = Physics.OverlapSphere(transform.position, seizeRadius, TargetMask);
+        target = Physics.OverlapSphere(transform.position + Vector3.down * 0.7f, seizeRadius, TargetMask);
     }
 
     public void CheckDeath()

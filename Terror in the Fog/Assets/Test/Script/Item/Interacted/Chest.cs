@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 using static IItem;
 
-public class VoidCase : MonoBehaviour, IItem
+public class Chest : MonoBehaviour, IItem
 {
     public ItemType type { get; set; }
     public string itemName { get; set; }
@@ -13,23 +14,26 @@ public class VoidCase : MonoBehaviour, IItem
     public bool isCanUse { get; set; }
 
     [SerializeField]
-    private int caseIndex = 0;
-    [SerializeField]
-    private GameObject generatedItem;
+    private GameObject chestCap;
 
     private void Start()
     {
         type = ItemType.interacted;
-        itemName = "빈책장";
+        itemName = "주방상자";
         isCanUse = false;
-        index = caseIndex;
+        index = 3;
     }
     public void Use(GameObject target)
     {
         if (isCanUse)
         {
-            Instantiate(generatedItem, transform.position - transform.forward * 0.15f, Quaternion.identity);
-            isCanUse = true;
+            Vector3 capPos = chestCap.transform.position + chestCap.transform.right * 1.1f;
+
+            chestCap.transform.DOMove(capPos, 3f);
+        }
+        else
+        {
+            Debug.Log("열쇠가 없음");
         }
     }
 }

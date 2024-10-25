@@ -111,7 +111,7 @@ public class OutsideInventory : MonoBehaviour
 
     public void UsingItem()
     {
-        if (i_slots[i_index].isCanUse)
+        if (i_slots[i_index].isCanUse && item != null)
         {
             item.Use(player);
             StartCoroutine(Clearslot());
