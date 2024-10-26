@@ -8,6 +8,7 @@ public class SpeedPack : MonoBehaviour, IItem
     public ItemType type { get; set; }
     public string itemName { get; set; }
     public int index { get; set; }
+    public int getIndex { get; set; }
     public Sprite itemImage { get; set; }
     public GameObject itemPrefab { get; set; }
     public bool isCanUse { get; set; } // 아이템을 사용가능한지를 판단

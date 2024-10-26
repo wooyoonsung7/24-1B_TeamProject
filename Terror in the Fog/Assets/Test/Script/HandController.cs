@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class HandController : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class HandController : MonoBehaviour
     private bool pickupActivated = false;
 
     public LayerMask whatIsTarget;
+    private int obstacleMask = (1<<7);
 
     private RaycastHit hitInfo;
 
@@ -66,16 +68,20 @@ public class HandController : MonoBehaviour
 
         Debug.DrawRay(rayOrigin, rayDir * distance, Color.red);
 
-        if (Physics.Raycast(rayOrigin, rayDir, out hitInfo, distance, whatIsTarget)) //해당 아이템이 아이템임을 인식
+        if (!Physics.Raycast(rayOrigin, rayDir, out hitInfo, distance, obstacleMask))
         {
+            if (Physics.Raycast(rayOrigin, rayDir, out hitInfo, distance, whatIsTarget)) //해당 아이템이 아이템임을 인식
+            {
 
-            item = hitInfo.collider.GetComponent<IItem>();
+                item = hitInfo.collider.GetComponent<IItem>();
 
-            ItemInfoAppear();
-        }
-        else
-        {
-            ItemInfoDisappear();
+                ItemInfoAppear();
+            }
+            else
+            {
+                item = null;
+                ItemInfoDisappear();
+            }
         }
     }
 
@@ -150,7 +156,20 @@ public class HandController : MonoBehaviour
     {
         if (Input.GetButtonDown("Use Item"))
         {
-            theInventory_2.UsingItem();
+            if (theInventory_2.item != null)
+            {
+                if (theInventory_2.item.type == IItem.ItemType.Used)
+                {
+                    if (item != null)
+                    {
+                        theInventory_2.UsingItem();
+                    }
+                }
+                else
+                {
+                    theInventory_2.UsingItem();
+                }
+            }
         }
     }
 

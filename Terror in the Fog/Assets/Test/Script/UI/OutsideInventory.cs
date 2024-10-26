@@ -26,7 +26,7 @@ public class OutsideInventory : MonoBehaviour
     public bool isCanUse = false;
     private int i_index;
 
-    IItem item;
+    public IItem item;
     private void Start()
     {
         //배열크기 할당(필수)

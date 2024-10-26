@@ -8,6 +8,7 @@ public class VoidCase : MonoBehaviour, IItem
     public ItemType type { get; set; }
     public string itemName { get; set; }
     public int index { get; set; }
+    public int getIndex { get; set; }
     public Sprite itemImage { get; set; }
     public GameObject itemPrefab { get; set; }
     public bool isCanUse { get; set; }
@@ -29,7 +30,7 @@ public class VoidCase : MonoBehaviour, IItem
         if (isCanUse)
         {
             Instantiate(generatedItem, transform.position - transform.forward * 0.15f, Quaternion.identity);
-            isCanUse = true;
+            isCanUse = false;
         }
     }
 }
