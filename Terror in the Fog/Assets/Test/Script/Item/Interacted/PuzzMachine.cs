@@ -20,7 +20,6 @@ public class PuzzMachine : MonoBehaviour
     {
         while (true)
         {
-            Debug.Log("µÇ´Â °¡");
             foreach (GameObject obj in voidSlot)
             {
                 IItem item = obj.GetComponent<IItem>();
