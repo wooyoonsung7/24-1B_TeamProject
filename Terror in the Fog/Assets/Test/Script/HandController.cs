@@ -175,7 +175,7 @@ public class HandController : MonoBehaviour
 
     private void Interaction() //가구등 상호작용
     {
-        if (hitInfo.transform != null)
+        if (hitInfo.transform != null && item != null)
         {
             if (item.type == IItem.ItemType.interacted)
             {

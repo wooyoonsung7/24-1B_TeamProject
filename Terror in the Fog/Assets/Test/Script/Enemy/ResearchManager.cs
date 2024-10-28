@@ -75,14 +75,6 @@ public class ResearchManager : MonoBehaviour
     }
     void Start()
     {
-        //ResetIndex();
-        /*
-        for (int i = 0; i < roomNumber; i++)
-        {
-            isDoneIdex.Add(i);  //0~3까지만 관리하는 의도
-        }
-        ChangeEnemyState(ENEMYSTATE.OPENDOOR);
-        */
         changeTime = Time.time;
 
         DOMotion();
@@ -180,7 +172,7 @@ public class ResearchManager : MonoBehaviour
             }
             else
             {
-                ChangeFloor();
+                ChangeFloor(false);
             }
         }
     }
@@ -315,39 +307,49 @@ public class ResearchManager : MonoBehaviour
             lookTimer += Time.deltaTime;
             if (lookTime <= lookTimer)
             {
-                ChangeFloor();
+                ChangeFloor(false);
                 lookTimer = 0f;
             }
         }
     }
 
-    private void ChangeFloor()
+    public void ChangeFloor(bool isFisrt)
     {
-        if (floorNumber == 0 && stepNumber != 7)
+        if (isFisrt)
         {
             stepNumber = 7;
-
-            floorNumber = 1;
             roomNumber = floorIndex[floorNumber].columns.Length / 2;
-            //Debug.Log("방의 개수는" + roomNumber);
-            //Debug.Log("층은 " + floorNumber);
             r_IsEnd = false;
             ResetIndex();
         }
-        else if (floorNumber == 1 && stepNumber !=7)
+        else
         {
-            stepNumber = 7;
-            floorNumber = 0;
-            roomNumber = floorIndex[floorNumber].columns.Length / 2;
+            if (floorNumber == 0 && stepNumber != 7)
+            {
+                stepNumber = 7;
 
-            //Debug.Log("방의 개수는" + roomNumber);
-            //Debug.Log("층은 " + floorNumber);
-            r_IsEnd = false;
-            ResetIndex();
+                floorNumber = 1;
+                roomNumber = floorIndex[floorNumber].columns.Length / 2;
+                //Debug.Log("방의 개수는" + roomNumber);
+                //Debug.Log("층은 " + floorNumber);
+                r_IsEnd = false;
+                ResetIndex();
+            }
+            else if (floorNumber == 1 && stepNumber != 7)
+            {
+                stepNumber = 7;
+                floorNumber = 0;
+                roomNumber = floorIndex[floorNumber].columns.Length / 2;
+
+                //Debug.Log("방의 개수는" + roomNumber);
+                //Debug.Log("층은 " + floorNumber);
+                r_IsEnd = false;
+                ResetIndex();
+            }
         }
     }
 
-    public void ResetIndex()
+    private void ResetIndex()
     {
         Debug.Log("초기화");
         if (!r_IsEnd)

@@ -115,7 +115,7 @@ public class Enemy : MonoBehaviour
     {
         myPos = gameObject.transform.position + Vector3.up * 0.5f;
         Gizmos.DrawWireSphere(myPos, ViewRadius);
-        Gizmos.DrawWireSphere(transform.position + Vector3.down * 0.7f, seizeRadius);
+        Gizmos.DrawWireSphere(transform.position, seizeRadius);
         //Gizmos.DrawWireSphere(myPos, 11f);
     }
 
@@ -141,7 +141,7 @@ public class Enemy : MonoBehaviour
 
         navMeshAgent.SetDestination(hitTargetList[0].transform.position);
 
-        target = Physics.OverlapSphere(transform.position + Vector3.down * 0.7f, seizeRadius, TargetMask);
+        target = Physics.OverlapSphere(transform.position, seizeRadius, TargetMask);
     }
 
     public void CheckDeath()
@@ -189,7 +189,7 @@ public class Enemy : MonoBehaviour
     public void ResetResearch()
     {
         //ResearchManager.instance.ChangeEnemyState(ResearchManager.ENEMYSTATE.OPENDOOR);
-        ResearchManager.instance.ResetIndex();
+        ResearchManager.instance.ChangeFloor(true);
     }
 
     public void ResetSound()

@@ -46,7 +46,7 @@ public class Research : IState
         isFindPlayer = true;
 
         enemy.ResetSound();                                         //사운드감지 값초기화
-        enemy.ResetResearch();                                       //탐색 값 초기화
+        enemy.ResetResearch();                                      //탐색 값 초기화
     }
     public void StateFixUpdate(Enemy enemy)
     {
@@ -57,7 +57,7 @@ public class Research : IState
     {
         enemy.ResearchArea();                                       //맵탐색
 
-        if (enemy != null)                                         
+        if (enemy != null)                                          
         {
             if (enemy.hitTargetList.Count > 0 && isFindPlayer)      //플레이이어 시야내 감지(1순위)
             {
@@ -130,6 +130,7 @@ public class JudgeChase : IState
         if (enemy != null)
         {
             //이상함 감지 애니메이션
+            enemy.navMeshAgent.isStopped = true;
             detectStartTime = Time.time;
             //enemy.FeelStrage() 추가예정
         }
@@ -155,6 +156,7 @@ public class JudgeChase : IState
     public void StateExit(Enemy enemy)
     {
         //적이 이상함을 느끼는 애니메이션 종료
+        enemy.navMeshAgent.isStopped = false;
     }
 }
 
