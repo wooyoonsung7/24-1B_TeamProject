@@ -351,7 +351,7 @@ public class PlayerController : MonoBehaviour
             {
                 SoundDetector.instance.g_level = soundData.soundLevel[i];
                 
-                if (soundData.soundLevel[i] == 3)
+                if (soundData.soundLevel[i] == 2)
                 {
                     SoundDetector.instance.SoundPos.Add(transform.position);
                 }

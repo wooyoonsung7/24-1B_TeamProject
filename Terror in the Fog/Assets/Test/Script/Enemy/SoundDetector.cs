@@ -73,7 +73,6 @@ public class SoundDetector : MonoBehaviour
         if(g_level == 3)
         {
             ChangeLevelState(LEVEL.Level3);
-            isHurry = true;
             isPlay_2 = false;
             isPlay_1 = false;
         }
@@ -82,6 +81,7 @@ public class SoundDetector : MonoBehaviour
             if (!isPlay_3)
             {
                 ChangeLevelState(LEVEL.Level2);
+                isHurry = true;
                 isPlay_1 = false;
             }
         }
