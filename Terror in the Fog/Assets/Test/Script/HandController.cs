@@ -89,7 +89,7 @@ public class HandController : MonoBehaviour
     {
         pickupActivated = true;
         actionText.gameObject.SetActive(true);
-        actionText.text = item.itemName+ "상화작용" + "<color=yellow>" + "(E)" + "</color>";
+        actionText.text = item.itemName+ "상화작용" + "<color=yellow>" + "(F)" + "</color>";
     }
     private void ItemInfoDisappear() //아이템임을 표시 끄기
     {

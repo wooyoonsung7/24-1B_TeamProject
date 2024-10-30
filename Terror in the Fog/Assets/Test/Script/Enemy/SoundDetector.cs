@@ -103,6 +103,10 @@ public class SoundDetector : MonoBehaviour
 
     public void HurryToPos()
     {
+
+    }
+    public void MoveToPos()
+    {
         if (isHurry)
         {
             Debug.Log("이것 문제인가?");
@@ -116,14 +120,10 @@ public class SoundDetector : MonoBehaviour
             {
                 Debug.Log("도착했다");
                 SoundPos.Clear();
-                isPlay_3 = false;
+                isPlay_2 = false;
                 g_level = defultLevel;
             }
         }
-    }
-    public void MoveToPos()
-    {
-
     }
     public void CheckPos()
     {

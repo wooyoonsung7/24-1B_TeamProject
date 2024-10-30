@@ -4528,7 +4528,7 @@ MonoBehaviour:
     loop: 1
     source: {fileID: 0}
   - soundname: Run
-    soundLevel: 3
+    soundLevel: 2
     soundGameObject: {fileID: 551147989}
     clip: {fileID: 8300000, guid: 16e0f0d43db7ace45ab8fcf276eef2b2, type: 3}
     spatialBlend: 1
@@ -7896,6 +7896,9 @@ MonoBehaviour:
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 64
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
   actionText: {fileID: 665889481}
   theInventory: {fileID: 1321505852}
   scrollSpeed: 4
