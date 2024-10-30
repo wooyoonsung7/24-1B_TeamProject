@@ -28,7 +28,7 @@ public class ResearchManager : MonoBehaviour
     //ResetIndex()를 위한 전역불값
     bool r_IsEnd = false;
     //문앞으로 이동에서 문열기의 이동을 위한 변수
-    float changeTime = 0f;
+    public float changeTime = 0f;
     float waitTime = 2f;
 
     int stepNumber = 0;
@@ -150,7 +150,7 @@ public class ResearchManager : MonoBehaviour
     {
         Debug.Log("방 교체");
         stepNumber = 0;
-        Debug.Log("설정값이 " + currentroomNumber);
+        //Debug.Log("설정값이 " + currentroomNumber);
         isDoneIdex.Remove(moveIndex);
         --currentroomNumber;
         int randomNumber = Random.Range(0, currentroomNumber);
@@ -248,10 +248,12 @@ public class ResearchManager : MonoBehaviour
             if (isheight)
             {
                 sequence.Restart();
+                //stepNumber = 1;
             }
             else
             {
                 sequence2.Restart();
+                //stepNumber = 1;
             }
             isOneTime = false;
         }
@@ -269,10 +271,12 @@ public class ResearchManager : MonoBehaviour
             if (isheight)
             {
                 sequence3.Restart();
+                //stepNumber = 2;
             }
             else
             {
                 sequence4.Restart();
+                //stepNumber = 2;
             }
             isOneTime = false;
         }
@@ -352,6 +356,7 @@ public class ResearchManager : MonoBehaviour
     private void ResetIndex()
     {
         Debug.Log("초기화");
+        isDoneIdex.Clear();
         if (!r_IsEnd)
         {
             currentroomNumber = roomNumber;
@@ -367,5 +372,13 @@ public class ResearchManager : MonoBehaviour
             ChangeEnemyState(ENEMYSTATE.OPENDOOR);
             changeTime = Time.time;
         }
+    }
+
+    public void StopSquance()
+    {
+        sequence.Pause();
+        sequence2.Pause();
+        sequence3.Pause();
+        sequence4.Pause();
     }
 }

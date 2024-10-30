@@ -36,6 +36,8 @@ public class Research : IState
     public static Research GetInstance() { return Instance; }
 
     private bool isFindPlayer = true;
+    private bool pauseResearch = false;
+    private bool isOneTime = false;
     public void StateEnter(Enemy enemy)
     {
 
@@ -55,7 +57,10 @@ public class Research : IState
     }
     public void StateUpdate(Enemy enemy)
     {
-        enemy.ResearchArea();                                       //맵탐색
+        if (!pauseResearch)
+        {
+            enemy.ResearchArea();                                       //맵탐색
+        }
 
         if (enemy != null)                                          
         {
@@ -68,11 +73,17 @@ public class Research : IState
             if (SoundDetector.instance.SoundPos.Count > 0)         //플레이어의 사운드감지(2순위)
             {
                 enemy.navMeshAgent.updateRotation = true;
-                enemy.pauseResearch = true;
+                pauseResearch = true;
+                isOneTime = true;
             }
             else
             {
-                enemy.pauseResearch = false;
+                if (isOneTime)
+                {
+                    pauseResearch = false;
+                    enemy.RestartSearch();
+                    isOneTime = false;
+                }
             }
         }
     }
@@ -91,16 +102,22 @@ public class FeelStrage : IState
     public static FeelStrage GetInstance() { return Instance; }
     public void StateEnter(Enemy enemy)
     {
-        enemy.CheckAround();
         enemy.navMeshAgent.updateRotation = false;
+        enemy.navMeshAgent.isStopped = true;
+        enemy.CheckAround();
     }
     public void StateFixUpdate(Enemy enemy)
     {
-
+        enemy.CheckObject();                                        //시야에서 플레이어감지
     }
     public void StateUpdate(Enemy enemy)
     {
-         if (enemy != null && !enemy.isCheckAround)
+        if (enemy.hitTargetList.Count > 0)      //플레이이어 시야내 감지(1순위)
+        {
+            enemy.stateMachine.SetState(enemy, JudgeChase.GetInstance());
+        }
+
+        if (enemy != null && !enemy.isCheckAround)
         {
             if (enemy.hitTargetList.Count <= 0)
             {
@@ -111,6 +128,7 @@ public class FeelStrage : IState
     public void StateExit(Enemy enemy)
     {
         enemy.navMeshAgent.updateRotation = true;
+        enemy.navMeshAgent.isStopped = false;
     }
 }
 
@@ -129,8 +147,9 @@ public class JudgeChase : IState
     {
         if (enemy != null)
         {
-            //이상함 감지 애니메이션
-            enemy.navMeshAgent.isStopped = true;
+            
+            enemy.navMeshAgent.isStopped = true;  //수행중 행동 전부 초기화 끄기
+            enemy.StopTween();                    //수행중인 애니메이션 모두 초기화
             detectStartTime = Time.time;
             //enemy.FeelStrage() 추가예정
         }

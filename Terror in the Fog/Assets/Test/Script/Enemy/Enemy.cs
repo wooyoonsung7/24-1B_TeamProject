@@ -6,29 +6,22 @@ using DG.Tweening;
 
 public class Enemy : MonoBehaviour
 {
-    public float moveSpeed = 3f;
-    public float rotateSpeed = 3f;
     public StateMachine stateMachine { get { return _stateMachine; } }
     public Animator animator { get { return _animator; } }
     public PlayerController playerController;
-    public bool IsCanChase = false;
-    //배경음악, 사운드 스크립티 선언
 
     private StateMachine _stateMachine;
-    private int moveDirection; //이동방향
-    private Rigidbody _rigidBody;
     private Animator _animator;
 
-    //[SerializeField] bool DebugMode = false;
+
     [Range(0f, 360f)][SerializeField] float ViewAngle = 0f;
     [SerializeField] float ViewRadius = 1f;
     [SerializeField] LayerMask TargetMask;
-    private int ObstacleMask = (1<<6) | (1<<7);
+    int ObstacleMask = (1<< 6) | (1<<7);
     Vector3 myPos;
     Vector3 lookDir;
 
     public List<Collider> hitTargetList = new List<Collider>();
-    RaycastHit hit;
 
     public NavMeshAgent navMeshAgent; // 경로 계산 AI 에이전트
 
@@ -43,12 +36,24 @@ public class Enemy : MonoBehaviour
     public bool isCheckAround = false;
     
     public bool pauseResearch = false;
+
+    Sequence sequence;
     void Start()
     {
         _stateMachine = new StateMachine(this, Research.GetInstance());
         navMeshAgent = GetComponent<NavMeshAgent>();
+        sequence = DOTween.Sequence();
+        SetTween();
+    }
 
-        myPos = transform.position + Vector3.up * 0.5f;
+    private void SetTween()
+    {
+        sequence.Prepend(transform.DOLocalRotate(new Vector3(0, 90, 0), 1.5f))
+        .Append(transform.DOLocalRotate(new Vector3(0, 180, 0), 1.5f))
+        .Append(transform.DOLocalRotate(new Vector3(0, -90, 0), 1.5f))
+        .SetAutoKill(false)
+        .Pause()
+        .OnComplete(() => isCheckAround = false);
     }
 
     Vector3 AngleToDir(float angle)
@@ -76,6 +81,8 @@ public class Enemy : MonoBehaviour
 
     public void CheckObject()
     {
+        myPos = transform.position + Vector3.up * 1.4f;
+
         float lookingAngle = transform.eulerAngles.y;
         Vector3 rightDir = AngleToDir(transform.eulerAngles.y + ViewAngle * 0.5f);
         Vector3 leftDir = AngleToDir(transform.eulerAngles.y - ViewAngle * 0.5f);
@@ -95,13 +102,19 @@ public class Enemy : MonoBehaviour
             Vector3 targetPos = PlayerColli.transform.position;
             Vector3 targetDir = (targetPos - myPos).normalized;
             float targetAngle = Mathf.Acos(Vector3.Dot(lookDir, targetDir)) * Mathf.Rad2Deg;
-            if (targetAngle <= ViewAngle * 0.5f && !Physics.Raycast(myPos, targetDir, ViewRadius, ObstacleMask))
+            float distance = Vector3.Distance(targetPos, myPos);
+
+            Debug.DrawRay(myPos, targetDir * distance, Color.red);
+            if (targetAngle <= ViewAngle * 0.5f && !Physics.Raycast(myPos, targetDir, distance, ObstacleMask))
             {
                 Vector3 maxHigh = transform.position * floorHigh;
                 Vector3 minHigh = transform.position * bottomHigh;
                 if (maxHigh.y > targetPos.y && minHigh.y < targetPos.y)
                 {
-                    hitTargetList.Add(PlayerColli);
+                    if (hitTargetList.Count < 1)
+                    {
+                        hitTargetList.Add(PlayerColli);
+                    }
 
                     isFind = true; //플레이어감지 불값 켜기
                     Debug.Log("보인다");
@@ -113,7 +126,7 @@ public class Enemy : MonoBehaviour
 
     public void OnDrawGizmos()
     {
-        myPos = gameObject.transform.position + Vector3.up * 0.5f;
+        myPos = transform.position + Vector3.up * 1.4f;
         Gizmos.DrawWireSphere(myPos, ViewRadius);
         Gizmos.DrawWireSphere(transform.position, seizeRadius);
         //Gizmos.DrawWireSphere(myPos, 11f);
@@ -121,6 +134,7 @@ public class Enemy : MonoBehaviour
 
     public void StopFinding()
     {
+        Debug.Log("확인되는기?" + isFind);
         if (isFindPlayer)
         {
             if (isFind)
@@ -148,35 +162,37 @@ public class Enemy : MonoBehaviour
     {
         if (target.Length >= 1)
         {
-            //playerController.transform.DOLocalMove(transform.position + Vector3. * 1.5f, 1f);
-            //playerController.gameObject.SetActive(false);
             playerController.Death();
         }
     }
 
     public void CheckAround()  //초기화
     {
-        //isCheckAround = true;
+        isCheckAround = true;
         Debug.Log("상태전환확인");
         hitTargetList.Clear();
 
         //주변확인 애니메이션 및 회전
+        sequence.Restart();
 
-        navMeshAgent.isStopped = true;
-        isCheckAround = false;                              //동작완료
-        //float checkSpeed = 1;
-        //Quaternion quaternion = Quaternion.identity;
-
-        //float targetpos_y;
-        //targetpos_y = Mathf.Lerp(0, 90, checkSpeed * Time.deltaTime);
-        //quaternion.eulerAngles += new Vector3(0, targetpos_y, 0);
     }
 
     public void ResearchArea()
     {
-        if (!pauseResearch)
+        ResearchManager.instance.RESEARCH();
+    }
+
+    public void RestartSearch()
+    {
+        if (ResearchManager.instance.enemystate == ResearchManager.ENEMYSTATE.OPENDOOR || ResearchManager.instance.enemystate == ResearchManager.ENEMYSTATE.ENTERROOM)
         {
-            ResearchManager.instance.RESEARCH();
+            ResearchManager.instance.changeTime = Time.time;
+            ResearchManager.instance.ChangeEnemyState(ResearchManager.instance.enemystate);
+            Debug.Log("돌아간다");
+        }
+        else
+        {
+            ResearchManager.instance.ChangeEnemyState(ResearchManager.ENEMYSTATE.CHANGEROOM);
         }
     }
 
@@ -188,12 +204,16 @@ public class Enemy : MonoBehaviour
 
     public void ResetResearch()
     {
-        //ResearchManager.instance.ChangeEnemyState(ResearchManager.ENEMYSTATE.OPENDOOR);
         ResearchManager.instance.ChangeFloor(true);
     }
 
     public void ResetSound()
     {
         SoundDetector.instance.ChangeLevelState(SoundDetector.LEVEL.Level0);
+    }
+
+    public void StopTween()
+    {
+        ResearchManager.instance.StopSquance();
     }
 }

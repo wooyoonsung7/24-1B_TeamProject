@@ -14,7 +14,7 @@ public class HandController : MonoBehaviour
     private bool pickupActivated = false;
 
     public LayerMask whatIsTarget;
-    private int obstacleMask = (1<<7);
+    public LayerMask obstacleMask;
 
     private RaycastHit hitInfo;
 

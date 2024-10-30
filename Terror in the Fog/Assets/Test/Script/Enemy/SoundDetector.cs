@@ -105,6 +105,7 @@ public class SoundDetector : MonoBehaviour
     {
         if (isHurry)
         {
+            Debug.Log("이것 문제인가?");
             enemy.navMeshAgent.SetDestination(SoundPos[0]);
             isHurry = false;
         }
