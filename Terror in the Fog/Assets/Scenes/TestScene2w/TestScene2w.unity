@@ -1705,6 +1705,9 @@ MonoBehaviour:
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 64
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
   actionText: {fileID: 1973587731}
   theInventory: {fileID: 416656449}
   scrollSpeed: 4
@@ -3328,6 +3331,7 @@ MonoBehaviour:
     - {fileID: 2045424547}
   enemy: {fileID: 1218788537}
   isDoneIdex: 
+  changeTime: 0
   isLookBack: 0
   enemystate: 0
 --- !u!1 &505568541
@@ -9553,7 +9557,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1218788537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9566,10 +9570,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beb1ed05d68c4a34f9b3d0d6aa607b0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
-  rotateSpeed: 40
   playerController: {fileID: 1412265360}
-  IsCanChase: 0
   ViewAngle: 100
   ViewRadius: 10
   TargetMask:
@@ -9631,7 +9632,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1218788536}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
