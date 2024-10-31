@@ -34,11 +34,16 @@ public class SettingsMenu : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            LoadTestScene2();
+        }
+
     }
     public void OpenSettingsMenu()
     {
+        Time.timeScale = 0f;
         settingsPanel.SetActive(true);
-        Time.timeScale = 0f; 
         Paused = true;
 
         playerController.enabled = false;  //playerController 스크립트 비활성화
@@ -83,5 +88,10 @@ public class SettingsMenu : MonoBehaviour
         }
         SceneManager.LoadScene("TestScene3");
         Time.timeScale = 1f;
+    }
+
+    public void LoadTestScene2()
+    {
+        SceneManager.LoadScene("TestScene2");
     }
 }

@@ -190,7 +190,6 @@ public class ChaseState : IState
     //숨었때의 변수
     float findTime = 1.5f;                       //플레이어가 숨었을 경우, 어그로가 풀릴 때까지의 시간
     float f_timer = 0f;
-    float seizeRadius = 1f;
 
     //숨지 않았을 때의 변수
     float notChaseTime = 10f;
@@ -218,13 +217,11 @@ public class ChaseState : IState
             f_timer += Time.deltaTime;
             if (findTime <= f_timer)
             {
-                enemy.seizeRadius = 0.5f;         //사망용 감지범위 초기화
                 enemy.stateMachine.SetState(enemy, FeelStrage.GetInstance());
                 Debug.Log("숨기 성공");
             }
             else
             {
-                enemy.seizeRadius = seizeRadius;  //사망용 감지범위 늘리기
                 enemy.CheckDeath();
                 Debug.Log("숨기 실패");
             }

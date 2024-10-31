@@ -41,8 +41,8 @@ public class OutsideInventory : MonoBehaviour
         for (int i = 0; i < o_InventoryCount; i++)
         {
             o_slots[i] = o_InventoryParent.transform.GetChild(i).transform;
-            itemImages[i] = o_slots[i].GetChild(1).GetComponent<Image>();
-            checkImages[i] = o_slots[i].GetChild(0).gameObject;
+            itemImages[i] = o_slots[i].GetChild(2).GetComponent<Image>();
+            checkImages[i] = o_slots[i].GetChild(1).gameObject;
             checkImages[i].SetActive(false);
         }
     }

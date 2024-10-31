@@ -35,7 +35,7 @@ public class SoundManager : MonoBehaviour
 
     public List<Sound> sounds = new List<Sound>();
 
-    SoundData soundData;
+    //public float soundValue = 1f;
     private void Awake()
     {
         if (instance == null)

@@ -1,27 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class Test : MonoBehaviour
 {
     private SoundData soundData;
     void Start()
     {
-        soundData = GetComponent<SoundData>();
-        Debug.Log(soundData.soundLevel);
 
-        SoundManager.instance.PlaySound("Run");
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Space))
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag == "Player")
         {
-
+            SceneManager.LoadScene("Street");
         }
-
     }
 }

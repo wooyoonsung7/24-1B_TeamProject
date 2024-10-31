@@ -13,12 +13,9 @@ public class SceneUI : MonoBehaviour
         Cursor.visible = true;
     }
 
-    // Update is called once per frame
-
     public void LoadTestScene()
     {
-        // TestSceneÀ¸·Î ÀÌµ¿
-        SceneManager.LoadScene("TestScene2");
+        SceneManager.LoadScene("Home");
     }
 
 
@@ -26,5 +23,12 @@ public class SceneUI : MonoBehaviour
     public void GameExit()
     {
         Application.Quit();
+        Debug.Log("나간다");
     }
+
+    public void GoToStreet()
+    {
+        SceneManager.LoadScene("Street");
+    }
+
 }

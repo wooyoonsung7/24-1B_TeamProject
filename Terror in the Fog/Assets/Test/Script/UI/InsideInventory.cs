@@ -21,6 +21,10 @@ public class InsideInventory : MonoBehaviour
     private PlayerController playerController;
     [SerializeField]
     private HandController handController;
+    [SerializeField]
+    private GameObject outsideInventory;
+    [SerializeField]
+    private GameObject staminaSlider;
 
     public bool isFull = false;
 
@@ -62,6 +66,8 @@ public class InsideInventory : MonoBehaviour
         Cursor.visible = true;
         playerController.enabled = false;                    //캐릭터조작 비활성화
         handController.enabled = false;
+        outsideInventory.SetActive(false);
+        staminaSlider.SetActive(false);
     }
 
     private void InventoryUnactivated()
@@ -71,6 +77,8 @@ public class InsideInventory : MonoBehaviour
         Cursor.visible = false;
         playerController.enabled = true;                    //캐릭터조작 재활성화
         handController.enabled = true;
+        outsideInventory.SetActive(true);
+        staminaSlider.SetActive(true);
     }
 
     public void AcuquireItem(IItem _item)
