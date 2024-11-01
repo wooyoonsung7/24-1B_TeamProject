@@ -18,7 +18,6 @@ public class BookCase : MonoBehaviour
     {
         while (true)
         {
-            Debug.Log("µÇ´Â °¡");
             foreach (GameObject obj in voidCase)
             {
                 IItem item = obj.GetComponent<IItem>();

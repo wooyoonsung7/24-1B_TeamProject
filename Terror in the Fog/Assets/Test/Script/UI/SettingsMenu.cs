@@ -13,6 +13,8 @@ public class SettingsMenu : MonoBehaviour
     private PlayerController playerController;
     [SerializeField]
     private HandController handController;
+    [SerializeField]
+    private Enemy enemy;
 
 
     void Start()
@@ -37,6 +39,11 @@ public class SettingsMenu : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
             LoadTestScene2();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            EnemyStartMove();
         }
 
     }
@@ -93,5 +100,10 @@ public class SettingsMenu : MonoBehaviour
     public void LoadTestScene2()
     {
         SceneManager.LoadScene("TestScene2");
+    }
+
+    public void EnemyStartMove()
+    {
+        enemy.gameObject.SetActive(true);
     }
 }

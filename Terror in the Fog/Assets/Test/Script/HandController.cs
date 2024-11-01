@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class HandController : MonoBehaviour
 {
@@ -104,7 +103,7 @@ public class HandController : MonoBehaviour
             {
                 if (item.type == IItem.ItemType.Used || item.type == IItem.ItemType.Consumed)
                 {
-                    //Debug.Log(item.itemName + " È¹µæ Çß½À´Ï´Ù.");
+                    Debug.Log(item.itemName + " È¹µæ Çß½À´Ï´Ù.");
                     theInventory.AcuquireItem(item);
                     Destroy(hitInfo.transform.gameObject);
                     ItemInfoDisappear();

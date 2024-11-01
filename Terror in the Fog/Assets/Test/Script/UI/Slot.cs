@@ -94,10 +94,11 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         IItem _item = item; //A를 잠시 저장
 
         AddItem(DragSlot.instance.dragSlot.item); //A대신에 B를 넣는다.
+        isItemExist = true;
 
         if (_item != null)
         {
-            DragSlot.instance.dragSlot.AddItem(_item); //저장했던 A를 B 대신에 넣는다.
+            DragSlot.instance.dragSlot.AddItem(_item); //저장했던 A를 B 대신에 넣는다
         }
         else
         {

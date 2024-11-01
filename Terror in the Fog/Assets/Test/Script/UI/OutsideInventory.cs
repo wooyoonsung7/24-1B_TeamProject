@@ -69,6 +69,7 @@ public class OutsideInventory : MonoBehaviour
 
             if (i_slots[i].isItemExist)
             {
+                Debug.Log("확인 1");
                 item = i_slots[i].item;
                 itemImages[i].sprite = i_slots[i].itemImage.sprite;
                 SetColor(1,i);
@@ -94,6 +95,7 @@ public class OutsideInventory : MonoBehaviour
 
                 if (i_slots[i].item == null)
                 {
+                    Debug.Log("확인 2");
                     i_slots[i].isCanUse = false;
                 }
             }
@@ -103,6 +105,7 @@ public class OutsideInventory : MonoBehaviour
 
         if (i_slots[index].item != null)
         {
+            Debug.Log("확인 3");
             item = i_slots[index].item;
             i_slots[index].isCanUse = true;
         }
@@ -126,11 +129,12 @@ public class OutsideInventory : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
 
-        if (item.type == IItem.ItemType.Consumed)
+        if (item.type == IItem.ItemType.Used && item.isCanUse)
         {
             i_slots[i_index].ClearSlot();
         }
-        if (item.type == IItem.ItemType.Used && item.isCanUse)
+        
+        if (item.type == IItem.ItemType.Consumed)
         {
             i_slots[i_index].ClearSlot();
         }
