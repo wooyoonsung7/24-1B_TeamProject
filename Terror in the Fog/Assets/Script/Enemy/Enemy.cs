@@ -37,23 +37,10 @@ public class Enemy : MonoBehaviour
     
     public bool pauseResearch = false;
 
-    Sequence sequence;
     void Start()
     {
         _stateMachine = new StateMachine(this, Research.GetInstance());
         navMeshAgent = GetComponent<NavMeshAgent>();
-        sequence = DOTween.Sequence();
-        SetTween();
-    }
-
-    private void SetTween()
-    {
-        sequence.Prepend(transform.DOLocalRotate(new Vector3(0, 90, 0), 1.5f))
-        .Append(transform.DOLocalRotate(new Vector3(0, 180, 0), 1.5f))
-        .Append(transform.DOLocalRotate(new Vector3(0, -90, 0), 1.5f))
-        .SetAutoKill(false)
-        .Pause()
-        .OnComplete(() => isCheckAround = false);
     }
 
     Vector3 AngleToDir(float angle)
@@ -129,7 +116,6 @@ public class Enemy : MonoBehaviour
         myPos = transform.position + Vector3.up * 1.4f;
         Gizmos.DrawWireSphere(myPos, ViewRadius);
         Gizmos.DrawWireSphere(transform.position, seizeRadius);
-        //Gizmos.DrawWireSphere(myPos, 11f);
     }
 
     public void StopFinding()
@@ -173,27 +159,34 @@ public class Enemy : MonoBehaviour
         hitTargetList.Clear();
 
         //주변확인 애니메이션 및 회전
-        sequence.Restart();
+        EnemyAnimation.instance.checkAroundSeq.Restart();
 
     }
 
     public void ResearchArea()
     {
-        ResearchManager.instance.RESEARCH();
+        if (ResearchManager.instance != null) ResearchManager.instance.RESEARCH();
+
+        if (ResearchManager_Simple.instance != null) ResearchManager_Simple.instance.CheckTimer();  //실시간 시간갱신용
     }
 
     public void RestartSearch()
     {
-        if (ResearchManager.instance.enemystate == ResearchManager.ENEMYSTATE.OPENDOOR || ResearchManager.instance.enemystate == ResearchManager.ENEMYSTATE.ENTERROOM)
+        if (ResearchManager.instance != null)
         {
-            ResearchManager.instance.changeTime = Time.time;
-            ResearchManager.instance.ChangeEnemyState(ResearchManager.instance.enemystate);
-            Debug.Log("돌아간다");
+            if (ResearchManager.instance.enemystate == ResearchManager.ENEMYSTATE.OPENDOOR || ResearchManager.instance.enemystate == ResearchManager.ENEMYSTATE.ENTERROOM)
+            {
+                ResearchManager.instance.changeTime = Time.time;
+                ResearchManager.instance.ChangeEnemyState(ResearchManager.instance.enemystate);
+                Debug.Log("돌아간다");
+            }
+            else
+            {
+                ResearchManager.instance.ChangeEnemyState(ResearchManager.ENEMYSTATE.CHANGEROOM);
+            }
         }
-        else
-        {
-            ResearchManager.instance.ChangeEnemyState(ResearchManager.ENEMYSTATE.CHANGEROOM);
-        }
+
+        if (ResearchManager_Simple.instance != null) ResearchManager_Simple.instance.OpenDoor();
     }
 
     public void DetectToSound()
@@ -204,7 +197,9 @@ public class Enemy : MonoBehaviour
 
     public void ResetResearch()
     {
-        ResearchManager.instance.ChangeFloor(true);
+        if(ResearchManager.instance != null) ResearchManager.instance.ChangeFloor(true);
+
+        if (ResearchManager_Simple.instance != null) ResearchManager_Simple.instance.OpenDoor();
     }
 
     public void ResetSound()
@@ -214,6 +209,6 @@ public class Enemy : MonoBehaviour
 
     public void StopTween()
     {
-        ResearchManager.instance.StopSquance();
+        EnemyAnimation.instance.StopSquance();
     }
 }

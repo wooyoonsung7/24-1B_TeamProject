@@ -31,12 +31,8 @@ public class ResearchManager : MonoBehaviour
     public float changeTime = 0f;
     float waitTime = 2f;
 
-    int stepNumber = 0;
+    public int stepNumber = 0;
 
-    Sequence sequence;  //시작시, 바라보는 방향
-    Sequence sequence2; //그 반대방향
-    Sequence sequence3; //시작시, 바라보는 방향
-    Sequence sequence4; //그 반대방향
     bool isOneTime = false;
 
     Vector3 dir;
@@ -48,6 +44,7 @@ public class ResearchManager : MonoBehaviour
     float lookTime = 10f;
     float lookTimer = 0f;
     
+    //문 Control용
     public bool isLookBack = false;
     public enum ENEMYSTATE
     {
@@ -67,17 +64,10 @@ public class ResearchManager : MonoBehaviour
         {
             instance = this; //싱글톤 패턴사용
         }
-
-        sequence = DOTween.Sequence();
-        sequence2 = DOTween.Sequence();
-        sequence3 = DOTween.Sequence();
-        sequence4 = DOTween.Sequence();
     }
     void Start()
     {
         changeTime = Time.time;
-
-        DOMotion();
     }
 
     public void RESEARCH()
@@ -109,36 +99,6 @@ public class ResearchManager : MonoBehaviour
                 ChangeRoom();
                 break;
         }
-    }
-
-    private void DOMotion()
-    {
-        sequence.Prepend(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 90, 0), 1.5f))
-       .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 180, 0), 1.5f))
-       .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, -90, 0), 1.5f))
-       .SetAutoKill(false)
-       .Pause()
-       .OnComplete(() => stepNumber = 1);
-
-        sequence2.Prepend(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, -90, 0), 1.5f))
-        .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 1.5f))
-        .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 90, 0), 1.5f))
-        .SetAutoKill(false)
-        .Pause()
-        .OnComplete(() => stepNumber = 1);
-
-
-        sequence3.Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, -180, 0), 1.5f))
-         .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 1.5f))
-         .SetAutoKill(false)
-         .Pause()
-         .OnComplete(() => stepNumber = 2);
-
-        sequence4.Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 1.5f))
-         .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 180, 0), 1.5f))
-         .SetAutoKill(false)
-         .Pause()
-         .OnComplete(() => stepNumber = 2);
     }
 
     public void ChangeEnemyState(ENEMYSTATE newState)
@@ -177,7 +137,7 @@ public class ResearchManager : MonoBehaviour
         }
     }
 
-    public void OpenDoor()
+    private void OpenDoor()
     {
         Debug.Log(1);
         //Debug.Log("진짜 층은 " + floorNumber);
@@ -247,13 +207,11 @@ public class ResearchManager : MonoBehaviour
         {
             if (isheight)
             {
-                sequence.Restart();
-                //stepNumber = 1;
+                EnemyAnimation.instance.sequence.Restart();
             }
             else
             {
-                sequence2.Restart();
-                //stepNumber = 1;
+                EnemyAnimation.instance.sequence2.Restart();
             }
             isOneTime = false;
         }
@@ -270,12 +228,12 @@ public class ResearchManager : MonoBehaviour
         {
             if (isheight)
             {
-                sequence3.Restart();
+                EnemyAnimation.instance.sequence3.Restart();
                 //stepNumber = 2;
             }
             else
             {
-                sequence4.Restart();
+                EnemyAnimation.instance.sequence4.Restart();
                 //stepNumber = 2;
             }
             isOneTime = false;
@@ -374,11 +332,4 @@ public class ResearchManager : MonoBehaviour
         }
     }
 
-    public void StopSquance()
-    {
-        sequence.Pause();
-        sequence2.Pause();
-        sequence3.Pause();
-        sequence4.Pause();
-    }
 }

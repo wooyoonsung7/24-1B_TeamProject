@@ -20113,8 +20113,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1966975863}
   - component: {fileID: 1966975862}
+  - component: {fileID: 1966975864}
   m_Layer: 0
-  m_Name: ResearchManager
+  m_Name: EnemyManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20170,6 +20171,7 @@ MonoBehaviour:
   enemy: {fileID: 688512232}
   isDoneIdex: 
   changeTime: 0
+  stepNumber: 0
   isLookBack: 0
   enemystate: 0
 --- !u!4 &1966975863
@@ -20187,6 +20189,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 502561730}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1966975864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966975861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a85d668b0978fc4db1b11fc71f34951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 688512232}
 --- !u!1001 &1978682571
 PrefabInstance:
   m_ObjectHideFlags: 0

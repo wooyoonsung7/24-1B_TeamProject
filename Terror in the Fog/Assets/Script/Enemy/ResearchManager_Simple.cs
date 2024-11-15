@@ -2,6 +2,8 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using static ResearchManager;
 
 public class ResearchManager_Simple : MonoBehaviour
 {
@@ -11,47 +13,42 @@ public class ResearchManager_Simple : MonoBehaviour
     Vector3 moveToPos;
     [SerializeField] private Enemy enemy;
 
-    int moveIndex = 0;         //방번호를 대신하는 인덱스(배열의 순서)
-    int roomNumber = 4;        //방의 총수
-    int floorNumber = 0;
-    int currentroomNumber = 4; //최근 방의 개수(변수)
-    [SerializeField] private List<int> isDoneIdex = new List<int>();  //랜덤하게 숫자를 넣어주기 위한 변수;
+    private int moveIndex = 0;         //방번호를 대신하는 인덱스(배열의 순서)
+    private int roomNumber = 4;        //방의 총수
 
-    //ResetIndex()를 위한 전역불값
-    bool r_IsEnd = false;
     //문앞으로 이동에서 문열기의 이동을 위한 변수
     public float changeTime = 0f;
-    float waitTime = 2f;
+    private float waitTime = 2f;
+    private bool setTime = false;
 
-    int stepNumber = 0;
+    public int stepNumber = 0;
+    private bool isOneTime = false;
 
-    Sequence sequence;  //시작시, 바라보는 방향
-    Sequence sequence2; //그 반대방향
-    Sequence sequence3; //시작시, 바라보는 방향
-    Sequence sequence4; //그 반대방향
-    bool isOneTime = false;
-
-    Vector3 dir;
-    bool isheight = true;
+    private Vector3 dir;
+    private bool isheight = true;
 
     //잠수타서 사용할 변수
-    Vector3 hidePos;
-    Vector3 lookPos;
-    float lookTime = 10f;
-    float lookTimer = 0f;
+    private Vector3 hidePos;
+    private Vector3 lookPos;
+    private float lookTime = 10f;
+    private float lookTimer = 0f;
+    private bool setTime_2 = false;
 
-    public bool isLookBack = false;
-    public enum ENEMYSTATE
+    //어떤 용으로 사용할지를 선택
+    public enum EnemyMode
     {
-        OPENDOOR,
-        ENTERROOM,
-        LOOKAROUND,
-        LOOKBACK,
-        STOPACTION,
-        CHANGEROOM
+        Tutorial,
+        DayOne,
+        DayTwo,
+        AtStreet_1,
+        AtStreet_2,
+        AtStreet_3
     }
 
-    public ENEMYSTATE enemystate;
+    public EnemyMode enemyMode;
+
+    //문Control용
+    public bool isLookBack = false;
 
     private void Awake()
     {
@@ -59,110 +56,160 @@ public class ResearchManager_Simple : MonoBehaviour
         {
             instance = this; //싱글톤 패턴사용
         }
-
-        sequence = DOTween.Sequence();
-        sequence2 = DOTween.Sequence();
-        sequence3 = DOTween.Sequence();
-        sequence4 = DOTween.Sequence();
     }
     void Start()
     {
         changeTime = Time.time;
-
-        DOMotion();
     }
 
-    public void RESEARCH()
+    public void SetMode()
     {
-        switch (enemystate)
+        switch (enemyMode)
         {
-
-            case ENEMYSTATE.OPENDOOR:
-                OpenDoor();
+            case EnemyMode.Tutorial:
+                TutorialEvent();
                 break;
-
-            case ENEMYSTATE.ENTERROOM:
-                EnterRoom();
+            case EnemyMode.DayOne:
+                DayOneEvent();
                 break;
-
-            case ENEMYSTATE.LOOKAROUND:
-                LookAround();
+            case EnemyMode.DayTwo:
+                DayTwoEnvent();
                 break;
-
-            case ENEMYSTATE.LOOKBACK:
-                LookBack();
+            case EnemyMode.AtStreet_1:
+                AtStreetEnvent_1();
                 break;
-
-            case ENEMYSTATE.STOPACTION:
-                StopAction();
+            case EnemyMode.AtStreet_2:
+                AtStreetEnvent_2();
                 break;
-
-            case ENEMYSTATE.CHANGEROOM:
-                ChangeRoom();
+            case EnemyMode.AtStreet_3:
+                AtStreetEnvent_3();
                 break;
         }
     }
 
-    private void DOMotion()
+    private void TutorialEvent()  //튜토리얼용
     {
-        sequence.Prepend(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 90, 0), 1.5f))
-       .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 180, 0), 1.5f))
-       .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, -90, 0), 1.5f))
-       .SetAutoKill(false)
-       .Pause()
-       .OnComplete(() => stepNumber = 1);
-
-        sequence2.Prepend(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, -90, 0), 1.5f))
-        .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 1.5f))
-        .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 90, 0), 1.5f))
-        .SetAutoKill(false)
-        .Pause()
-        .OnComplete(() => stepNumber = 1);
-
-
-        sequence3.Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, -180, 0), 1.5f))
-         .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 1.5f))
-         .SetAutoKill(false)
-         .Pause()
-         .OnComplete(() => stepNumber = 2);
-
-        sequence4.Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 1.5f))
-         .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 180, 0), 1.5f))
-         .SetAutoKill(false)
-         .Pause()
-         .OnComplete(() => stepNumber = 2);
+        OpenDoor();
+        roomNumber = 2;
     }
 
-    public void ChangeEnemyState(ENEMYSTATE newState)
+    private void DayOneEvent()     //첫날의 행동패턴
     {
-        enemystate = newState;
+        AtStudy();
+    }
+    private void DayTwoEnvent()    //둘쨋날의 행동패턴
+    {
+        OpenDoor();
+        roomNumber = 3;
     }
 
-    public void TutorialEvent()
-    {
-        ChangeEnemyState(ENEMYSTATE.OPENDOOR);
-    }
-
-
-    public void ChangeRoom()
+    private void AtStreetEnvent_1() //3회차의 거리에서의 행동패턴
     {
 
     }
+
+    private void AtStreetEnvent_2() //4회차의 거리에서의 행동패턴
+    {
+
+    }
+
+    private void AtStreetEnvent_3() //5회차의 거리에서의 행동패턴
+    {
+
+    }
+
+    public void ResetMenu() //다른 상태에서 돌아왔을 때용
+    {
+        if (EnemyMode.Tutorial == enemyMode)
+        {
+            OpenDoor(); //그냥 나감
+        }
+        else if (EnemyMode.DayOne == enemyMode)
+        {
+            AtStudy();
+        }
+        else if (EnemyMode.DayTwo == enemyMode)
+        {
+            //다시 3개의 방을 돌아다님
+        }
+    }
+
+    private void AtStudy() //1일차 서재용
+    {
+        moveToPos = columns[0].transform.position;
+        enemy.navMeshAgent.SetDestination(moveToPos);
+        if (!enemy.navMeshAgent.pathPending && enemy.navMeshAgent.remainingDistance <= enemy.navMeshAgent.stoppingDistance)
+        {
+            if (enemy.navMeshAgent.hasPath || enemy.navMeshAgent.velocity.sqrMagnitude == 0f)
+            {
+                EnemyAnimation.instance.atStudySeq.Restart();
+                Debug.Log("애니메이션 시작");
+            }
+        }
+    }
+
+    private void ChangeRoom() //튜토와 2일차용
+    {
+        if (moveIndex < (roomNumber - 1) * 2)
+        {
+            moveIndex += 2;
+            OpenDoor();
+            changeTime = Time.time;
+        }
+        else
+        {
+            int randomNumber2 = Random.Range(0, 3);
+            if (randomNumber2 == 0)
+            {
+                StopAction();
+                changeTime = Time.time;
+                stepNumber = 3;
+            }
+            else
+            {
+                moveIndex = 0;
+                OpenDoor();
+                changeTime = Time.time;
+            }
+        }
+    }
+
+    private void TutoSetting()
+    {
+        moveToPos = columns[moveIndex + 2].transform.position;
+        lookPos = columns[moveIndex].transform.position;
+
+        enemy.navMeshAgent.SetDestination(moveToPos);
+
+        if (!enemy.navMeshAgent.pathPending && enemy.navMeshAgent.remainingDistance <= enemy.navMeshAgent.stoppingDistance)
+        {
+            if (enemy.navMeshAgent.hasPath || enemy.navMeshAgent.velocity.sqrMagnitude == 0f)
+            {
+                enemy.gameObject.transform.DOLookAt(lookPos, 1f);
+                setTime = true;
+            }
+        }
+
+        if (lookTime <= lookTimer)
+        {
+            moveToPos = columns[moveIndex + 3].transform.position;
+            enemy.navMeshAgent.SetDestination(moveToPos);
+        }
+    }
+
     public void OpenDoor()
     {
         Debug.Log(1);
-        //Debug.Log("진짜 층은 " + floorNumber);
-        //Debug.Log("바뀐 방의 개수는" + roomNumber);
 
         moveToPos = columns[moveIndex].transform.position;
 
         enemy.navMeshAgent.SetDestination(moveToPos);
-
-        if (enemy.navMeshAgent.remainingDistance <= enemy.navMeshAgent.stoppingDistance && Time.time >= changeTime + waitTime)
+        StartCoroutine(Timer());
+        if (enemy.navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete && enemy.navMeshAgent.remainingDistance <= enemy.navMeshAgent.stoppingDistance )
         {
-
+            Debug.Log("11111");
             changeTime = Time.time;
-            ChangeEnemyState(ENEMYSTATE.ENTERROOM);
+            EnterRoom();
             isOneTime = true;
         }
     }
@@ -187,7 +234,6 @@ public class ResearchManager_Simple : MonoBehaviour
         }
 
         int randomNumber = Random.Range(0, 3);
-
         if (randomNumber == 0)
         {
             isLookBack = true;
@@ -196,19 +242,22 @@ public class ResearchManager_Simple : MonoBehaviour
         {
             isLookBack = false;
         }
-        if (enemy.navMeshAgent.remainingDistance <= enemy.navMeshAgent.stoppingDistance && Time.time >= waitTime + changeTime)
+        if (!enemy.navMeshAgent.pathPending && enemy.navMeshAgent.remainingDistance <= enemy.navMeshAgent.stoppingDistance)
         {
-            if (randomNumber == 0)
+            if (enemy.navMeshAgent.hasPath || enemy.navMeshAgent.velocity.sqrMagnitude == 0f)
             {
-                ChangeEnemyState(ENEMYSTATE.LOOKBACK);
-                isOneTime = true;
+                if (randomNumber == 0)
+                {
+                    LookBack();
+                    isOneTime = true;
+                }
+                else
+                {
+                    LookAround();
+                    isOneTime = true;
+                }
+                enemy.navMeshAgent.updateRotation = false;
             }
-            else
-            {
-                ChangeEnemyState(ENEMYSTATE.LOOKAROUND);
-                isOneTime = true;
-            }
-            enemy.navMeshAgent.updateRotation = false;
         }
     }
     private void LookAround()
@@ -218,20 +267,26 @@ public class ResearchManager_Simple : MonoBehaviour
         {
             if (isheight)
             {
-                sequence.Restart();
-                //stepNumber = 1;
+                EnemyAnimation.instance.sequence.Restart();
             }
             else
             {
-                sequence2.Restart();
-                //stepNumber = 1;
+                EnemyAnimation.instance.sequence2.Restart();
             }
             isOneTime = false;
         }
         if (stepNumber == 1)
         {
             enemy.navMeshAgent.updateRotation = true;
-            ChangeEnemyState(ENEMYSTATE.CHANGEROOM);
+
+            if (EnemyMode.Tutorial == enemyMode)
+            {
+                TutoSetting();
+            }
+            if (EnemyMode.DayTwo == enemyMode)
+            {
+                ChangeRoom();
+            }
         }
     }
     private void LookBack()
@@ -241,20 +296,18 @@ public class ResearchManager_Simple : MonoBehaviour
         {
             if (isheight)
             {
-                sequence3.Restart();
-                //stepNumber = 2;
+                EnemyAnimation.instance.sequence3.Restart();
             }
             else
             {
-                sequence4.Restart();
-                //stepNumber = 2;
+                EnemyAnimation.instance.sequence4.Restart();
             }
             isOneTime = false;
         }
 
         if (stepNumber == 2)
         {
-            ChangeEnemyState(ENEMYSTATE.LOOKAROUND);
+            LookAround();
             isOneTime = true;
             isLookBack = false;
         }
@@ -263,11 +316,12 @@ public class ResearchManager_Simple : MonoBehaviour
     private void StopAction()
     {
         Debug.Log(5);
+
+        int randomNumber = Random.Range(1, 3);  //2일차용 패턴
         if (stepNumber == 3)
         {
-            int randomNum = Random.Range(0, roomNumber - 1);
-            hidePos = columns[randomNum].transform.position;
-            lookPos = columns[randomNum].transform.position;
+            hidePos = columns[moveIndex + randomNumber].transform.position;
+            lookPos = columns[moveIndex + 4].transform.position;
             stepNumber = 4;
         }
 
@@ -275,81 +329,39 @@ public class ResearchManager_Simple : MonoBehaviour
         {
             enemy.navMeshAgent.SetDestination(hidePos);
         }
-        if (enemy.navMeshAgent.remainingDistance <= 0.1f && Time.time >= waitTime + changeTime)
+        if (!enemy.navMeshAgent.pathPending && enemy.navMeshAgent.remainingDistance <= enemy.navMeshAgent.stoppingDistance)
         {
-            enemy.gameObject.transform.DOLookAt(lookPos, 1f);
+            if (enemy.navMeshAgent.hasPath || enemy.navMeshAgent.velocity.sqrMagnitude == 0f)
+            {
+                enemy.gameObject.transform.DOLookAt(lookPos, 1f);
+                setTime_2 = true;
 
+                if (lookTime <= lookTimer)
+                {
+                    setTime_2 = false;
+                    lookTimer = 0f;
+                    ChangeRoom();
+                }
+            }
+        }
+    }
+    public void CheckTimer()
+    {
+        if (setTime_2)
+        {
             lookTimer += Time.deltaTime;
-            if (lookTime <= lookTimer)
-            {
-                ChangeFloor(false);
-                lookTimer = 0f;
-            }
+        }
+
+        if (setTime)
+        {
+            changeTime += Time.deltaTime;
         }
     }
 
-    public void ChangeFloor(bool isFisrt)
+    private IEnumerator Timer()
     {
-        if (isFisrt)
-        {
-            stepNumber = 7;
-            roomNumber = columns.Length / 2;
-            r_IsEnd = false;
-            ResetIndex();
-        }
-        else
-        {
-            if (floorNumber == 0 && stepNumber != 7)
-            {
-                stepNumber = 7;
-
-                floorNumber = 1;
-                roomNumber = columns.Length / 2;
-                //Debug.Log("방의 개수는" + roomNumber);
-                //Debug.Log("층은 " + floorNumber);
-                r_IsEnd = false;
-                ResetIndex();
-            }
-            else if (floorNumber == 1 && stepNumber != 7)
-            {
-                stepNumber = 7;
-                floorNumber = 0;
-                roomNumber = columns.Length / 2;
-
-                //Debug.Log("방의 개수는" + roomNumber);
-                //Debug.Log("층은 " + floorNumber);
-                r_IsEnd = false;
-                ResetIndex();
-            }
-        }
+        yield return new WaitForSeconds(waitTime);
+        setTime = true;
     }
 
-    private void ResetIndex()
-    {
-        Debug.Log("초기화");
-        isDoneIdex.Clear();
-        if (!r_IsEnd)
-        {
-            currentroomNumber = roomNumber;
-            for (int i = 0; i < roomNumber; i++)
-            {
-                isDoneIdex.Add(i);  //0~3까지만 관리하는 의도
-            }
-            r_IsEnd = true;
-            Debug.Log(isDoneIdex.Count);
-        }
-        if (isDoneIdex.Count == roomNumber)
-        {
-            ChangeEnemyState(ENEMYSTATE.OPENDOOR);
-            changeTime = Time.time;
-        }
-    }
-
-    public void StopSquance()
-    {
-        sequence.Pause();
-        sequence2.Pause();
-        sequence3.Pause();
-        sequence4.Pause();
-    }
 }

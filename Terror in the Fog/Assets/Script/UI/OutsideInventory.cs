@@ -95,7 +95,7 @@ public class OutsideInventory : MonoBehaviour
 
                 if (i_slots[i].item == null)
                 {
-                    Debug.Log("확인 2");
+                    //Debug.Log("확인 2");
                     i_slots[i].isCanUse = false;
                 }
             }
