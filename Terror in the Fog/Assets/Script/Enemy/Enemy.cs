@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
     [Range(0f, 360f)][SerializeField] float ViewAngle = 0f;
     [SerializeField] float ViewRadius = 1f;
     [SerializeField] LayerMask TargetMask;
-    int ObstacleMask = (1<< 6) | (1<<7);
+    int ObstacleMask = (1 << 6) | (1 << 7);
     Vector3 myPos;
     Vector3 lookDir;
 
@@ -34,7 +34,7 @@ public class Enemy : MonoBehaviour
 
     public float timer = 0f; //플레이 놓침타이머
     public bool isCheckAround = false;
-    
+
     public bool pauseResearch = false;
 
     void Start()
@@ -186,7 +186,7 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        if (ResearchManager_Simple.instance != null) ResearchManager_Simple.instance.OpenDoor();
+        //if (ResearchManager_Simple.instance != null) ResearchManager_Simple.instance.SetMode();
     }
 
     public void DetectToSound()
@@ -197,18 +197,29 @@ public class Enemy : MonoBehaviour
 
     public void ResetResearch()
     {
-        if(ResearchManager.instance != null) ResearchManager.instance.ChangeFloor(true);
+        if (ResearchManager.instance != null) ResearchManager.instance.ChangeFloor(true);
 
-        if (ResearchManager_Simple.instance != null) ResearchManager_Simple.instance.OpenDoor();
+        //if (ResearchManager_Simple.instance != null) ResearchManager_Simple.instance.SetMode();
     }
 
     public void ResetSound()
     {
-        SoundDetector.instance.ChangeLevelState(SoundDetector.LEVEL.Level0);
+        SoundDetector.instance.ResetPos();
     }
 
     public void StopTween()
     {
         EnemyAnimation.instance.StopSquance();
+    }
+    public void StopMove()  //ResearchManager_Simple용 코드
+    {
+        if (ResearchManager_Simple.instance != null) ResearchManager_Simple.instance.StopCoroutine("Tuto");
+    }
+    public void StartMove()
+    {
+        if (ResearchManager_Simple.instance != null)
+        {
+            ResearchManager_Simple.instance.StartCoroutine("GoBack");
+        }
     }
 }

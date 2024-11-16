@@ -129,6 +129,8 @@ public class FeelStrage : IState
     {
         enemy.navMeshAgent.updateRotation = true;
         enemy.navMeshAgent.isStopped = false;
+
+        enemy.StartMove();                                          //ResearchManager_Simple용 이동시작
     }
 }
 
@@ -150,6 +152,7 @@ public class JudgeChase : IState
             
             enemy.navMeshAgent.isStopped = true;  //수행중 행동 전부 초기화 끄기
             enemy.StopTween();                    //수행중인 애니메이션 모두 초기화
+            enemy.StopMove();                    //ResearchManager_Simple용 정지
             detectStartTime = Time.time;
             //enemy.FeelStrage() 추가예정
         }

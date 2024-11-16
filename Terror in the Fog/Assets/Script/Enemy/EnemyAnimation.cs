@@ -97,7 +97,7 @@ public class EnemyAnimation : MonoBehaviour
         }
         if (ResearchManager_Simple.instance != null)
         {
-            ResearchManager_Simple.instance.stepNumber = number;
+            ResearchManager_Simple.instance.isstepEnd = true;
         }
     }
     public void StopSquance()

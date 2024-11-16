@@ -7,6 +7,8 @@ public class SoundDetector : MonoBehaviour
 {
     public static SoundDetector instance;
 
+
+    public bool isDetectOFF = false;
     public int g_level = 0;
     private int defultLevel = 0;
 
@@ -41,6 +43,8 @@ public class SoundDetector : MonoBehaviour
 
     public void OnDetect()
     {
+        if (isDetectOFF) return;
+
         switch (level)
         {
             case LEVEL.Level3:
