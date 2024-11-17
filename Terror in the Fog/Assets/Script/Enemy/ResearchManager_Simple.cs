@@ -62,7 +62,7 @@ public class ResearchManager_Simple : MonoBehaviour
     }
     private void Start()
     {
-        SetMode();
+        //SetMode();
     }
     public void SetMode()
     {

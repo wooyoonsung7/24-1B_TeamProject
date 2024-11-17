@@ -134,7 +134,7 @@ public class PlayerController : MonoBehaviour
     //카메라 초기 위치 및 회전을 설정하는 함수
     void SetupCameras()
     {
-        firstPersonCamera.transform.localPosition = new Vector3(0f, 0f, -0.75f);
+        firstPersonCamera.transform.localPosition = new Vector3(0f, 0f, 0.0f);
         firstPersonCamera.transform.localRotation = Quaternion.identity;
     }
 
