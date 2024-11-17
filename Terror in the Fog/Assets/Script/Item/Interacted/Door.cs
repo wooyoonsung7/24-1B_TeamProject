@@ -20,10 +20,6 @@ public class Door : MonoBehaviour, IItem
     public bool isOpened = true; //잠긴문인지 확인
     public int doorIndex = 0;     //문아이디
 
-    private void Awake()
-    {
-        
-    }
     private void Start()
     {
         type = ItemType.interacted;
@@ -41,13 +37,11 @@ public class Door : MonoBehaviour, IItem
             if (isOpen && canOpen)
             {
                 doorPos -= new Vector3(0f, 90f, 0f);
-                Debug.Log("문 열기");
                 transform.DOLocalRotate(doorPos, 0.5f).OnComplete(() => canOpen = false);
             }
             else if (!isOpen && !canOpen)
             {
                 doorPos += new Vector3(0f, 90f, 0f);
-                Debug.Log("문 닫기");
                 transform.DOLocalRotate(doorPos, 0.5f).OnComplete(() => canOpen = true);
             }
         }

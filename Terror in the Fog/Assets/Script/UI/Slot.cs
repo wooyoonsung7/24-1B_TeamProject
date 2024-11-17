@@ -15,6 +15,18 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public bool isCanUse = false;
 
+
+    public void Update() //계속되는 체킹
+    {
+        if (item != null)
+        {
+            isItemExist = true;
+        }
+        else
+        {
+            isItemExist = false;
+        }
+    }
     //아이템 이미지의 투명도 조절
     public void SetColor(float _alpha)
     {
@@ -94,7 +106,6 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         IItem _item = item; //A를 잠시 저장
 
         AddItem(DragSlot.instance.dragSlot.item); //A대신에 B를 넣는다.
-        isItemExist = true;
 
         if (_item != null)
         {

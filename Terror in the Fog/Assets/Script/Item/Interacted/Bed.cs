@@ -4,7 +4,7 @@ using DG.Tweening;
 using UnityEngine;
 using static IItem;
 
-public class Drawer : MonoBehaviour, IItem
+public class Bed : MonoBehaviour, IItem
 {
     public ItemType type { get; set; }
     public string itemName { get; set; }
@@ -14,27 +14,30 @@ public class Drawer : MonoBehaviour, IItem
     public GameObject itemPrefab { get; set; }
     public bool isCanUse { get; set; }
 
-    [SerializeField] private int drawerIndex = 0;
+    [SerializeField]private Door door;
+    private void Awake()
+    {
 
+    }
     private void Start()
     {
         type = ItemType.interacted;
-        itemName = "서랍";
-        isCanUse = false;
-        index = drawerIndex;
+        itemName = "Bed";
+        isCanUse = true;
     }
+
     public void Use(GameObject target)
     {
+        Debug.Log("사용시도");
         if (isCanUse)
         {
-            Vector3 moveToPos = transform.position + transform.forward * 0.5f;
-            moveToPos.y = transform.position.y;
-            transform.DOMove(moveToPos, 3f);
+            Debug.Log("침대사용");
             isCanUse = false;
-        }
-        else
-        {
-            Debug.Log("열쇠가 없음");
+
+            //자고 일어나는 애니메이션
+            //저장시스템추가
+            door.isCanUse = true;
+            GameManager.Instance.PassDay();
         }
     }
 }

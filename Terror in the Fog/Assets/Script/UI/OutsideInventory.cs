@@ -49,6 +49,26 @@ public class OutsideInventory : MonoBehaviour
     private void Update()
     {
         CopySlots();
+        CheckItem();
+    }
+
+    private void CheckItem()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            for (int i = 0; i < o_slots.Length; i++)
+            {
+                if (i_slots[i].item != null)
+                {
+                    Debug.Log(i + "번째에" + i_slots[i].item.itemName + "가 있습니다.");
+                }
+                else
+                {
+                    Debug.Log(i + "는 없읍니다.");
+                }
+
+            }
+        }
     }
 
     //아이템 이미지의 투명도 조절
@@ -69,7 +89,7 @@ public class OutsideInventory : MonoBehaviour
 
             if (i_slots[i].isItemExist)
             {
-                Debug.Log("확인 1");
+                //Debug.Log("확인 1");
                 item = i_slots[i].item;
                 itemImages[i].sprite = i_slots[i].itemImage.sprite;
                 SetColor(1,i);
@@ -105,7 +125,7 @@ public class OutsideInventory : MonoBehaviour
 
         if (i_slots[index].item != null)
         {
-            Debug.Log("확인 3");
+            //Debug.Log("확인 3");
             item = i_slots[index].item;
             i_slots[index].isCanUse = true;
         }
@@ -116,27 +136,44 @@ public class OutsideInventory : MonoBehaviour
     {
         if (i_slots[i_index].isCanUse && item != null)
         {
-            item.Use(player);
-            StartCoroutine(Clearslot());
+            HandController handController = player.GetComponent<HandController>();
+            if (handController.item != null)
+            {
+                if (item.index == handController.item.index)
+                {
+                    item.Use(player);
+                    i_slots[i_index].ClearSlot();
+                }
+                else
+                {
+                    Debug.Log("사용할 수 없음");
+                }
+            }
+            else
+            {
+                Debug.Log("없다");
+            }
         }
         else
         {
-            Debug.Log("아이템이 없읍니다");
+            //Debug.Log("아이템이 없읍니다");
         }
     }
 
-    IEnumerator Clearslot()
+    private void CheckCanUse(GameObject player)
     {
-        yield return new WaitForSeconds(0.2f);
-
-        if (item.type == IItem.ItemType.Used && item.isCanUse)
+        HandController handController = player.GetComponent<HandController>();
+        if (handController.item != null)
         {
-            i_slots[i_index].ClearSlot();
-        }
-        
-        if (item.type == IItem.ItemType.Consumed)
-        {
-            i_slots[i_index].ClearSlot();
+            if (item.index == handController.item.index)
+            {
+                item.Use(player);
+                i_slots[i_index].ClearSlot();
+            }
+            else
+            {
+                Debug.Log("사용할 수 없음");
+            }
         }
     }
 }

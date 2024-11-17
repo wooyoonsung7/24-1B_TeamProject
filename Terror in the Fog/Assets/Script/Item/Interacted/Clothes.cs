@@ -38,7 +38,6 @@ public class Clothes : MonoBehaviour, IItem
         PlayerController playerController = target.GetComponent<PlayerController>();
         if (isHide)
         {
-            Debug.Log("ø ¿Â ø≠±‚");
             Vector3 currentRotation = transform.localEulerAngles;
             currentRotation.y += -90;
 
@@ -49,7 +48,6 @@ public class Clothes : MonoBehaviour, IItem
         }
         else
         {
-            Debug.Log("ø ¿Â ¥›±‚");
             target.transform.position = transObject.position + transform.right * -1.5f;
             playerController.isHide = false;
             playerController.isCanMove = true;

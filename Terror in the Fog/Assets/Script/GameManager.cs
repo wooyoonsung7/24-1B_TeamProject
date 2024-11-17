@@ -8,7 +8,8 @@ public class GameManager : MonoBehaviour  //°ÔÀÓ ÀüÃ¼ÀûÀ¸·Î <Äù½ºÆ®, °¢ È¸Â÷ÀÇ ¸
 {
     public static GameManager Instance;
     private static int Days = 0;
-
+    public bool gotoHouse = false;
+    public static int currentMap = 0;            //0¹ø Æ©Åä¸®¾ó, 1¹øÀÌ Áý, 2¹øÀÌ °Å¸®, 3¹øÀÌ Å¸°ÙÀÇ Áý
     private EVENTTYPE eventType;
     private enum EVENTTYPE
     {
@@ -17,14 +18,14 @@ public class GameManager : MonoBehaviour  //°ÔÀÓ ÀüÃ¼ÀûÀ¸·Î <Äù½ºÆ®, °¢ È¸Â÷ÀÇ ¸
         DayTwo,
         DayThree,
         DayFour,
-        DayFive
+        DayFive,
     }
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -57,9 +58,16 @@ public class GameManager : MonoBehaviour  //°ÔÀÓ ÀüÃ¼ÀûÀ¸·Î <Äù½ºÆ®, °¢ È¸Â÷ÀÇ ¸
         }
     }
 
-    private void Update()
+    private void Start()
     {
         CheckDays();
+    }
+
+    private void Update()
+    {
+        SETDAY();
+        transMap();
+        MasterKey();
     }
     private void ChangeEvent(EVENTTYPE newType)
     {
@@ -76,19 +84,42 @@ public class GameManager : MonoBehaviour  //°ÔÀÓ ÀüÃ¼ÀûÀ¸·Î <Äù½ºÆ®, °¢ È¸Â÷ÀÇ ¸
         if (Days == 5) ChangeEvent(EVENTTYPE.DayFive);
     }
 
+    private void MasterKey()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Debug.Log(Days++);
+        }
+    }
+    public void transMap()
+    {
+        if (currentMap == 2)
+        {
+            //Àá½Ã »© ³õÀÚ
+        }
+
+        if (currentMap == 1)
+        {
+            
+        }
+        EventManager.instance.GotoTargetHouse(Days);
+        EventManager.instance.GoToStreet();
+    }
+
     public void PassDay()
     {
         Days++;
+        Debug.Log("ÇöÀç ³¯Â¥´Â" + Days + "ÀÏÂ÷ÀÔ´Ï´Ù");
     }
 
     private void Tuto()
     {
-
+        EventManager.instance.TutoEvent();
     }
 
     private void DayOne()
     {
-
+        //1ÀÏÂ÷ Äù½ºÆ®UI°»½Å
     }
     private void DayTwo()
     {

@@ -4145,7 +4145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2533d3ea2d91fe41b9bc98d6659813a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  door: {fileID: 1599622116}
+  roomdoor: {fileID: 1599622116}
+  housedoor: {fileID: 1948737747}
   enemy: {fileID: 977020861}
 --- !u!1 &752288190
 GameObject:
@@ -4874,7 +4875,7 @@ MonoBehaviour:
   g_level: 0
   SoundPos: []
   isFind: 1
-  detectRadius: 16
+  detectRadius: 9
   layerMask:
     serializedVersion: 2
     m_Bits: 8
@@ -4913,7 +4914,7 @@ Transform:
   m_GameObject: {fileID: 977020858}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 45.78, y: 5.57, z: -41.98}
+  m_LocalPosition: {x: 45.27, y: 5.57, z: -41.7}
   m_LocalScale: {x: 1.0555282, y: 1.625052, z: 0.36428326}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7289,8 +7290,8 @@ MonoBehaviour:
   moveIndex: 0
   changeTime: 0
   isstepEnd: 0
-  enemyMode: 0
   isLookBack: 0
+  EventEnd: 0
 --- !u!1 &1579955526
 GameObject:
   m_ObjectHideFlags: 0
@@ -7686,7 +7687,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 59d36363b9ce9764c94038c68eacbc0e,
         type: 3}
       propertyPath: m_Name
-      value: Door
+      value: RoomDoor
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 59d36363b9ce9764c94038c68eacbc0e,
         type: 3}
@@ -8742,8 +8743,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2045825475}
-  - {fileID: 1193174993}
   - {fileID: 1565421863}
+  - {fileID: 1193174993}
   - {fileID: 511570298}
   - {fileID: 726574528}
   - {fileID: 1429154109}
@@ -9011,7 +9012,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 59d36363b9ce9764c94038c68eacbc0e,
         type: 3}
       propertyPath: m_Name
-      value: Door
+      value: HouseDoor
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 59d36363b9ce9764c94038c68eacbc0e,
         type: 3}

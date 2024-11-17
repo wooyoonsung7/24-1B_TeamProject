@@ -256,7 +256,7 @@ public class PlayerController : MonoBehaviour
     }
     public void Death()
     {
-       SceneManager.LoadScene("TestScene3");
+       SceneManager.LoadScene("MainScene");
     }
 
     public void ETC()

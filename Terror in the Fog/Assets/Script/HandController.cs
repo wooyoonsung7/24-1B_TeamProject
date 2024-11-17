@@ -73,7 +73,6 @@ public class HandController : MonoBehaviour
             {
 
                 item = hitInfo.collider.GetComponent<IItem>();
-
                 ItemInfoAppear();
             }
             else
@@ -101,7 +100,7 @@ public class HandController : MonoBehaviour
         {
             if (hitInfo.transform != null)
             {
-                if (item.type == IItem.ItemType.Used || item.type == IItem.ItemType.Consumed)
+                if (item.type == IItem.ItemType.Used)
                 {
                     Debug.Log(item.itemName + " È¹µæ Çß½À´Ï´Ù.");
                     theInventory.AcuquireItem(item);
@@ -163,10 +162,6 @@ public class HandController : MonoBehaviour
                     {
                         theInventory_2.UsingItem();
                     }
-                }
-                else
-                {
-                    theInventory_2.UsingItem();
                 }
             }
         }

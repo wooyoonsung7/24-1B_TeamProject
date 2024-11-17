@@ -30,23 +30,8 @@ public class Key : MonoBehaviour, IItem
     }
     public void Use(GameObject target)
     {
-        Debug.Log("열쇠 사용");
         HandController handController = target.GetComponentInChildren<HandController>();
-        if (handController != null)
-        {
-            if (handController.item != null)
-            {
-                if (handController.item.index == keyIndex)
-                {
-                    handController.item.isCanUse = true;
-                    isCanUse = true;
-                    Debug.Log("열린다");
-                }
-                else
-                {
-                    Debug.Log("열쇠가 유효하지 않습니다");
-                }
-            }
-        }
+        handController.item.isCanUse = true;
+        isCanUse = true;
     }
 }

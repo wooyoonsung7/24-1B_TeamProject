@@ -38,20 +38,12 @@ public class ResearchManager_Simple : MonoBehaviour
     private bool setTime_2 = false;
 
     //어떤 용으로 사용할지를 선택
-    public enum EnemyMode
-    {
-        Tutorial,
-        DayOne,
-        DayTwo,
-        AtStreet_1,
-        AtStreet_2,
-        AtStreet_3
-    }
 
-    public EnemyMode enemyMode;
 
     //문Control용
     public bool isLookBack = false;
+
+    public bool EventEnd = false;
 
     private void Awake()
     {
@@ -60,40 +52,7 @@ public class ResearchManager_Simple : MonoBehaviour
             instance = this; //싱글톤 패턴사용
         }
     }
-    private void Start()
-    {
-        //SetMode();
-    }
-    public void SetMode()
-    {
-        switch (enemyMode)
-        {
-            case EnemyMode.Tutorial:
-                StartCoroutine("Tuto");
-                break;
-            case EnemyMode.DayOne:
-                DayOneEvent();
-                break;
-            case EnemyMode.DayTwo:
-                DayTwoEnvent();
-                break;
-            case EnemyMode.AtStreet_1:
-                AtStreetEnvent_1();
-                break;
-            case EnemyMode.AtStreet_2:
-                AtStreetEnvent_2();
-                break;
-            case EnemyMode.AtStreet_3:
-                AtStreetEnvent_3();
-                break;
-        }
-    }
 
-    private void TutorialEvent()  //튜토리얼용
-    {
-        //OpenDoor();
-        roomNumber = 2;
-    }
     private IEnumerator Tuto()
     {
         moveToPos = columns[++moveIndex].transform.position;
@@ -142,6 +101,7 @@ public class ResearchManager_Simple : MonoBehaviour
         if (enemy.navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete && enemy.navMeshAgent.remainingDistance <= 0.1f)
         {
             enemy.gameObject.SetActive(false);
+            EventEnd = true;
         }
     }
     private void OFFState()
@@ -187,7 +147,7 @@ public class ResearchManager_Simple : MonoBehaviour
     {
 
     }
-
+    /*
     public void ResetMenu() //다른 상태에서 돌아왔을 때용
     {
         if (EnemyMode.Tutorial == enemyMode)
@@ -202,7 +162,7 @@ public class ResearchManager_Simple : MonoBehaviour
         {
             //다시 3개의 방을 돌아다님
         }
-    }
+    }*/
 
     private void AtStudy() //1일차 서재용
     {
