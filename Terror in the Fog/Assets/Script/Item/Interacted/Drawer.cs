@@ -16,6 +16,7 @@ public class Drawer : MonoBehaviour, IItem
 
     [SerializeField] private int drawerIndex = 0;
     [SerializeField] private bool iscanUse = true;
+    [SerializeField] private GameObject item;
 
     private void Start()
     {
@@ -31,6 +32,7 @@ public class Drawer : MonoBehaviour, IItem
             Vector3 moveToPos = transform.position + transform.forward * 0.5f;
             moveToPos.y = transform.position.y;
             transform.DOMove(moveToPos, 3f);
+            item.gameObject.layer = 6;
             isCanUse = false;
         }
         else
