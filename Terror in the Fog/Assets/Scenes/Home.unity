@@ -20,13 +20,13 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.091313615, g: 0.098611586, b: 0.11320752, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4312,6 +4312,7 @@ MonoBehaviour:
   go_SlotsParent: {fileID: 681825637}
   playerController: {fileID: 1846819710}
   staminaSlider: {fileID: 1954477769}
+  itemText: {fileID: 0}
   isFull: 0
 --- !u!1001 &1671018497
 PrefabInstance:
@@ -4899,7 +4900,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   actionText: {fileID: 1027398119}
-  theInventory: {fileID: 0}
   scrollSpeed: 4
 --- !u!23 &1775513871
 MeshRenderer:
@@ -5231,9 +5231,6 @@ MonoBehaviour:
   recover_stamina_Time: 7
   isHide: 0
   firstPersonCamera: {fileID: 508246383}
-  radius: 5
-  minRadius: 1
-  maxRadius: 10
   yMinLimit: -90
   yMaxLimit: 90
   mouseSenesitivity: 2
@@ -5244,6 +5241,7 @@ MonoBehaviour:
   speedPackDuration: 3
   isFadeOut: 1
   isCanMove: 1
+  isCanMove_2: 1
 --- !u!136 &1846819711
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5393,7 +5391,6 @@ MonoBehaviour:
   Paused: 0
   playerController: {fileID: 1846819710}
   handController: {fileID: 1775513870}
-  enemy: {fileID: 0}
 --- !u!4 &1891699374
 Transform:
   m_ObjectHideFlags: 0
