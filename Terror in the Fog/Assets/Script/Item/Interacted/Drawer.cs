@@ -15,14 +15,14 @@ public class Drawer : MonoBehaviour, IItem
     public bool isCanUse { get; set; }
 
     [SerializeField] private int drawerIndex = 0;
-    [SerializeField] private bool iscanUse = true;
+    [SerializeField] private bool isUnLocked = true;
     [SerializeField] private GameObject item;
 
     private void Start()
     {
         type = ItemType.interacted;
         itemName = "¼­¶ø";
-        isCanUse = iscanUse;
+        isCanUse = isUnLocked;
         index = drawerIndex;
     }
     public void Use(GameObject target)
@@ -32,7 +32,10 @@ public class Drawer : MonoBehaviour, IItem
             Vector3 moveToPos = transform.position + transform.forward * 0.5f;
             moveToPos.y = transform.position.y;
             transform.DOMove(moveToPos, 3f);
-            item.gameObject.layer = 6;
+            if (item != null)
+            {
+                item.gameObject.layer = 6;
+            }
             isCanUse = false;
         }
         else

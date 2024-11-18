@@ -166,8 +166,6 @@ public class Enemy : MonoBehaviour
     public void ResearchArea()
     {
         if (ResearchManager.instance != null) ResearchManager.instance.RESEARCH();
-
-        if (ResearchManager_Simple.instance != null) ResearchManager_Simple.instance.CheckTimer();  //실시간 시간갱신용
     }
 
     public void RestartSearch()
@@ -185,8 +183,6 @@ public class Enemy : MonoBehaviour
                 ResearchManager.instance.ChangeEnemyState(ResearchManager.ENEMYSTATE.CHANGEROOM);
             }
         }
-
-        //if (ResearchManager_Simple.instance != null) ResearchManager_Simple.instance.SetMode();
     }
 
     public void DetectToSound()
@@ -198,8 +194,6 @@ public class Enemy : MonoBehaviour
     public void ResetResearch()
     {
         if (ResearchManager.instance != null) ResearchManager.instance.ChangeFloor(true);
-
-        //if (ResearchManager_Simple.instance != null) ResearchManager_Simple.instance.SetMode();
     }
 
     public void ResetSound()
@@ -213,13 +207,16 @@ public class Enemy : MonoBehaviour
     }
     public void StopMove()  //ResearchManager_Simple용 코드
     {
-        if (ResearchManager_Simple.instance != null) ResearchManager_Simple.instance.StopCoroutine("Tuto");
+        if (ResearchManager_Simple.instance != null)
+        {
+            if (GameManager.Days == 0) ResearchManager_Simple.instance.StopCoroutine("Tuto");
+        }
     }
     public void StartMove()
     {
         if (ResearchManager_Simple.instance != null)
         {
-            ResearchManager_Simple.instance.StartCoroutine("GoBack");
+            if(GameManager.Days == 0) ResearchManager_Simple.instance.StartCoroutine("GoBack");
         }
     }
 }

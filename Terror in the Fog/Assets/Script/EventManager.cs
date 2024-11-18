@@ -80,7 +80,7 @@ public class EventManager : MonoBehaviour //이벤트관리
         }
     }
 
-    private void DayOneEvent()
+    public void DayOneEvent()
     {
 
     }

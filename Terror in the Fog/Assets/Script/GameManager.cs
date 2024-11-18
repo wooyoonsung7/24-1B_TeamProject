@@ -7,7 +7,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour  //게임 전체적으로 <퀘스트, 각 회차의 맵>
 {
     public static GameManager Instance;
-    private static int Days = 0;
+    public static int Days = 0;
     public bool gotoHouse = false;
     public static int currentMap = 0;            //0번 튜토리얼, 1번이 집, 2번이 거리, 3번이 타겟의 집
     private EVENTTYPE eventType;
@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour  //게임 전체적으로 <퀘스트, 각 회차의 �
 
     private void DayOne()
     {
-        //1일차 퀘스트UI갱신
+        EventManager.instance.DayOneEvent();
     }
     private void DayTwo()
     {

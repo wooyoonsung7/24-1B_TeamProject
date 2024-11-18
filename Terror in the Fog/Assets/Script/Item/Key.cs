@@ -18,12 +18,14 @@ public class Key : MonoBehaviour, IItem
     private Sprite _itemImage;
     [SerializeField]
     private GameObject _itemPrefab;
+    [SerializeField]
+    private string _itemName;
 
     public int keyIndex = 0;
     private void Start()
     {
         type = ItemType.Used;
-        itemName = "¿­¼è";
+        itemName = _itemName;
         index = keyIndex;
         itemImage = _itemImage;
         itemPrefab = _itemPrefab;
