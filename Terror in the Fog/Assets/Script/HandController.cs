@@ -21,10 +21,6 @@ public class HandController : MonoBehaviour
     private Text actionText;
 
     [SerializeField]
-    private InsideInventory theInventory;
-    private OutsideInventory theInventory_2;
-
-    [SerializeField]
     private float scrollSpeed = 2f;
     float scrollPoint = 0f;
     int i = 0;
@@ -39,7 +35,6 @@ public class HandController : MonoBehaviour
     {
         playerCam = Camera.main;
         playerCam = GetComponentInChildren<Camera>();
-        theInventory_2 = FindObjectOfType<OutsideInventory>();
     }
 
     void Update()
@@ -57,7 +52,7 @@ public class HandController : MonoBehaviour
             CheckItem();
             CanPickUp();
             Interaction();
-            theInventory.CheckSlotFull();
+            InsideInventory.Instance.CheckSlotFull();
         }
     }
     private void CheckItem() //아이템유무 확인
@@ -96,14 +91,14 @@ public class HandController : MonoBehaviour
     }
     private void CanPickUp() //아이템 획득
     {
-        if (pickupActivated && !theInventory.isFull)
+        if (pickupActivated && !InsideInventory.Instance.isFull)
         {
             if (hitInfo.transform != null)
             {
                 if (item.type == IItem.ItemType.Used)
                 {
                     Debug.Log(item.itemName + " 획득 했습니다.");
-                    theInventory.AcuquireItem(item);
+                    InsideInventory.Instance.AcuquireItem(item);
                     Destroy(hitInfo.transform.gameObject);
                     ItemInfoDisappear();
 
@@ -138,22 +133,32 @@ public class HandController : MonoBehaviour
             {
                 i = 4;
             }
-            else if (scrollPoint < -5f)
+            else if (-5f >= scrollPoint && scrollPoint >= -6f)
+            {
+                i = 5;
+            }
+            else if (scrollPoint < -6f)
             {
                 scrollPoint = 0f;
             }
             else
             {
-                scrollPoint = -5f;
+                scrollPoint = -6f;
             }
         }
-        theInventory_2.CheckCanUse(i);
+        InsideInventory.Instance.CheckCanUse(i);
+        //theInventory_2.CheckCanUse(i);
     }
 
     private void UseItem() //인벤안의 아이템 사용
     {
         if (Input.GetButtonDown("Use Item"))
         {
+            if (item != null)
+            {
+                InsideInventory.Instance.UsingItem();
+            }
+            /*
             if (theInventory_2.item != null)
             {
                 if (theInventory_2.item.type == IItem.ItemType.Used)
@@ -163,7 +168,7 @@ public class HandController : MonoBehaviour
                         theInventory_2.UsingItem();
                     }
                 }
-            }
+            }*/
         }
     }
 

@@ -15,12 +15,13 @@ public class Drawer : MonoBehaviour, IItem
     public bool isCanUse { get; set; }
 
     [SerializeField] private int drawerIndex = 0;
+    [SerializeField] private bool iscanUse = true;
 
     private void Start()
     {
         type = ItemType.interacted;
         itemName = "¼­¶ø";
-        isCanUse = false;
+        isCanUse = iscanUse;
         index = drawerIndex;
     }
     public void Use(GameObject target)

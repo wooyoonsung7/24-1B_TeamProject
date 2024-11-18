@@ -26,11 +26,6 @@ public class PlayerController : MonoBehaviour
     [Header("Camera Settings")]
     public Camera firstPersonCamera;      //1인칭 카메라
 
-    public float radius = 5.0f;          //3인칭 카메라와 플레이어 간의 거리
-    public float minRadius = 1.0f;       //카메라 최소 거리
-    public float maxRadius = 10.0f;      //카메라 최대 거리
-
-
     public float yMinLimit = 30;         //카메라 수직 회전 최소각
     public float yMaxLimit = 90;         //카메라 수직 회전 최대각        
 
@@ -56,7 +51,8 @@ public class PlayerController : MonoBehaviour
     public bool isFadeOut = true;
     private float timer = 0f;
 
-    public bool isCanMove = true;
+    public bool isCanMove = true;   //옷장용
+    public bool isCanMove_2 = true; //금고용
 
     private SoundData soundData;
     private bool isOneTime = false;
@@ -141,7 +137,7 @@ public class PlayerController : MonoBehaviour
     //플레이어 행동처리 함수
     void HandleMovement()
     {
-        if (isCanMove)
+        if (isCanMove && isCanMove_2)
         {
             float moveHorizontal = Input.GetAxis("Horizontal");
             float moveVertical = Input.GetAxis("Vertical");

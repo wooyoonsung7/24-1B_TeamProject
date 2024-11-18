@@ -20,7 +20,7 @@ public class BookCase : MonoBehaviour
         {
             foreach (GameObject obj in voidCase)
             {
-                IItem item = obj.GetComponent<IItem>();
+                VoidCase item = obj.GetComponent<VoidCase>();
                 if (item.isCanUse)
                 {
                     Debug.Log(stack);

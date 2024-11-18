@@ -48,8 +48,8 @@ public class OutsideInventory : MonoBehaviour
     }
     private void Update()
     {
-        CopySlots();
-        CheckItem();
+        //CopySlots();
+        //CheckItem();
     }
 
     private void CheckItem()
@@ -104,6 +104,7 @@ public class OutsideInventory : MonoBehaviour
         }
     }
     //마우스스크롤로 사용할 이미지 표시
+    
     public void CheckCanUse(int index)
     {
         i_index = index;
@@ -136,44 +137,12 @@ public class OutsideInventory : MonoBehaviour
     {
         if (i_slots[i_index].isCanUse && item != null)
         {
-            HandController handController = player.GetComponent<HandController>();
-            if (handController.item != null)
-            {
-                if (item.index == handController.item.index)
-                {
-                    item.Use(player);
-                    i_slots[i_index].ClearSlot();
-                }
-                else
-                {
-                    Debug.Log("사용할 수 없음");
-                }
-            }
-            else
-            {
-                Debug.Log("없다");
-            }
+            item.Use(player);
+            i_slots[i_index].ClearSlot();
         }
         else
         {
             //Debug.Log("아이템이 없읍니다");
-        }
-    }
-
-    private void CheckCanUse(GameObject player)
-    {
-        HandController handController = player.GetComponent<HandController>();
-        if (handController.item != null)
-        {
-            if (item.index == handController.item.index)
-            {
-                item.Use(player);
-                i_slots[i_index].ClearSlot();
-            }
-            else
-            {
-                Debug.Log("사용할 수 없음");
-            }
         }
     }
 }

@@ -13,8 +13,6 @@ public class SettingsMenu : MonoBehaviour
     private PlayerController playerController;
     [SerializeField]
     private HandController handController;
-    [SerializeField]
-    private Enemy enemy;
 
 
     void Start()
@@ -35,17 +33,6 @@ public class SettingsMenu : MonoBehaviour
                 OpenSettingsMenu();
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            LoadTestScene2();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            EnemyStartMove();
-        }
-
     }
     public void OpenSettingsMenu()
     {
@@ -95,15 +82,5 @@ public class SettingsMenu : MonoBehaviour
         }
         SceneManager.LoadScene("TestScene3");
         Time.timeScale = 1f;
-    }
-
-    public void LoadTestScene2()
-    {
-        SceneManager.LoadScene("TestScene2");
-    }
-
-    public void EnemyStartMove()
-    {
-        enemy.gameObject.SetActive(true);
     }
 }

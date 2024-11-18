@@ -1,11 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class InsideInventory : MonoBehaviour
 {
+    public static InsideInventory Instance;
+
     public static bool inventoryActivated = false;
 
     //인벤토리의 슬롯들에게 명령을 내리기위한 변수
@@ -20,13 +25,28 @@ public class InsideInventory : MonoBehaviour
     [SerializeField]
     private PlayerController playerController;
     [SerializeField]
-    private HandController handController;
-    [SerializeField]
-    private GameObject outsideInventory;
-    [SerializeField]
     private GameObject staminaSlider;
-
+    [SerializeField]
+    private Text itemText;
     public bool isFull = false;
+
+    //퀵슬롯의 기능
+    private int i_index  = 0;
+    private GameObject[] checkImages;
+
+    private float waitFadeOutTime = 1f;
+    private float timer = 0;
+    private bool isFadeIn = false;
+    private bool isFadeOut = false;
+    private bool OneTime = true;
+
+    private bool isEnd_1 = false;
+    private bool isEnd_2 = false;
+    private void Awake()
+    {
+        Instance = this;
+        checkImages = new GameObject[6];
+    }
 
     void Start()
     {
@@ -34,53 +54,15 @@ public class InsideInventory : MonoBehaviour
         for (int i = 0; i < slots.Length; i++)
         {
             slots[i].SetColor(0);
+            checkImages[i] = slots[i].transform.GetChild(1).gameObject;
+            checkImages[i].SetActive(false);
         }
     }
 
-    void Update()
+    private void Update()
     {
-        TryOpenInventory();
+        FadeOut();
     }
-
-    private void TryOpenInventory()
-    {
-        if (Input.GetButtonDown("Inventory"))
-        {
-            inventoryActivated = !inventoryActivated;
-
-            if (inventoryActivated)
-            {
-                InventoryAcited();
-            }
-            else
-            {
-                InventoryUnactivated();
-            }
-        }
-    }
-
-    private void InventoryAcited()
-    {
-        go_InsideInventoryBase.SetActive(true);
-        Cursor.lockState = CursorLockMode.None;              //마우스조작 활성화
-        Cursor.visible = true;
-        playerController.enabled = false;                    //캐릭터조작 비활성화
-        handController.enabled = false;
-        outsideInventory.SetActive(false);
-        staminaSlider.SetActive(false);
-    }
-
-    private void InventoryUnactivated()
-    {
-        go_InsideInventoryBase.SetActive(false);
-        Cursor.lockState = CursorLockMode.Locked;           //마우스조작 비활성화
-        Cursor.visible = false;
-        playerController.enabled = true;                    //캐릭터조작 재활성화
-        handController.enabled = true;
-        outsideInventory.SetActive(true);
-        staminaSlider.SetActive(true);
-    }
-
     public void AcuquireItem(IItem _item)
     {
 
@@ -90,21 +72,6 @@ public class InsideInventory : MonoBehaviour
             {
                 slots[i].AddItem(_item);
                 return;
-            }
-        }
-    }
-
-    public void UsedItem(IItem _item)
-    {
-        for (int i = 0; i < slots.Length; i++)
-        {
-            if (slots[i].item == null)
-            {
-                if (slots[i].item.itemName == _item.itemName)
-                {
-                    slots[i].ClearSlot();
-                    return;
-                }
             }
         }
     }
@@ -119,10 +86,94 @@ public class InsideInventory : MonoBehaviour
                 count++;
             }
         }
-        if (count >= 9)
+        if (count >= slots.Length)
         {
             isFull = true;
             Debug.Log("인벤토리가 가득 찼읍니다");
         }
+        else
+        {
+            isFull = false;
+        }
+    }
+
+    public void CheckCanUse(int index)
+    {
+        if (index != i_index)
+        {
+            OneTime = true;
+        }
+
+        i_index = index;
+
+        if (OneTime && slots[i_index].item != null) //아이템이름표시
+        {
+            Debug.Log("된다.");
+            itemText.text = slots[i_index].item.itemName;
+            FadeIn();
+            OneTime = false;
+        }
+        
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (i != index)                            //인벤토리의 사용가능표시, 아이템사용가능 초기화
+            {
+                checkImages[i].SetActive(false);
+
+                if (slots[i].item == null)
+                {
+                    //Debug.Log("확인 2");
+                    slots[i].isCanUse = false;
+                }
+            }
+        }
+        checkImages[i_index].SetActive(true);
+
+        if (slots[index].item != null)
+        {
+            //Debug.Log("확인 3");
+            slots[index].isCanUse = true;
+        }
+    }
+
+    public void UsingItem()
+    {
+        int index = i_index;
+        if (slots[index].isCanUse && slots[index].item != null)
+        {
+            slots[index].item.Use(playerController.gameObject);
+            UsedItem(index);
+        }
+        else
+        {
+            //Debug.Log("아이템이 없읍니다");
+        }
+    }
+
+    private void UsedItem(int index)
+    {
+        if (slots[index].item.isCanUse)
+        {
+            slots[index].ClearSlot();
+        }
+    }
+
+    private void FadeIn()
+    {
+        //SetColor((int)currentTime);
+        itemText.DOFade(1f, 0.2f).SetEase(Ease.InOutQuad).SetAutoKill(false).OnComplete(() => StartCoroutine(FadeOut()));
+    }
+    private IEnumerator FadeOut()
+    {
+        yield return new WaitForSeconds(2f);
+
+        itemText.DOFade(0f, 0.2f).SetEase(Ease.InOutQuad).SetAutoKill(false);
+    }
+
+    private void SetColor(int _alpha)
+    {
+        Color color = itemText.color;
+        color.a = _alpha;
+        itemText.color = color;
     }
 }

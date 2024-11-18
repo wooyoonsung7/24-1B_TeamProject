@@ -17,6 +17,7 @@ public class VoidCase : MonoBehaviour, IItem
     private int caseIndex = 0;
     [SerializeField]
     private GameObject generatedItem;
+    private bool OneTime = true;
 
     private void Start()
     {
@@ -27,10 +28,13 @@ public class VoidCase : MonoBehaviour, IItem
     }
     public void Use(GameObject target)
     {
-        if (isCanUse)
+        if (isCanUse && OneTime)
         {
-            Instantiate(generatedItem, transform.position - transform.forward * 0.15f, Quaternion.identity);
-            isCanUse = false;
+            GameObject temp = Instantiate(generatedItem, transform.position - transform.forward * 0.15f, Quaternion.identity);
+            temp.gameObject.layer = 0;
+            gameObject.layer = 0;
+
+            OneTime = false;
         }
     }
 }
