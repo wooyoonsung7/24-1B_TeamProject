@@ -50,7 +50,8 @@ public class SoundDetector : MonoBehaviour
     private LayerMask layerMask;
 
     private Vector3 myPos;
-
+    private bool isOneTime = true;
+    private float timer = 0f;
     public enum LEVEL
     {
         Level3, Level2, Level1, Level0
@@ -61,7 +62,6 @@ public class SoundDetector : MonoBehaviour
         instance = this;
         enemy = GetComponent<Enemy>();
         ChangeLevelState(LEVEL.Level0);
-        g_level = 0;
     }
 
     public void OnDetect()
@@ -109,7 +109,6 @@ public class SoundDetector : MonoBehaviour
             if (!isPlay_3)
             {
                 ChangeLevelState(LEVEL.Level2);
-                SoundPos.Clear();
                 isPlay_1 = false;
             }
         }
@@ -118,7 +117,6 @@ public class SoundDetector : MonoBehaviour
             if (!isPlay_2 && !isPlay_3)
             {
                 ChangeLevelState(LEVEL.Level1);
-                SoundPos.Clear();
             }
         }
         if (g_level == 0)
@@ -135,7 +133,12 @@ public class SoundDetector : MonoBehaviour
         if (isHurry)
         {
             Debug.Log("이것 문제인가?");
-            enemy.navMeshAgent.SetDestination(SoundPos[0]);
+            if (isOneTime)
+            {
+                Debug.Log("이게 왜되?");
+                enemy.navMeshAgent.SetDestination(SoundPos[0]);
+                isOneTime = false;
+            }
             isHurry = false;
         }
 
@@ -147,6 +150,7 @@ public class SoundDetector : MonoBehaviour
                 SoundPos.Clear();
                 isPlay_3 = false;
                 g_level = defultLevel;
+                isOneTime = true;
             }
         }
     }
@@ -161,7 +165,14 @@ public class SoundDetector : MonoBehaviour
             enemy.navMeshAgent.updateRotation = false;
             enemy.transform.DOLookAt(SoundPos[0], 0.5f).OnComplete(() => enemy.navMeshAgent.updateRotation = true);
 
-            enemy.navMeshAgent.SetDestination(SoundPos[0]);                                                             //언제든지 상태가 바뀔 수 있음 따라서 초기화가 필요함.
+            timer += Time.deltaTime;
+            if (timer > 0.5f * Time.deltaTime)
+            {
+                Debug.Log("이거 안되?");
+                enemy.navMeshAgent.SetDestination(SoundPos[0]);
+                SoundPos.Clear();
+                timer = 0f;
+            }                                                           //언제든지 상태가 바뀔 수 있음 따라서 초기화가 필요함.
         }
 
         if (!enemy.navMeshAgent.pathPending && enemy.navMeshAgent.remainingDistance <= enemy.navMeshAgent.stoppingDistance)
@@ -170,7 +181,7 @@ public class SoundDetector : MonoBehaviour
             {
                 SoundPos.Clear();
                 isPlay_2 = false;
-                g_level = defultLevel;
+                G_level = defultLevel;
             }
         }
     }
@@ -185,7 +196,13 @@ public class SoundDetector : MonoBehaviour
             enemy.navMeshAgent.updateRotation = false;
             enemy.transform.DOLookAt(SoundPos[0], 0.5f).OnComplete(() => enemy.navMeshAgent.updateRotation = true);
 
-            enemy.navMeshAgent.SetDestination(SoundPos[0]);                                                             //언제든지 상태가 바뀔 수 있음 따라서 초기화가 필요함.
+            timer += Time.deltaTime;
+            if (timer > 0.5f * Time.deltaTime)
+            {
+                Debug.Log("이거 안되?");
+                enemy.navMeshAgent.SetDestination(SoundPos[0]);
+                timer = 0f;
+            }                                                              //언제든지 상태가 바뀔 수 있음 따라서 초기화가 필요함.
         }
 
         if (!enemy.navMeshAgent.pathPending && enemy.navMeshAgent.remainingDistance <= enemy.navMeshAgent.stoppingDistance)
@@ -194,7 +211,7 @@ public class SoundDetector : MonoBehaviour
             {
                 SoundPos.Clear();
                 isPlay_1 = false;
-                g_level = defultLevel;
+                G_level = defultLevel;
             }
         }
     }
@@ -204,7 +221,7 @@ public class SoundDetector : MonoBehaviour
         isPlay_1 = false;
         isPlay_2 = false;
         isPlay_3 = false;
-        g_level = defultLevel;
+        G_level = defultLevel;
         SoundPos.Clear();
         //Debug.Log("아무런 것도 없다");
     }

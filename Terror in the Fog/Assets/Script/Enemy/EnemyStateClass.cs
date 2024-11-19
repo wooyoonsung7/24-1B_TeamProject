@@ -1,31 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-
-
-public class Idle : IState
-{
-    private static Idle Instance = new Idle();
-    private Idle() { }
-    public static Idle GetInstance() { return Instance; }
-    public void StateEnter(Enemy enemy)
-    {
-
-    }
-    public void StateFixUpdate(Enemy enemy)
-    {
-
-    }
-    public void StateUpdate(Enemy enemy)
-    {
-
-    }
-    public void StateExit(Enemy enemy)
-    {
-
-    }
-}
 
 
 //플레이어를 찾기 위해 탐색하는 상태
@@ -90,6 +65,7 @@ public class Research : IState
     public void StateExit(Enemy enemy)
     {
         isFindPlayer = false;
+        enemy.ResetSound();                                         //사운드감지 값초기화
     }
 }
 
@@ -201,13 +177,12 @@ public class ChaseState : IState
     public void StateEnter(Enemy enemy)
     {
         playerController = enemy.playerController;
-        enemy.navMeshAgent.isStopped = false;
         enemy.isFindPlayer = true;
     }
 
     public void StateFixUpdate(Enemy enemy)
     {
-        enemy.CheckObject();
+        //enemy.CheckObject();
         enemy.ChasePlayer();                      //플레이어를 쫓는다.
     }
 

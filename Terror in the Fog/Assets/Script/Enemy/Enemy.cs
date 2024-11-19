@@ -37,6 +37,8 @@ public class Enemy : MonoBehaviour
 
     public bool pauseResearch = false;
 
+    private float Timer = 0f;
+
     void Start()
     {
         _stateMachine = new StateMachine(this, Research.GetInstance());
@@ -139,7 +141,12 @@ public class Enemy : MonoBehaviour
         Debug.Log("쫓는다");
         Debug.Log("쫓을 사람 : " + hitTargetList);
 
-        navMeshAgent.SetDestination(hitTargetList[0].transform.position);
+        Timer += Time.deltaTime;
+        if (Timer > 5f* Time.deltaTime)
+        {
+            navMeshAgent.SetDestination(hitTargetList[0].transform.position);
+            Timer = 0f;
+        }
 
         target = Physics.OverlapSphere(transform.position, seizeRadius, TargetMask);
     }
@@ -166,6 +173,7 @@ public class Enemy : MonoBehaviour
     public void ResearchArea()
     {
         if (ResearchManager.instance != null) ResearchManager.instance.RESEARCH();
+        //ResearchManager_Simple도 추가해야함
     }
 
     public void RestartSearch()

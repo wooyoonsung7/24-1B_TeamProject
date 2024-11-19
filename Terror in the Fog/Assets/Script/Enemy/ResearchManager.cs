@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.AI;
 
 
 
@@ -46,6 +47,10 @@ public class ResearchManager : MonoBehaviour
     
     //문 Control용
     public bool isLookBack = false;
+    public bool isdoorLocked = false;
+
+    //잠긴문 못들어가는용
+    public float timer = 0f;
     public enum ENEMYSTATE
     {
         OPENDOOR,
@@ -139,25 +144,27 @@ public class ResearchManager : MonoBehaviour
 
     private void OpenDoor()
     {
-        Debug.Log(1);
+        //Debug.Log(1);
         //Debug.Log("진짜 층은 " + floorNumber);
         //Debug.Log("바뀐 방의 개수는" + roomNumber);
 
         moveToPos = floorIndex[floorNumber].columns[moveIndex].transform.position;
-
         enemy.navMeshAgent.SetDestination(moveToPos);
 
         if (enemy.navMeshAgent.remainingDistance <= enemy.navMeshAgent.stoppingDistance && Time.time >= changeTime + waitTime)
         {
-
             changeTime = Time.time;
             ChangeEnemyState(ENEMYSTATE.ENTERROOM);
             isOneTime = true;
+            timer = 0f; //타이머초기화
         }
     }
     private void EnterRoom()
     {
-        Debug.Log(2);
+        timer += Time.deltaTime; //잠긴문확인용             --------나중에 잠긴문인 인덱스만 그렇게 변경-------------
+        if (timer < 0.6f) return;
+
+        //Debug.Log(2);
         moveToPos = floorIndex[floorNumber].columns[moveIndex + roomNumber].transform.position;
         enemy.navMeshAgent.SetDestination(moveToPos);
 
@@ -202,7 +209,7 @@ public class ResearchManager : MonoBehaviour
     }
     private void LookAround()
     {
-        Debug.Log(3);
+        //Debug.Log(3);
         if (isOneTime)
         {
             if (isheight)
@@ -223,7 +230,7 @@ public class ResearchManager : MonoBehaviour
     }
     private void LookBack()
     {
-        Debug.Log(4);
+        //Debug.Log(4);
         if (isOneTime)
         {
             if (isheight)
@@ -249,7 +256,7 @@ public class ResearchManager : MonoBehaviour
 
     private void StopAction()
     {
-        Debug.Log(5);
+        //Debug.Log(5);
         if (stepNumber == 3)
         {
             int randomNum = Random.Range(0, roomNumber - 1);
@@ -331,5 +338,4 @@ public class ResearchManager : MonoBehaviour
             changeTime = Time.time;
         }
     }
-
 }

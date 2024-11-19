@@ -5,6 +5,8 @@ using static IItem;
 using DG.Tweening;
 using static UnityEditor.PlayerSettings;
 using Unity.VisualScripting;
+using static ResearchManager;
+using UnityEngine.AI;
 
 public class Door : MonoBehaviour, IItem
 {
@@ -93,6 +95,7 @@ public class Door : MonoBehaviour, IItem
         {
             Collider[] targets = Physics.OverlapSphere(doorPos, detectRadius, TargetMask);
 
+
             if (targets.Length > 0 && isOneTime)
             {
                 isOneTime = false;
@@ -103,8 +106,23 @@ public class Door : MonoBehaviour, IItem
                     Use(gameObject);
                     isOneTime = true;
                 }
+
+                if (!isCanUse)
+                {
+                    ResearchManager.instance.ChangeEnemyState(ENEMYSTATE.CHANGEROOM); //주의 : 문에서 관여를 한다.
+
+                    while (true)
+                    {
+                        if (ENEMYSTATE.CHANGEROOM == ResearchManager.instance.enemystate)
+                        {
+                            yield return new WaitForSeconds(0.5f);
+                            isOneTime = true;
+                            break;
+                        }
+                    }
+                }
             }
-            yield return null;
+            yield return new WaitForSeconds(1f * Time.deltaTime);
         }
     }
 }
