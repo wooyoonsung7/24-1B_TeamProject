@@ -9,7 +9,27 @@ public class SoundDetector : MonoBehaviour
 
 
     public bool isDetectOFF = false;
-    public int g_level = 0;
+    private int g_level = 0;
+    public int G_level
+    {
+        get { return g_level; }
+        set 
+        {
+            if (g_level > value)
+            {
+                return;
+            }
+            else
+            {
+                g_level = value;
+            }
+
+            if (value == 3)
+            {
+                SoundPos.Clear();  //이렇게 하더라도 오류발생가능
+            }
+        }
+    }
     private int defultLevel = 0;
 
     public List<Vector3> SoundPos = new List<Vector3>();
@@ -25,6 +45,8 @@ public class SoundDetector : MonoBehaviour
     [SerializeField]
     private float detectRadius = 11f;
     [SerializeField]
+    private float r_DetectRadius = 11f;
+    [SerializeField]
     private LayerMask layerMask;
 
     private Vector3 myPos;
@@ -39,6 +61,7 @@ public class SoundDetector : MonoBehaviour
         instance = this;
         enemy = GetComponent<Enemy>();
         ChangeLevelState(LEVEL.Level0);
+        g_level = 0;
     }
 
     public void OnDetect()
@@ -79,13 +102,14 @@ public class SoundDetector : MonoBehaviour
             ChangeLevelState(LEVEL.Level3);
             isPlay_2 = false;
             isPlay_1 = false;
+            isHurry = true;
         }
         if (g_level == 2)
         {
             if (!isPlay_3)
             {
                 ChangeLevelState(LEVEL.Level2);
-                isHurry = true;
+                SoundPos.Clear();
                 isPlay_1 = false;
             }
         }
@@ -94,6 +118,7 @@ public class SoundDetector : MonoBehaviour
             if (!isPlay_2 && !isPlay_3)
             {
                 ChangeLevelState(LEVEL.Level1);
+                SoundPos.Clear();
             }
         }
         if (g_level == 0)
@@ -106,10 +131,6 @@ public class SoundDetector : MonoBehaviour
     }
 
     public void HurryToPos()
-    {
-
-    }
-    public void MoveToPos()
     {
         if (isHurry)
         {
@@ -124,6 +145,30 @@ public class SoundDetector : MonoBehaviour
             {
                 Debug.Log("도착했다");
                 SoundPos.Clear();
+                isPlay_3 = false;
+                g_level = defultLevel;
+            }
+        }
+    }
+    public void MoveToPos()
+    {
+        Collider[] target = Physics.OverlapSphere(myPos, r_DetectRadius, layerMask);
+        foreach (Collider p_collider in target)
+        {
+            Debug.Log("된다");
+            isPlay_2 = true;
+            SoundPos.Add(p_collider.transform.position);
+            enemy.navMeshAgent.updateRotation = false;
+            enemy.transform.DOLookAt(SoundPos[0], 0.5f).OnComplete(() => enemy.navMeshAgent.updateRotation = true);
+
+            enemy.navMeshAgent.SetDestination(SoundPos[0]);                                                             //언제든지 상태가 바뀔 수 있음 따라서 초기화가 필요함.
+        }
+
+        if (!enemy.navMeshAgent.pathPending && enemy.navMeshAgent.remainingDistance <= enemy.navMeshAgent.stoppingDistance)
+        {
+            if (enemy.navMeshAgent.hasPath || enemy.navMeshAgent.velocity.sqrMagnitude == 0f)
+            {
+                SoundPos.Clear();
                 isPlay_2 = false;
                 g_level = defultLevel;
             }
@@ -134,6 +179,7 @@ public class SoundDetector : MonoBehaviour
         Collider[] target = Physics.OverlapSphere(myPos, detectRadius, layerMask);
         foreach (Collider p_collider in target)
         {
+            Debug.Log("된다");
             isPlay_1 = true;
             SoundPos.Add(p_collider.transform.position);
             enemy.navMeshAgent.updateRotation = false;
@@ -167,5 +213,6 @@ public class SoundDetector : MonoBehaviour
     {
         myPos = transform.position + Vector3.up * 0.5f;
         Gizmos.DrawWireSphere(myPos, detectRadius);
+        Gizmos.DrawWireSphere(myPos, r_DetectRadius);
     }
 }

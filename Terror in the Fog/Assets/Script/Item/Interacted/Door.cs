@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using static IItem;
 using DG.Tweening;
+using static UnityEditor.PlayerSettings;
+using Unity.VisualScripting;
 
 public class Door : MonoBehaviour, IItem
 {
@@ -16,34 +18,33 @@ public class Door : MonoBehaviour, IItem
 
     public bool isOpen = false;
     private bool canOpen = true;
+    private bool checkState = false;
 
     public bool isOpened = true; //잠긴문인지 확인
     public int doorIndex = 0;     //문아이디
 
+    Vector3 doorRot;
+    Vector3 doorPos;
+    [SerializeField] private float detectRadius;
+    [SerializeField] private LayerMask TargetMask;
+    private bool isOneTime = true;
     private void Start()
     {
         type = ItemType.interacted;
         itemName = "Door";
         isCanUse = isOpened; //몬스터전용 불값
         index = doorIndex;
+        doorRot = transform.rotation.eulerAngles;
+        doorPos = transform.position + transform.right * 0.3f;
+
+        StartCoroutine(CheckEnemy());
     }
 
     public void Use(GameObject target)
     {
         if (isCanUse)
         {
-            Vector3 doorPos = transform.rotation.eulerAngles;
-            isOpen = !isOpen;
-            if (isOpen && canOpen)
-            {
-                doorPos -= new Vector3(0f, 90f, 0f);
-                transform.DOLocalRotate(doorPos, 0.5f).OnComplete(() => canOpen = false);
-            }
-            else if (!isOpen && !canOpen)
-            {
-                doorPos += new Vector3(0f, 90f, 0f);
-                transform.DOLocalRotate(doorPos, 0.5f).OnComplete(() => canOpen = true);
-            }
+            StartCoroutine(CheckUse());
         }
         else
         {
@@ -51,36 +52,59 @@ public class Door : MonoBehaviour, IItem
         }
     }
 
-    public void OnCollisionEnter(Collision collision)
+    private IEnumerator CheckUse()
     {
-        if (collision.collider.gameObject.CompareTag("Enemy"))
+        if (canOpen)
         {
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-            if (enemy != null && !isOpen)
+            canOpen = false;
+
+            checkState = isOpen;
+            isOpen = !isOpen;
+            if (isOpen != checkState)
             {
-                StartCoroutine(E_InteractDoor(enemy));
+                StartCoroutine(OpenDoor());
+                StartCoroutine(CloseDoor());
             }
         }
+        yield return null;
     }
-    IEnumerator E_InteractDoor(Enemy _enemy)
+    private IEnumerator OpenDoor()
     {
-        Enemy enemy = _enemy;
+        if (isOpen)
+        {
+            doorRot += new Vector3(0f, 90f, 0f);
+            transform.DOLocalRotate(doorRot, 0.5f).OnComplete(()=>canOpen = true);
+        }
+        yield return null;
+    }
+    private IEnumerator CloseDoor()
+    {
         if (!isOpen)
         {
-            Use(gameObject);
-            enemy.navMeshAgent.isStopped = true;
+            doorRot -= new Vector3(0f, 90f, 0f);
+            transform.DOLocalRotate(doorRot, 0.5f).OnComplete(() => canOpen = true);
         }
+        yield return null;
+    }
 
-        yield return new WaitForSeconds(0.1f);
-        enemy.navMeshAgent.isStopped = false;
-        yield return new WaitForSeconds(1f);
-
-        while (ResearchManager.instance.isLookBack)
+    private IEnumerator CheckEnemy()
+    {
+        while (true)
         {
-            Debug.Log("뒤 보는 중");
+            Collider[] targets = Physics.OverlapSphere(doorPos, detectRadius, TargetMask);
+
+            if (targets.Length > 0 && isOneTime)
+            {
+                isOneTime = false;
+                if (!isOpen)
+                {
+                    Use(gameObject);
+                    yield return new WaitForSeconds(1f);
+                    Use(gameObject);
+                    isOneTime = true;
+                }
+            }
             yield return null;
         }
-
-        Use(gameObject);
     }
 }

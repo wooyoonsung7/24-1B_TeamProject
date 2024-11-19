@@ -34,14 +34,7 @@ public class InsideInventory : MonoBehaviour
     private int i_index  = 0;
     private GameObject[] checkImages;
 
-    private float waitFadeOutTime = 1f;
-    private float timer = 0;
-    private bool isFadeIn = false;
-    private bool isFadeOut = false;
     private bool OneTime = true;
-
-    private bool isEnd_1 = false;
-    private bool isEnd_2 = false;
     private void Awake()
     {
         Instance = this;

@@ -21,13 +21,11 @@ public class Safe : MonoBehaviour
     {
         while (true)
         {
-            Debug.Log("체킹 중");
             for (int i = 0; i < safeButtons.Length; i++)
             {
                 //Debug.Log(i + "번째" + safeButtons[i].selected + "이다");
                 if (selectCount >= 4)
                 {
-                    Debug.Log("초과되었다");
                     if (count >= 4)
                     {
                         Vector3 moveToPos = transform.position + transform.forward * 1f;
@@ -45,13 +43,11 @@ public class Safe : MonoBehaviour
                 {
                     if (safeButtons[i].selected && safeButtons[i].isCanUse)
                     {
-                        Debug.Log("선택완");
                         selectCount++;
                         safeButtons[i].isCanUse = false;
 
                         if (safeButtons[i].isCollect)
                         {
-                            Debug.Log("굳");
                             count++;
                         }
                     }

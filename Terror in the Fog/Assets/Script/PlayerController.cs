@@ -310,7 +310,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void SetState(SoundState state)
+    private void SetState(SoundState state)
     {
         SoundState _soundstate = state;
         SoundManager.instance.PlaySound(_soundstate.ToString());
@@ -322,7 +322,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log(state.ToString());
     }
 
-    public void ChangeState(SoundState state)
+    private void ChangeState(SoundState state)
     {
         if (soundstate != state)
         {
@@ -345,12 +345,12 @@ public class PlayerController : MonoBehaviour
         {
             if (soundData.soundname[i] == name)
             {
-                SoundDetector.instance.g_level = soundData.soundLevel[i];
-                
+                SoundDetector.instance.G_level = soundData.soundLevel[i];
+                /*
                 if (soundData.soundLevel[i] == 2)
                 {
                     SoundDetector.instance.SoundPos.Add(transform.position);
-                }
+                }*/
             }
         }
         yield return null;

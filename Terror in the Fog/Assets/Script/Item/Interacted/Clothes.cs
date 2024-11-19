@@ -19,10 +19,8 @@ public class Clothes : MonoBehaviour, IItem
     [SerializeField] float r_duration = 0.1f;
     private Transform transObject;
 
-    private void Awake()
-    {
-        
-    }
+    private bool endMove = true;
+    private Vector3 currentRot;
     private void Start()
     {
         type = ItemType.interacted;
@@ -34,14 +32,19 @@ public class Clothes : MonoBehaviour, IItem
 
     public void Use(GameObject target)
     {
-        isHide = !isHide;
+        if (endMove)
+        {
+            endMove = false;
+            isHide = !isHide;
+        }
         PlayerController playerController = target.GetComponent<PlayerController>();
         if (isHide)
         {
+            currentRot = target.transform.localEulerAngles;
             Vector3 currentRotation = transform.localEulerAngles;
             currentRotation.y += -90;
 
-            target.transform.DOMove(transObject.position, m_duration);
+            target.transform.DOMove(transObject.position, m_duration).OnComplete(() => endMove = true);
             target.transform.DOLocalRotate(currentRotation, r_duration);
             playerController.isCanMove = false;
             playerController.isHide = true;
@@ -51,6 +54,7 @@ public class Clothes : MonoBehaviour, IItem
             target.transform.position = transObject.position + transform.right * -1.5f;
             playerController.isHide = false;
             playerController.isCanMove = true;
+            endMove = true;
         }
     }
 }
