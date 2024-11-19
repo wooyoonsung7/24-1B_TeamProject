@@ -7,22 +7,46 @@ using UnityEngine.UI;
 
 public class LoadingBarController : MonoBehaviour
 {
-    public Slider loadingBar;
+    public Slider progressBar;
+    public Image fillImage;
+    float fakeProgress = 0f;
 
-    public void LoadScene(string sceneName)
+
+
+
+    private void Start()
     {
-        StartCoroutine(LoadSceneAsync(sceneName));
+        // 로딩 시작
+        StartCoroutine(LoadTutorialScene());
     }
 
-    IEnumerator LoadSceneAsync(string sceneName)
+    public IEnumerator LoadTutorialScene()
     {
-       
-        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+
+        AsyncOperation operation = SceneManager.LoadSceneAsync("TutorialScene");
+        operation.allowSceneActivation = false;
 
         while (!operation.isDone)
         {
-            float progress = Mathf.Clamp01(operation.progress / 0.9f);
-            loadingBar.value = progress;
+
+            float progress = Mathf.Clamp01(operation.progress / 0.05f);
+            progressBar.value = progress;
+
+            fakeProgress += Time.deltaTime * 0.03f;  
+            fakeProgress = Mathf.Clamp01(fakeProgress);  
+
+            fillImage.fillAmount = progress;
+
+            
+            if (operation.progress >= 0.9f)
+            {
+
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    operation.allowSceneActivation = true;
+                }
+            }
+
             yield return null;
         }
     }
