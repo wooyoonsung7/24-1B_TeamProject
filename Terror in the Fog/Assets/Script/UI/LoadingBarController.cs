@@ -11,6 +11,9 @@ public class LoadingBarController : MonoBehaviour
     public Image fillImage;
     float fakeProgress = 0f;
 
+    [SerializeField, Range(1f, 7f)]
+    private float loadingSpeed = 0.01f;
+
 
 
 
@@ -25,29 +28,38 @@ public class LoadingBarController : MonoBehaviour
 
         AsyncOperation operation = SceneManager.LoadSceneAsync("TutorialScene");
         operation.allowSceneActivation = false;
+        float fakeProgress = 0f;
+
+
+
+
 
         while (!operation.isDone)
         {
-
-            float progress = Mathf.Clamp01(operation.progress / 0.05f);
-            progressBar.value = progress;
-
-            fakeProgress += Time.deltaTime * 0.03f;  
-            fakeProgress = Mathf.Clamp01(fakeProgress);  
-
-            fillImage.fillAmount = progress;
-
-            
-            if (operation.progress >= 0.9f)
+            if (operation.progress < 0.9f)
             {
-
-                if (Input.GetKeyDown(KeyCode.Return))
-                {
-                    operation.allowSceneActivation = true;
-                }
+                fakeProgress = Mathf.Lerp(fakeProgress, operation.progress, Time.deltaTime * 2f); 
+            }
+            else
+            {
+                fakeProgress = Mathf.Lerp(fakeProgress, 1f, Time.deltaTime * 3f); 
             }
 
-            yield return null;
+
+            progressBar.value = fakeProgress;
+            fillImage.fillAmount = fakeProgress;
+
+            if (fakeProgress >= 0.99f && operation.progress >= 0.9f)
+            {
+               
+                operation.allowSceneActivation = true; 
+            }
+
+
+
+
+            yield return new WaitForSeconds(0.001f);
         }
+
     }
 }
