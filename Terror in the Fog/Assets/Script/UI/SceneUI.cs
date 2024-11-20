@@ -15,7 +15,7 @@ public class SceneUI : MonoBehaviour
 
     public void LoadTestScene()
     {
-        SceneManager.LoadScene("Home");
+        SceneManager.LoadScene("LoadingUI");
     }
 
 
