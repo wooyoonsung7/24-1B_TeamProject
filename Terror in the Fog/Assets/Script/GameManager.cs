@@ -60,11 +60,12 @@ public class GameManager : MonoBehaviour  //게임 전체적으로 <퀘스트, 각 회차의 �
 
     private void Start()
     {
-        CheckDays();
+        //CheckDays();   임시로 빼놓음
     }
 
     private void Update()
     {
+        CheckDays();
         SETDAY();
         transMap();
         MasterKey();

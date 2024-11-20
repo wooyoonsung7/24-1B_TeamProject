@@ -170,7 +170,7 @@ public class SoundDetector : MonoBehaviour
             {
                 Debug.Log("이거 안되?");
                 enemy.navMeshAgent.SetDestination(SoundPos[0]);
-                SoundPos.Clear();
+                //SoundPos.Clear();
                 timer = 0f;
             }                                                           //언제든지 상태가 바뀔 수 있음 따라서 초기화가 필요함.
         }
@@ -181,7 +181,7 @@ public class SoundDetector : MonoBehaviour
             {
                 SoundPos.Clear();
                 isPlay_2 = false;
-                G_level = defultLevel;
+                g_level = defultLevel;
             }
         }
     }
@@ -190,7 +190,7 @@ public class SoundDetector : MonoBehaviour
         Collider[] target = Physics.OverlapSphere(myPos, detectRadius, layerMask);
         foreach (Collider p_collider in target)
         {
-            Debug.Log("된다");
+            Debug.Log("된다된다");
             isPlay_1 = true;
             SoundPos.Add(p_collider.transform.position);
             enemy.navMeshAgent.updateRotation = false;
@@ -211,7 +211,7 @@ public class SoundDetector : MonoBehaviour
             {
                 SoundPos.Clear();
                 isPlay_1 = false;
-                G_level = defultLevel;
+                g_level = defultLevel;
             }
         }
     }
@@ -221,7 +221,8 @@ public class SoundDetector : MonoBehaviour
         isPlay_1 = false;
         isPlay_2 = false;
         isPlay_3 = false;
-        G_level = defultLevel;
+        g_level = defultLevel;
+        //ChangeLevelState(LEVEL.Level0);
         SoundPos.Clear();
         //Debug.Log("아무런 것도 없다");
     }
