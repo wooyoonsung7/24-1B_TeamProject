@@ -82,7 +82,11 @@ public class EventManager : MonoBehaviour //이벤트관리
 
     public void DayOneEvent()
     {
-
+        if (!EndEvent)
+        {
+            ResearchManager_Simple.instance.StartCoroutine("DayOne");
+            EndEvent = true;
+        }
     }
 
     private void DayTwoEnvent()

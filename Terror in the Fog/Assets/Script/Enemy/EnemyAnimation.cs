@@ -86,7 +86,6 @@ public class EnemyAnimation : MonoBehaviour
     public void DoDayOneMotion()
     {
         //서재에서의 애니메이션
-        
     }
 
     private void Distribute(int number)

@@ -41,17 +41,9 @@ public class ResearchManager_Simple : MonoBehaviour
 
     private IEnumerator Tuto()
     {
-        moveToPos = columns[++moveIndex].transform.position;
-        enemy.navMeshAgent.SetDestination(moveToPos);
-
+        MoveToPos();
         yield return new WaitForSeconds(CheckTime(moveToPos));
-
-        if (enemy.navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete && enemy.navMeshAgent.remainingDistance <= 0.1f)
-        {
-
-            moveToPos = columns[++moveIndex].transform.position;
-            enemy.navMeshAgent.SetDestination(moveToPos);
-        }
+        MoveToPos_2();
 
         yield return new WaitForSeconds(CheckTime(moveToPos) + 6f * Time.deltaTime);
 
@@ -108,4 +100,33 @@ public class ResearchManager_Simple : MonoBehaviour
         return time;
     }
 
+    private void MoveToPos()
+    {
+        moveToPos = columns[++moveIndex].transform.position;
+        enemy.navMeshAgent.SetDestination(moveToPos);
+    }
+    private void MoveToPos_2()
+    {
+        if (enemy.navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete && enemy.navMeshAgent.remainingDistance <= 0.1f)
+        {
+            MoveToPos();
+        }
+    }
+    public IEnumerator DayOne()
+    {
+        while (true)
+        {
+            MoveToPos(); Debug.Log("1");
+            yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);  //애니메이션시간 5초(임시) + (애니메이션 실행)
+            MoveToPos_2(); Debug.Log("2");
+            yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);  //애니메이션시간 5초(임시)
+            MoveToPos_2(); Debug.Log("3");
+            yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);  //애니메이션시간 5초(임시)
+            MoveToPos_2(); Debug.Log("4");
+            yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);  //애니메이션시간 5초(임시)
+            MoveToPos_2(); Debug.Log("5");
+            moveIndex = 0;
+            yield return null;
+        }
+    }
 }
