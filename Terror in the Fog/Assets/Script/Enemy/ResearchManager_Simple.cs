@@ -21,7 +21,8 @@ public class ResearchManager_Simple : MonoBehaviour
     public bool isstepEnd = false;
     private bool isOneTime = false;
 
-
+    public bool isEnd = false; //1일차용
+    private bool isEnd_2 = false;
 
     //어떤 용으로 사용할지를 선택
 
@@ -30,6 +31,7 @@ public class ResearchManager_Simple : MonoBehaviour
     public bool isLookBack = false;
 
     public bool EventEnd = false;
+    int count = 0;
 
     private void Awake()
     {
@@ -116,17 +118,48 @@ public class ResearchManager_Simple : MonoBehaviour
     {
         while (true)
         {
-            MoveToPos(); Debug.Log("1");
+            moveIndex = 0;
+            Debug.Log("111");
+            MoveToPos(); if (isEnd) yield return StartCoroutine(DayOneEvent());
             yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);  //애니메이션시간 5초(임시) + (애니메이션 실행)
-            MoveToPos_2(); Debug.Log("2");
+            MoveToPos_2(); if (isEnd) yield return StartCoroutine(DayOneEvent());
             yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);  //애니메이션시간 5초(임시)
-            MoveToPos_2(); Debug.Log("3");
+            MoveToPos_2(); if (isEnd) yield return StartCoroutine(DayOneEvent());
             yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);  //애니메이션시간 5초(임시)
-            MoveToPos_2(); Debug.Log("4");
+            MoveToPos_2(); if (isEnd) yield return StartCoroutine(DayOneEvent());
             yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);  //애니메이션시간 5초(임시)
-            MoveToPos_2(); Debug.Log("5");
+            MoveToPos_2(); if (isEnd) yield return StartCoroutine(DayOneEvent());
             moveIndex = 0;
             yield return null;
         }
+    }
+
+    public IEnumerator DayOneEvent()
+    {
+        count = 0;
+        int temp = 7;
+        moveIndex = 5;
+
+        MoveToPos();
+        for (int i = 0; i < 3; i++)
+        {
+            yield return new WaitForSeconds(CheckTime(moveToPos));
+            MoveToPos_2();
+            count++;
+        }
+        yield return null;
+        if(count >= 3)EnemyAnimation.instance.sequence.Restart(); count = 0;
+        yield return new WaitUntil(() => isstepEnd);
+        moveIndex = temp;
+        MoveToPos();
+        for (int i = 0; i < 2; i++)
+        {
+            yield return new WaitForSeconds(CheckTime(moveToPos));
+            --temp; moveIndex = temp;
+            MoveToPos_2();
+            count++;
+        }
+        yield return null;
+        if (count >= 2) isEnd = false; yield return StartCoroutine(DayOne());
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static IItem;
 using DG.Tweening;
+using static PlayerController;
 
 public class Clothes : MonoBehaviour, IItem
 {

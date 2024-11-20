@@ -166,7 +166,7 @@ public class SoundDetector : MonoBehaviour
             enemy.transform.DOLookAt(SoundPos[0], 0.5f).OnComplete(() => enemy.navMeshAgent.updateRotation = true);
 
             timer += Time.deltaTime;
-            if (timer > 0.5f * Time.deltaTime)
+            if (timer > 2f * Time.deltaTime)
             {
                 Debug.Log("이거 안되?");
                 enemy.navMeshAgent.SetDestination(SoundPos[0]);
@@ -197,7 +197,7 @@ public class SoundDetector : MonoBehaviour
             enemy.transform.DOLookAt(SoundPos[0], 0.5f).OnComplete(() => enemy.navMeshAgent.updateRotation = true);
 
             timer += Time.deltaTime;
-            if (timer > 0.5f * Time.deltaTime)
+            if (timer > 2f * Time.deltaTime)
             {
                 Debug.Log("이거 안되?");
                 enemy.navMeshAgent.SetDestination(SoundPos[0]);
@@ -222,8 +222,8 @@ public class SoundDetector : MonoBehaviour
         isPlay_2 = false;
         isPlay_3 = false;
         g_level = defultLevel;
-        //ChangeLevelState(LEVEL.Level0);
         SoundPos.Clear();
+        isOneTime = true;
         //Debug.Log("아무런 것도 없다");
     }
 

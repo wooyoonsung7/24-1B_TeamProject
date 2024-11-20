@@ -6778,6 +6778,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 643634015}
   m_CullTransparentMesh: 1
+--- !u!114 &644827161 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2895875486344139287, guid: 3da1db9489c512144b39af8dfde46279,
+    type: 3}
+  m_PrefabInstance: {fileID: 398703263}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e293f1049d27afb4ab3c820b07e506fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &648633696
 GameObject:
   m_ObjectHideFlags: 0
@@ -8040,7 +8052,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c808993e6aa4d8e478ae41730a500027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gotoHouse: 0
 --- !u!1 &789684827
 GameObject:
   m_ObjectHideFlags: 0
@@ -11244,6 +11255,8 @@ MonoBehaviour:
   targetHousedoor: {fileID: 0}
   bed: {fileID: 0}
   homeDoor: {fileID: 0}
+  safe: {fileID: 644827161}
+  day1Door: {fileID: 1207850846}
 --- !u!224 &1135409731 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2013881844780639497, guid: 8dc6f7b009646c0418d677d0293e117a,
@@ -11953,6 +11966,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.7900412, y: 5.222054, z: 11.481197}
   m_Center: {x: 0.000007018448, y: -2.611026, z: 0.0000023821908}
+--- !u!114 &1207850846 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2228582208108186016, guid: 6cf40e4f933f69d41938668427ebe8b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 1207850842}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207850844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aab7b823e1cd6d04c8fcd2e1a2a30db0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1224952661
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14102,7 +14127,7 @@ PrefabInstance:
     - target: {fileID: 5648783407817055963, guid: 1b62462a87d13a04caac3fbc02ee349a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -49.3
+      value: -49.17
       objectReference: {fileID: 0}
     - target: {fileID: 5648783407817055963, guid: 1b62462a87d13a04caac3fbc02ee349a,
         type: 3}
@@ -18243,6 +18268,7 @@ MonoBehaviour:
   moveIndex: 0
   changeTime: 0
   isstepEnd: 0
+  isEnd: 0
   isLookBack: 0
   EventEnd: 0
 --- !u!1 &1967561001

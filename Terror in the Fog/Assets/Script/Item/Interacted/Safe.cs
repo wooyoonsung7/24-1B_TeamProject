@@ -9,6 +9,8 @@ public class Safe : MonoBehaviour
     private int count = 0;
     private SafeButton[] safeButtons;
     [SerializeField]private GameObject item;
+
+    public bool isUnLocked = false;
     private void Awake()
     {
         safeButtons = GetComponentsInChildren<SafeButton>();
@@ -32,6 +34,7 @@ public class Safe : MonoBehaviour
                         transform.DOMove(moveToPos, 1.5f);
                         safeButtons[i].gameObject.layer = 0;
                         item.gameObject.layer = 6;
+                        isUnLocked = true; //금고열림 확인용 불값
                         StopCoroutine("CheckPuzz");
                     }
                     else

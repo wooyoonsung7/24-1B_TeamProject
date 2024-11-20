@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using static PlayerController;
 
 public class PlayerController : MonoBehaviour
 {
@@ -257,21 +258,6 @@ public class PlayerController : MonoBehaviour
 
     public void ETC()
     {
-        if (defaultWalkSpeed != walkSpeed || defaultRunSpeed != runSpeed || defaultCrouchSpeed != crouchSpeed)
-        {
-
-            speedPackTimer -= Time.deltaTime;
-            Debug.Log(speedPackTimer);
-            if (speedPackTimer <= 0)
-            {
-                Debug.Log("된다2");
-                walkSpeed = defaultWalkSpeed;
-                runSpeed = defaultRunSpeed;
-                crouchSpeed = defaultCrouchSpeed;
-                speedPackTimer = speedPackDuration;
-            }
-        }
-
         if (isHide) //플레이가 숨었을 때, 기본 상태로 변경
         {
             ChangeState(SoundState.Idle);
@@ -283,7 +269,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void SetSound()
+    private void SetSound()
     {
         if (isOneTime)
         {
@@ -294,7 +280,7 @@ public class PlayerController : MonoBehaviour
                     break;
 
                 case SoundState.Run:
-                    SetState(SoundState.Run);
+                    SetState(SoundState.Run); Debug.Log("달린다");
                     break;
 
                 case SoundState.Crouch:
@@ -322,7 +308,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log(state.ToString());
     }
 
-    private void ChangeState(SoundState state)
+    public void ChangeState(SoundState state)
     {
         if (soundstate != state)
         {
@@ -341,18 +327,20 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator SetLevel(string name)
     {
-        for (int i = 0; i < soundData.soundLevel.Count; i++)
+        string _name = name;
+        while (true)
         {
-            if (soundData.soundname[i] == name)
+            if (soundstate == SoundState.Idle || soundstate == SoundState.Crouch) break;
+
+            for (int i = 0; i < soundData.soundLevel.Count; i++)
             {
-                SoundDetector.instance.G_level = soundData.soundLevel[i];
-                /*
-                if (soundData.soundLevel[i] == 2)
+                if (soundData.soundname[i] == _name)
                 {
-                    SoundDetector.instance.SoundPos.Add(transform.position);
-                }*/
+                    SoundDetector.instance.G_level = soundData.soundLevel[i];
+                    Debug.Log(SoundDetector.instance.G_level);
+                }
             }
+            yield return new WaitForSeconds(50f*Time.deltaTime);
         }
-        yield return null;
     }
 }

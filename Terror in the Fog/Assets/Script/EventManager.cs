@@ -20,7 +20,12 @@ public class EventManager : MonoBehaviour //이벤트관리
     [SerializeField] private Bed bed;
     [SerializeField] private Door homeDoor;
 
+    [Header("DayOne Event")]
+    [SerializeField] private Safe safe;
+    [SerializeField] private Door day1Door;
+
     private bool EndEvent = false;
+    private bool EndEvent_2 = false;
 
     private void Awake()
     {
@@ -52,7 +57,6 @@ public class EventManager : MonoBehaviour //이벤트관리
         housedoor.isCanUse = true;
         if (housedoor.isOpen)
         {
-            GameManager.Instance.gotoHouse = true;
             GameManager.currentMap = 2;   //거리로 이동
             SceneManager.LoadScene("Street_1");
         }
@@ -64,6 +68,7 @@ public class EventManager : MonoBehaviour //이벤트관리
         {
             if (targetHousedoor.isOpen)
             {
+                GameManager.currentMap = 3;
                 SceneManager.LoadScene("GameScene_" + day);
             }
         }
@@ -75,6 +80,7 @@ public class EventManager : MonoBehaviour //이벤트관리
         {
             if (homeDoor.isOpen)
             {
+                GameManager.currentMap = 2;
                 SceneManager.LoadScene("Street_2");
             }
         }
@@ -82,10 +88,24 @@ public class EventManager : MonoBehaviour //이벤트관리
 
     public void DayOneEvent()
     {
-        if (!EndEvent)
+        if (ResearchManager_Simple.instance != null)
         {
-            ResearchManager_Simple.instance.StartCoroutine("DayOne");
-            EndEvent = true;
+            if (!EndEvent)
+            {
+                ResearchManager_Simple.instance.StartCoroutine("DayOne");
+                EndEvent = true;
+            }
+            if (safe.isUnLocked && !EndEvent_2)
+            {
+                ResearchManager_Simple.instance.isEnd = true;
+                EndEvent_2 = true;
+                day1Door.isCanUse = true;
+            }
+            if (day1Door.isOpen)
+            {
+                GameManager.currentMap = 2;   //거리로 이동
+                SceneManager.LoadScene("Street_1");
+            }
         }
     }
 
