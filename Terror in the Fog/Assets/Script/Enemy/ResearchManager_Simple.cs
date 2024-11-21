@@ -160,23 +160,35 @@ public class ResearchManager_Simple : MonoBehaviour
 
     public IEnumerator DayTwo()
     {
-        moveIndex = 4;
-        MoveToPos();
+        moveIndex = 0;
+        MoveToPos(); Debug.Log("1번째");
         yield return new WaitForSeconds(CheckTime(moveToPos));
-        MoveToPos_2();
+        MoveToPos_2(); Debug.Log("2번째");
+        yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);
+        MoveToPos_2(); Debug.Log("3번째");
+        yield return new WaitForSeconds(CheckTime(moveToPos));
+        MoveToPos_2(); Debug.Log("4번째");
+        yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);
+        MoveToPos_2(); Debug.Log("5번째");
+        yield return new WaitForSeconds(CheckTime(moveToPos) + 25f * Time.deltaTime);
+        MoveToPos_2(); Debug.Log("6번째");
         yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);
 
         while (true)
         {
             moveIndex = 0;
-            for (int i = 0; i < 3; i++)
-            {
-                MoveToPos_2();
-                yield return new WaitForSeconds(CheckTime(moveToPos));
-                MoveToPos_2();
-                yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);
-                if (i == 2) break;
-            }
+            MoveToPos_2(); Debug.Log("1번째");
+            yield return new WaitForSeconds(CheckTime(moveToPos) + 80f * Time.deltaTime);
+            MoveToPos_2(); Debug.Log("2번째");
+            yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);
+            MoveToPos_2(); Debug.Log("3번째");
+            yield return new WaitForSeconds(CheckTime(moveToPos));
+            MoveToPos_2(); Debug.Log("4번째");
+            yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);
+            MoveToPos_2(); Debug.Log("5번째");
+            yield return new WaitForSeconds(CheckTime(moveToPos) + 25f * Time.deltaTime);
+            MoveToPos_2(); Debug.Log("6번째");
+            yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);
         }
     }
 }
