@@ -86,9 +86,26 @@ public class GameManager : MonoBehaviour  //게임 전체적으로 <퀘스트, 각 회차의 �
 
     private void MasterKey()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha0))
+        if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            Debug.Log(Days++);
+            Days = 3;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Days = 2;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Days = 1;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            Days = 4;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            Days = 5;
         }
     }
     public void transMap()

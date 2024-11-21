@@ -14,32 +14,11 @@ public class Test : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Tests();
+        //Tests();
     }
 
     private void Tests()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            SoundDetector.instance.G_level = 3;
-            SoundDetector.instance.SoundPos.Add(transform.position);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            SoundDetector.instance.G_level = 2;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            SoundDetector.instance.G_level = 1;
-        }
 
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            gameObject.layer = 0;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            gameObject.layer = 3;
-        }
     }
 }
