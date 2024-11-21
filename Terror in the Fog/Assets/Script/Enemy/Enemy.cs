@@ -219,6 +219,7 @@ public class Enemy : MonoBehaviour
         {
             if (GameManager.Days == 0) ResearchManager_Simple.instance.StopCoroutine("Tuto");
             if (GameManager.Days == 1) ResearchManager_Simple.instance.StopCoroutine("DayOne");
+            if (GameManager.Days == 2) ResearchManager_Simple.instance.StopCoroutine("DayTwo");
         }
     }
     public void StartMove()
@@ -227,6 +228,7 @@ public class Enemy : MonoBehaviour
         {
             if(GameManager.Days == 0) ResearchManager_Simple.instance.StartCoroutine("GoBack");
             if (GameManager.Days == 1) ResearchManager_Simple.instance.StartCoroutine("DayOne");
+            if (GameManager.Days == 2) ResearchManager_Simple.instance.StartCoroutine("DayTwo");
         }
     }
 }

@@ -93,7 +93,7 @@ public class HandController : MonoBehaviour
     {
         if (pickupActivated && !InsideInventory.Instance.isFull)
         {
-            if (hitInfo.transform != null)
+            if (hitInfo.transform != null && hitInfo.collider.gameObject.layer == 6)
             {
                 if (item.type == IItem.ItemType.Used)
                 {

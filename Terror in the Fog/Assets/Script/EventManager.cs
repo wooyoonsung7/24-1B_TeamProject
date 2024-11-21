@@ -24,6 +24,10 @@ public class EventManager : MonoBehaviour //이벤트관리
     [SerializeField] private Safe safe;
     [SerializeField] private Door day1Door;
 
+    [Header("DayTwo Event")]
+    [SerializeField] private Door day2Door;
+    [SerializeField] private Toy toy;
+
     private bool EndEvent = false;
     private bool EndEvent_2 = false;
 
@@ -117,6 +121,16 @@ public class EventManager : MonoBehaviour //이벤트관리
             {
                 ResearchManager_Simple.instance.StartCoroutine("DayTwo");
                 EndEvent = true;
+            }
+            if (toy.isCanUse && !EndEvent_2)
+            {
+                day2Door.isCanUse = true;
+                EndEvent_2 = true;
+            }
+            if (day2Door.isOpen)
+            {
+                GameManager.currentMap = 2;   //거리로 이동
+                SceneManager.LoadScene("Street_1");
             }
         }
     }

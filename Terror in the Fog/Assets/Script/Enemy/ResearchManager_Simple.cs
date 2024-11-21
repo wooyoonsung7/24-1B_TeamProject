@@ -161,34 +161,75 @@ public class ResearchManager_Simple : MonoBehaviour
     public IEnumerator DayTwo()
     {
         moveIndex = 0;
+        while (true)
+        {
+            moveToPos = columns[moveIndex].transform.position;
+            enemy.navMeshAgent.SetDestination(moveToPos);
+            yield return new WaitForSeconds(2f);
+            if (enemy.navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete && enemy.navMeshAgent.remainingDistance <= 0.1f)
+            {
+                Debug.Log("0번째");
+                isEnd = true;
+                break;
+            }
+            yield return null;
+        }
+        yield return new WaitUntil(()=>isEnd);
         MoveToPos(); Debug.Log("1번째");
         yield return new WaitForSeconds(CheckTime(moveToPos));
+
         MoveToPos_2(); Debug.Log("2번째");
-        yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);
+        yield return new WaitForSeconds(CheckTime(moveToPos));
+        EnemyAnimation.instance.sequence.Restart();
+        yield return new WaitUntil(() => isstepEnd);
+
+        isstepEnd = false;
         MoveToPos_2(); Debug.Log("3번째");
         yield return new WaitForSeconds(CheckTime(moveToPos));
+
         MoveToPos_2(); Debug.Log("4번째");
-        yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);
+        yield return new WaitForSeconds(CheckTime(moveToPos));
+        EnemyAnimation.instance.sequence2.Restart();
+        yield return new WaitUntil(() => isstepEnd);
+
+        isstepEnd = false;
         MoveToPos_2(); Debug.Log("5번째");
         yield return new WaitForSeconds(CheckTime(moveToPos) + 25f * Time.deltaTime);
+
         MoveToPos_2(); Debug.Log("6번째");
-        yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);
+        yield return new WaitForSeconds(CheckTime(moveToPos));
+        EnemyAnimation.instance.sequence.Restart();
+        yield return new WaitUntil(() => isstepEnd);
 
         while (true)
         {
             moveIndex = 0;
+            isstepEnd = false;
             MoveToPos_2(); Debug.Log("1번째");
-            yield return new WaitForSeconds(CheckTime(moveToPos) + 80f * Time.deltaTime);
+            yield return new WaitForSeconds(CheckTime(moveToPos) + 140f * Time.deltaTime);
+
             MoveToPos_2(); Debug.Log("2번째");
-            yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);
+            yield return new WaitForSeconds(CheckTime(moveToPos));
+            EnemyAnimation.instance.sequence.Restart();
+            yield return new WaitUntil(() => isstepEnd);
+
+            isstepEnd = false;
             MoveToPos_2(); Debug.Log("3번째");
             yield return new WaitForSeconds(CheckTime(moveToPos));
+
             MoveToPos_2(); Debug.Log("4번째");
-            yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);
+            yield return new WaitForSeconds(CheckTime(moveToPos));
+            EnemyAnimation.instance.sequence2.Restart();
+            yield return new WaitUntil(() => isstepEnd);
+
+            isstepEnd = false;
             MoveToPos_2(); Debug.Log("5번째");
             yield return new WaitForSeconds(CheckTime(moveToPos) + 25f * Time.deltaTime);
+
             MoveToPos_2(); Debug.Log("6번째");
-            yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);
+            yield return new WaitForSeconds(CheckTime(moveToPos));
+            EnemyAnimation.instance.sequence.Restart();
+            yield return new WaitUntil(() => isstepEnd);
         }
     }
 }
