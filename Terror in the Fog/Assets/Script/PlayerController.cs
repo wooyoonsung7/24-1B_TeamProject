@@ -58,6 +58,7 @@ public class PlayerController : MonoBehaviour
     private SoundData soundData;
     private bool isOneTime = false;
     private bool isOneTime_2 = true;
+    public bool isOneTime_3 = false;
 
     private float speedPackTimer = 0f;
 
@@ -258,9 +259,10 @@ public class PlayerController : MonoBehaviour
 
     public void ETC()
     {
-        if (isHide) //플레이가 숨었을 때, 기본 상태로 변경
+        if (isHide && isOneTime_3) //플레이가 숨었을 때, 기본 상태로 변경
         {
             ChangeState(SoundState.Idle);
+            isOneTime_3 = false;
         }
 
         if (transform.position.y < -10f) //낙사
@@ -280,7 +282,7 @@ public class PlayerController : MonoBehaviour
                     break;
 
                 case SoundState.Run:
-                    SetState(SoundState.Run); Debug.Log("달린다");
+                    SetState(SoundState.Run);
                     break;
 
                 case SoundState.Crouch:
@@ -316,6 +318,8 @@ public class PlayerController : MonoBehaviour
         }
         if (isOneTime_2)
         {
+            //SoundDetector.instance.ResetPos();
+
             isOneTime = true;
             SoundState r_soundstate = soundstate;
             SoundManager.instance.PauseSound(r_soundstate.ToString());
@@ -330,17 +334,25 @@ public class PlayerController : MonoBehaviour
         string _name = name;
         while (true)
         {
-            if (soundstate == SoundState.Idle || soundstate == SoundState.Crouch) break;
-
-            for (int i = 0; i < soundData.soundLevel.Count; i++)
+            if (soundstate == SoundState.Idle || soundstate == SoundState.Crouch)
             {
-                if (soundData.soundname[i] == _name)
+                SoundDetector.instance.G_level = 0;
+                Debug.Log("전달 레벨은 " + SoundDetector.instance.G_level);
+            }
+            if (soundstate == SoundState.Walk || soundstate == SoundState.Run)
+            {
+                for (int i = 0; i < soundData.soundLevel.Count; i++)
                 {
-                    SoundDetector.instance.G_level = soundData.soundLevel[i];
-                    Debug.Log(SoundDetector.instance.G_level);
+                    if (soundData.soundname[i] == _name)
+                    {
+                        SoundDetector.instance.G_level = soundData.soundLevel[i];
+                        Debug.Log("전달 레벨은 " + SoundDetector.instance.G_level);
+                    }
                 }
             }
             yield return new WaitForSeconds(50f*Time.deltaTime);
+
+            Debug.Log("코루틴 중");
         }
     }
 }

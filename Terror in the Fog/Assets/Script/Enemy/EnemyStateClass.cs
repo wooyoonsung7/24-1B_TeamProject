@@ -36,6 +36,10 @@ public class Research : IState
         {
             enemy.ResearchArea();                                       //¸ÊÅ½»ö
         }
+        else
+        {
+            enemy.StopMove();                                          //ResearchManaget_Simple¿ë
+        }
 
         if (enemy != null)                                          
         {
@@ -57,6 +61,7 @@ public class Research : IState
                 {
                     pauseResearch = false;
                     enemy.RestartSearch();
+                    enemy.StartMove();                             //ResearchManaget_Simple¿ë
                     isOneTime = false;
                 }
             }

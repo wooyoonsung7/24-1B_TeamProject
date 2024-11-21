@@ -15,6 +15,7 @@ public class SafeButton : MonoBehaviour, IItem
 
     public bool selected = false;
     public bool isCollect = false;
+    public int ListIndex = 5;
     Vector3 currentPos;
     private void Start()
     {

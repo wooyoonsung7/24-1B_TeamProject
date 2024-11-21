@@ -22,7 +22,6 @@ public class ResearchManager_Simple : MonoBehaviour
     private bool isOneTime = false;
 
     public bool isEnd = false; //1일차용
-    private bool isEnd_2 = false;
 
     //어떤 용으로 사용할지를 선택
 
@@ -31,7 +30,6 @@ public class ResearchManager_Simple : MonoBehaviour
     public bool isLookBack = false;
 
     public bool EventEnd = false;
-    int count = 0;
 
     private void Awake()
     {
@@ -86,7 +84,7 @@ public class ResearchManager_Simple : MonoBehaviour
     }
     private void OFFState()
     {
-        enemy.enabled = false;
+        //enemy.enabled = false;
         enemy.GetComponent<SoundDetector>().isDetectOFF = true;
     }
 
@@ -121,14 +119,12 @@ public class ResearchManager_Simple : MonoBehaviour
             moveIndex = 0;
             Debug.Log("111");
             MoveToPos(); if (isEnd) yield return StartCoroutine(DayOneEvent());
-            yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);  //애니메이션시간 5초(임시) + (애니메이션 실행)
-            MoveToPos_2(); if (isEnd) yield return StartCoroutine(DayOneEvent());
-            yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);  //애니메이션시간 5초(임시)
-            MoveToPos_2(); if (isEnd) yield return StartCoroutine(DayOneEvent());
-            yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);  //애니메이션시간 5초(임시)
-            MoveToPos_2(); if (isEnd) yield return StartCoroutine(DayOneEvent());
-            yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);  //애니메이션시간 5초(임시)
-            MoveToPos_2(); if (isEnd) yield return StartCoroutine(DayOneEvent());
+            for (int i = 0; i < 5; i++)
+            {
+                yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);  //애니메이션시간 5초(임시) + (애니메이션 실행)
+                MoveToPos_2(); if (isEnd) yield return StartCoroutine(DayOneEvent());
+            }
+            yield return null;
             moveIndex = 0;
             yield return null;
         }
@@ -136,20 +132,20 @@ public class ResearchManager_Simple : MonoBehaviour
 
     public IEnumerator DayOneEvent()
     {
-        count = 0;
         int temp = 7;
         moveIndex = 5;
 
         MoveToPos();
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 2; i++)
         {
             yield return new WaitForSeconds(CheckTime(moveToPos));
             MoveToPos_2();
-            count++;
         }
-        yield return null;
-        if(count >= 3)EnemyAnimation.instance.sequence.Restart(); count = 0;
+        yield return new WaitForSeconds(CheckTime(moveToPos));
+        if (enemy.navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete && enemy.navMeshAgent.remainingDistance <= 0.1f) moveIndex++;
+        if(moveIndex >= 9) EnemyAnimation.instance.sequence.Restart();
         yield return new WaitUntil(() => isstepEnd);
+        
         moveIndex = temp;
         MoveToPos();
         for (int i = 0; i < 2; i++)
@@ -157,9 +153,30 @@ public class ResearchManager_Simple : MonoBehaviour
             yield return new WaitForSeconds(CheckTime(moveToPos));
             --temp; moveIndex = temp;
             MoveToPos_2();
-            count++;
         }
         yield return null;
-        if (count >= 2) isEnd = false; yield return StartCoroutine(DayOne());
+        if (moveIndex <=6) isEnd = false; yield return StartCoroutine(DayOne());
+    }
+
+    public IEnumerator DayTwo()
+    {
+        moveIndex = 4;
+        MoveToPos();
+        yield return new WaitForSeconds(CheckTime(moveToPos));
+        MoveToPos_2();
+        yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);
+
+        while (true)
+        {
+            moveIndex = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                MoveToPos_2();
+                yield return new WaitForSeconds(CheckTime(moveToPos));
+                MoveToPos_2();
+                yield return new WaitForSeconds(CheckTime(moveToPos) + 5f);
+                if (i == 2) break;
+            }
+        }
     }
 }

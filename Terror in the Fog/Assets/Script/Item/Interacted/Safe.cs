@@ -7,6 +7,7 @@ public class Safe : MonoBehaviour
 {
     private int selectCount = 0;
     private int count = 0;
+    private int order = 0;
     private SafeButton[] safeButtons;
     [SerializeField]private GameObject item;
 
@@ -49,8 +50,10 @@ public class Safe : MonoBehaviour
                         selectCount++;
                         safeButtons[i].isCanUse = false;
 
-                        if (safeButtons[i].isCollect)
+                        if (safeButtons[i].isCollect && safeButtons[i].ListIndex == order)
                         {
+                            order++;
+                            Debug.Log(count);
                             count++;
                         }
                     }
@@ -75,6 +78,7 @@ public class Safe : MonoBehaviour
         yield return null;
         selectCount = 0;
         count = 0;
+        order = 0;
         yield return null;
     }
 }

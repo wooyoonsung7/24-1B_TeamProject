@@ -49,6 +49,7 @@ public class Clothes : MonoBehaviour, IItem
             target.transform.DOLocalRotate(currentRotation, r_duration);
             playerController.isCanMove = false;
             playerController.isHide = true;
+            playerController.isOneTime_3 = true;
         }
         else
         {

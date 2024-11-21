@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour  //게임 전체적으로 <퀘스트, 각 회차의 �
     }
     private void DayTwo()
     {
-
+        EventManager.instance.DayTwoEvent();
     }
     private void DayThree()
     {

@@ -109,22 +109,29 @@ public class EventManager : MonoBehaviour //이벤트관리
         }
     }
 
-    private void DayTwoEnvent()
+    public void DayTwoEvent()
+    {
+        if (ResearchManager_Simple.instance != null)
+        {
+            if (!EndEvent)
+            {
+                ResearchManager_Simple.instance.StartCoroutine("DayTwo");
+                EndEvent = true;
+            }
+        }
+    }
+
+    private void AtStreetEvent_1()
     {
 
     }
 
-    private void AtStreetEnvent_1()
+    private void AtStreetEvent_2()
     {
 
     }
 
-    private void AtStreetEnvent_2()
-    {
-
-    }
-
-    private void AtStreetEnvent_3()
+    private void AtStreetEvent_3()
     {
 
     }

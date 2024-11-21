@@ -17,7 +17,11 @@ public class SoundDetector : MonoBehaviour
         {
             if (g_level > value)
             {
-                return;
+                if (value == 0)
+                {
+                    g_level = value;
+                }
+                else return;
             }
             else
             {
@@ -52,6 +56,7 @@ public class SoundDetector : MonoBehaviour
     private Vector3 myPos;
     private bool isOneTime = true;
     private float timer = 0f;
+    public bool isEnd = false;
     public enum LEVEL
     {
         Level3, Level2, Level1, Level0
@@ -68,24 +73,34 @@ public class SoundDetector : MonoBehaviour
     {
         if (isDetectOFF) return;
 
+        //Debug.Log("isPlay_1" + isPlay_1);
+        //Debug.Log("isPlay_2" + isPlay_2);
+        //Debug.Log("isPlay_3" + isPlay_3);
+        //Debug.Log("현재 사운드레벨" + g_level);
+        //Debug.Log("현재 사운드레벨" + level);
         switch (level)
         {
             case LEVEL.Level3:
                 HurryToPos();
                 isPlay_3 = true;
+                //Debug.Log("레벨3실행중");
                 break;
 
             case LEVEL.Level2:
                 MoveToPos();
                 isPlay_2 = true;
+                //Debug.Log("레벨2실행중");
                 break;
 
             case LEVEL.Level1:
                 CheckPos();
+                isPlay_1 = true;
+                //Debug.Log("레벨1실행중");
                 break;
 
             case LEVEL.Level0:
                 ResetPos();
+                //Debug.Log("레벨0실행중");
                 break;
 
         }
@@ -97,7 +112,9 @@ public class SoundDetector : MonoBehaviour
 
     public void CheckLevel()
     {
-        if(g_level == 3)
+        //Debug.Log("된다2");             g_level, isPlay 순으로 상위판단값이기에 이를 바꾸어야 다른 것이 바뀐다.
+
+        if (g_level == 3)
         {
             ChangeLevelState(LEVEL.Level3);
             isPlay_2 = false;
@@ -132,10 +149,10 @@ public class SoundDetector : MonoBehaviour
     {
         if (isHurry)
         {
-            Debug.Log("이것 문제인가?");
+            //Debug.Log("이것 문제인가?");
             if (isOneTime)
             {
-                Debug.Log("이게 왜되?");
+                //Debug.Log("이게 왜되?");
                 enemy.navMeshAgent.SetDestination(SoundPos[0]);
                 isOneTime = false;
             }
@@ -146,7 +163,7 @@ public class SoundDetector : MonoBehaviour
         {
             if (enemy.navMeshAgent.hasPath || enemy.navMeshAgent.velocity.sqrMagnitude == 0f)
             {
-                Debug.Log("도착했다");
+                //Debug.Log("도착했다");
                 SoundPos.Clear();
                 isPlay_3 = false;
                 g_level = defultLevel;
@@ -159,8 +176,7 @@ public class SoundDetector : MonoBehaviour
         Collider[] target = Physics.OverlapSphere(myPos, r_DetectRadius, layerMask);
         foreach (Collider p_collider in target)
         {
-            Debug.Log("된다");
-            isPlay_2 = true;
+            //Debug.Log("된다");
             SoundPos.Add(p_collider.transform.position);
             enemy.navMeshAgent.updateRotation = false;
             enemy.transform.DOLookAt(SoundPos[0], 0.5f).OnComplete(() => enemy.navMeshAgent.updateRotation = true);
@@ -168,12 +184,13 @@ public class SoundDetector : MonoBehaviour
             timer += Time.deltaTime;
             if (timer > 2f * Time.deltaTime)
             {
-                Debug.Log("이거 안되?");
+                //Debug.Log("이거 안되?");
                 enemy.navMeshAgent.SetDestination(SoundPos[0]);
-                //SoundPos.Clear();
                 timer = 0f;
-            }                                                           //언제든지 상태가 바뀔 수 있음 따라서 초기화가 필요함.
+            }
         }
+        
+        if (target.Length <= 0) isPlay_2 = false;
 
         if (!enemy.navMeshAgent.pathPending && enemy.navMeshAgent.remainingDistance <= enemy.navMeshAgent.stoppingDistance)
         {
@@ -182,6 +199,7 @@ public class SoundDetector : MonoBehaviour
                 SoundPos.Clear();
                 isPlay_2 = false;
                 g_level = defultLevel;
+                ChangeLevelState(LEVEL.Level0);
             }
         }
     }
@@ -190,8 +208,7 @@ public class SoundDetector : MonoBehaviour
         Collider[] target = Physics.OverlapSphere(myPos, detectRadius, layerMask);
         foreach (Collider p_collider in target)
         {
-            Debug.Log("된다된다");
-            isPlay_1 = true;
+            //Debug.Log("된다된다");
             SoundPos.Add(p_collider.transform.position);
             enemy.navMeshAgent.updateRotation = false;
             enemy.transform.DOLookAt(SoundPos[0], 0.5f).OnComplete(() => enemy.navMeshAgent.updateRotation = true);
@@ -199,11 +216,13 @@ public class SoundDetector : MonoBehaviour
             timer += Time.deltaTime;
             if (timer > 2f * Time.deltaTime)
             {
-                Debug.Log("이거 안되?");
+                //Debug.Log("이거 안되?");
                 enemy.navMeshAgent.SetDestination(SoundPos[0]);
                 timer = 0f;
-            }                                                              //언제든지 상태가 바뀔 수 있음 따라서 초기화가 필요함.
+            }
         }
+        
+        if (target.Length <= 0) isPlay_1 = false;
 
         if (!enemy.navMeshAgent.pathPending && enemy.navMeshAgent.remainingDistance <= enemy.navMeshAgent.stoppingDistance)
         {
@@ -212,6 +231,7 @@ public class SoundDetector : MonoBehaviour
                 SoundPos.Clear();
                 isPlay_1 = false;
                 g_level = defultLevel;
+                ChangeLevelState(LEVEL.Level0);
             }
         }
     }
