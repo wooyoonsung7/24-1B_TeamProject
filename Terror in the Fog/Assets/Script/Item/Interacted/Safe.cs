@@ -33,6 +33,7 @@ public class Safe : MonoBehaviour
                     {
                         Vector3 moveToPos = transform.position + transform.forward * 1f;
                         transform.DOMove(moveToPos, 1.5f);
+
                         safeButtons[i].gameObject.layer = 0;
                         item.gameObject.layer = 6;
                         isUnLocked = true; //금고열림 확인용 불값

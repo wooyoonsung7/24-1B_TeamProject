@@ -27,10 +27,6 @@ public class HandController : MonoBehaviour
 
     public IItem item;
 
-    private void Awake()
-    {
-
-    }
     void Start()
     {
         playerCam = Camera.main;
@@ -62,19 +58,17 @@ public class HandController : MonoBehaviour
 
         Debug.DrawRay(rayOrigin, rayDir * distance, Color.red);
 
-        if (!Physics.Raycast(rayOrigin, rayDir, out hitInfo, distance, obstacleMask))
+        //오브젝트일 때, 획득 X는 실제로 바닥에 아이템이 있을 때, 아이템과 오브젝트가 곂치기 때문에 제거, 다른 방법사용
+        if (Physics.Raycast(rayOrigin, rayDir, out hitInfo, distance, whatIsTarget)) //해당 아이템이 아이템임을 인식
         {
-            if (Physics.Raycast(rayOrigin, rayDir, out hitInfo, distance, whatIsTarget)) //해당 아이템이 아이템임을 인식
-            {
 
-                item = hitInfo.collider.GetComponent<IItem>();
-                ItemInfoAppear();
-            }
-            else
-            {
-                item = null;
-                ItemInfoDisappear();
-            }
+            item = hitInfo.collider.GetComponent<IItem>();
+            ItemInfoAppear();
+        }
+        else
+        {
+            item = null;
+            ItemInfoDisappear();
         }
     }
 

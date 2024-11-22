@@ -259,10 +259,12 @@ public class PlayerController : MonoBehaviour
 
     public void ETC()
     {
-        if (isHide && isOneTime_3) //플레이가 숨었을 때, 기본 상태로 변경
+        if (isHide) //플레이가 숨었을 때, 기본 상태로 변경
         {
-            ChangeState(SoundState.Idle);
-            isOneTime_3 = false;
+            if (soundstate != SoundState.Idle)
+            {
+                ChangeState(SoundState.Idle);
+            }
         }
 
         if (transform.position.y < -10f) //낙사

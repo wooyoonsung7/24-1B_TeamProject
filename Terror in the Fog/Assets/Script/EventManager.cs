@@ -122,6 +122,7 @@ public class EventManager : MonoBehaviour //이벤트관리
                 ResearchManager_Simple.instance.StartCoroutine("DayTwo");
                 EndEvent = true;
             }
+            
             if (toy.isCanUse && !EndEvent_2)
             {
                 day2Door.isCanUse = true;

@@ -139,7 +139,7 @@ public class Enemy : MonoBehaviour
     public void ChasePlayer()
     {
         Debug.Log("쫓는다");
-        Debug.Log("쫓을 사람 : " + hitTargetList);
+        //Debug.Log("쫓을 사람 : " + hitTargetList);
 
         Timer += Time.deltaTime;
         if (Timer > 5f* Time.deltaTime)
