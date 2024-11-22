@@ -13,6 +13,8 @@ public class Toy : MonoBehaviour, IItem
     public GameObject itemPrefab { get; set; }
     public bool isCanUse { get; set; }
 
+    [SerializeField]private bool isUnLocked = false; 
+
     [SerializeField]
     private GameObject generatedItem;
 
@@ -21,20 +23,22 @@ public class Toy : MonoBehaviour, IItem
         type = ItemType.interacted;
         itemName = "오르골";
         index = 6;
-        isCanUse = false;
-        itemPrefab = generatedItem;
+        isCanUse = isUnLocked;
     }
     public void Use(GameObject target)
     {
         Vector3 itemPos = transform.position + transform.forward * 0.3f;
-        itemPos.y -= (transform.localScale.y - itemPrefab.transform.localScale.y / 2);
+        itemPos.y -= (transform.localScale.y - generatedItem.transform.localScale.y / 2);
 
         Vector3 itemRot = Vector3.zero;
         itemRot.y += 55f;
         Quaternion quaternion = Quaternion.Euler(itemRot);
         if (isCanUse)
         {
-            Instantiate(itemPrefab, itemPos, quaternion);
+            Instantiate(generatedItem, itemPos, quaternion);
+
+            SoundDetector.instance.G_level = 3;
+            SoundDetector.instance.SoundPos.Add(transform.position); //레벨3사운드발생
         }
         else
         {

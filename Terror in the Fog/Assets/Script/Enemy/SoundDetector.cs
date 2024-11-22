@@ -17,7 +17,7 @@ public class SoundDetector : MonoBehaviour
         {
             if (g_level > value)
             {
-                if (value == 0)
+                if (g_level != 3 && value == 0)
                 {
                     g_level = value;
                 }
@@ -55,8 +55,10 @@ public class SoundDetector : MonoBehaviour
 
     private Vector3 myPos;
     private bool isOneTime = true;
-    private float timer = 0f;
+    private bool isOneTime_2 = true;
+    private bool isOneTime_3 = true;
     public bool isEnd = false;
+    public bool isLockSound = false;
     public enum LEVEL
     {
         Level3, Level2, Level1, Level0
@@ -113,9 +115,9 @@ public class SoundDetector : MonoBehaviour
     public void CheckLevel()
     {
         //Debug.Log("된다2");             g_level, isPlay 순으로 상위판단값이기에 이를 바꾸어야 다른 것이 바뀐다.
-
         if (g_level == 3)
         {
+            Debug.Log("된당ㅇㅇㅇㅇ");
             ChangeLevelState(LEVEL.Level3);
             isPlay_2 = false;
             isPlay_1 = false;
@@ -181,12 +183,13 @@ public class SoundDetector : MonoBehaviour
             enemy.navMeshAgent.updateRotation = false;
             enemy.transform.DOLookAt(SoundPos[0], 0.5f).OnComplete(() => enemy.navMeshAgent.updateRotation = true);
 
-            timer += Time.deltaTime;
-            if (timer > 2f * Time.deltaTime)
+            //timer += Time.deltaTime;
+            if (isOneTime_2)
             {
                 //Debug.Log("이거 안되?");
                 enemy.navMeshAgent.SetDestination(SoundPos[0]);
-                timer = 0f;
+                //timer = 0f;
+                isOneTime_2 = false;
             }
         }
         
@@ -200,6 +203,7 @@ public class SoundDetector : MonoBehaviour
                 isPlay_2 = false;
                 g_level = defultLevel;
                 ChangeLevelState(LEVEL.Level0);
+                isOneTime_2 = true;
             }
         }
     }
@@ -213,12 +217,10 @@ public class SoundDetector : MonoBehaviour
             enemy.navMeshAgent.updateRotation = false;
             enemy.transform.DOLookAt(SoundPos[0], 0.5f).OnComplete(() => enemy.navMeshAgent.updateRotation = true);
 
-            timer += Time.deltaTime;
-            if (timer > 2f * Time.deltaTime)
+            if (isOneTime_3)
             {
-                //Debug.Log("이거 안되?");
                 enemy.navMeshAgent.SetDestination(SoundPos[0]);
-                timer = 0f;
+                isOneTime_3 = false;
             }
         }
         
@@ -232,6 +234,7 @@ public class SoundDetector : MonoBehaviour
                 isPlay_1 = false;
                 g_level = defultLevel;
                 ChangeLevelState(LEVEL.Level0);
+                isOneTime_3 = true;
             }
         }
     }

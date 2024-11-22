@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class MovePoint : MonoBehaviour
 {
-    private bool isChange = true;
     [SerializeField] private int pointIndex; 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Enemy")
         {
-            Debug.Log("等促....");
+            //Debug.Log("等促....");
             if (ResearchManager_Simple.instance != null)
             {
-                Debug.Log("等促....");
+                //Debug.Log("等促....");
+                Debug.Log(ResearchManager_Simple.instance.moveIndex);
                 if (ResearchManager_Simple.instance.moveIndex == pointIndex)
                 {
-                    Debug.Log("等促");
+                    //Debug.Log("等促");
                     ResearchManager_Simple.instance.isEnd = true;
                 }
             }

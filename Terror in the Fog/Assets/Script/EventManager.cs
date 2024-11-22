@@ -31,6 +31,7 @@ public class EventManager : MonoBehaviour //이벤트관리
     private bool EndEvent = false;
     private bool EndEvent_2 = false;
 
+    private int count = 0;
     private void Awake()
     {
         instance = this;
@@ -89,6 +90,20 @@ public class EventManager : MonoBehaviour //이벤트관리
             }
         }
     }
+    public void CheckIventoryItem(string name)
+    {
+        Debug.Log("된다2");
+        if (GameManager.Days == 1)
+        {
+            if (name == "루비목걸이") day1Door.isCanUse = true; Debug.Log("된다");
+        }
+
+        if (GameManager.Days == 2)
+        {
+            if (name == "토큰2") count++; if (count == 2) day2Door.isCanUse = true;
+            if (name == "토큰1") count++; if (count == 2) day2Door.isCanUse = true;
+        }
+    }
 
     public void DayOneEvent()
     {
@@ -96,14 +111,16 @@ public class EventManager : MonoBehaviour //이벤트관리
         {
             if (!EndEvent)
             {
-                ResearchManager_Simple.instance.StartCoroutine("DayOne");
+                ResearchManager_Simple.instance.StartSafeCoroutine();
                 EndEvent = true;
             }
+
+            if (safe == null || day1Door == null) return;
+
             if (safe.isUnLocked && !EndEvent_2)
             {
-                ResearchManager_Simple.instance.isEnd = true;
+                ResearchManager_Simple.instance.isEnd_2 = true;
                 EndEvent_2 = true;
-                day1Door.isCanUse = true;
             }
             if (day1Door.isOpen)
             {
@@ -119,13 +136,14 @@ public class EventManager : MonoBehaviour //이벤트관리
         {
             if (!EndEvent)
             {
-                ResearchManager_Simple.instance.StartCoroutine("DayTwo");
+                ResearchManager_Simple.instance.StartSafeCoroutine();
                 EndEvent = true;
             }
-            
+
+            if (toy == null || day2Door == null) return;
+
             if (toy.isCanUse && !EndEvent_2)
             {
-                day2Door.isCanUse = true;
                 EndEvent_2 = true;
             }
             if (day2Door.isOpen)

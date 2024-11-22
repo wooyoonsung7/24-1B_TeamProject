@@ -3312,10 +3312,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 298053734}
-    - targetCorrespondingSourceObject: {fileID: 7568993230575376662, guid: 6cf40e4f933f69d41938668427ebe8b2,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 298053733}
   m_SourcePrefab: {fileID: 100100000, guid: 6cf40e4f933f69d41938668427ebe8b2, type: 3}
 --- !u!4 &298053731 stripped
 Transform:
@@ -3329,25 +3325,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 298053730}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &298053733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 298053732}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aab7b823e1cd6d04c8fcd2e1a2a30db0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isOpen: 0
-  isOpened: 0
-  doorIndex: 1
-  detectRadius: 1.5
-  TargetMask:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!65 &298053734
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4254,6 +4231,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2260133880520678763, guid: 3da1db9489c512144b39af8dfde46279,
+        type: 3}
+      propertyPath: _itemName
+      value: "\uB8E8\uBE44\uBAA9\uAC78\uC774"
       objectReference: {fileID: 0}
     - target: {fileID: 6398661647194399934, guid: 3da1db9489c512144b39af8dfde46279,
         type: 3}
@@ -12395,6 +12377,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   isEnd: 0
+  isLockSound: 0
   level: 0
 --- !u!114 &1258684623
 MonoBehaviour:
@@ -18585,7 +18568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a85d668b0978fc4db1b11fc71f34951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
+  enemy: {fileID: 1258684623}
 --- !u!114 &1966975865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18608,11 +18591,12 @@ MonoBehaviour:
   - {fileID: 1321435431}
   - {fileID: 265648232}
   - {fileID: 1441394258}
-  enemy: {fileID: 0}
+  enemy: {fileID: 1258684623}
   moveIndex: 0
   changeTime: 0
   isstepEnd: 0
   isEnd: 0
+  isEnd_2: 0
   isLookBack: 0
   EventEnd: 0
   changeIndex: 0

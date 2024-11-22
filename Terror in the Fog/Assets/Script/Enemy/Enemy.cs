@@ -65,7 +65,6 @@ public class Enemy : MonoBehaviour
         {
             _stateMachine.UpdateState(this);
         }
-
     }
 
     public void CheckObject()
@@ -218,8 +217,8 @@ public class Enemy : MonoBehaviour
         if (ResearchManager_Simple.instance != null)
         {
             if (GameManager.Days == 0) ResearchManager_Simple.instance.StopCoroutine("Tuto");
-            if (GameManager.Days == 1) ResearchManager_Simple.instance.StopCoroutine("DayOne");
-            if (GameManager.Days == 2) ResearchManager_Simple.instance.StopCoroutine("DayTwo");
+            if (GameManager.Days == 1) ResearchManager_Simple.instance.StopSafeCoroutine();
+            if (GameManager.Days == 2) ResearchManager_Simple.instance.StopSafeCoroutine();
         }
     }
     public void StartMove()
@@ -227,8 +226,8 @@ public class Enemy : MonoBehaviour
         if (ResearchManager_Simple.instance != null)
         {
             if(GameManager.Days == 0) ResearchManager_Simple.instance.StartCoroutine("GoBack");
-            if (GameManager.Days == 1) ResearchManager_Simple.instance.StartCoroutine("DayOne");
-            if (GameManager.Days == 2) ResearchManager_Simple.instance.StartCoroutine("DayTwo");
+            if (GameManager.Days == 1) ResearchManager_Simple.instance.StartSafeCoroutine();
+            if (GameManager.Days == 2) ResearchManager_Simple.instance.StartSafeCoroutine();
         }
     }
 }

@@ -218,13 +218,13 @@ public class PlayerController : MonoBehaviour
                 ChangeState(SoundState.Crouch);
                 gameObject.transform.localScale = new Vector3(0.0f, crouchDgree, 0.0f);
                 moveSpeed = crouchSpeed;
-                Debug.Log(moveSpeed);
+                //Debug.Log(moveSpeed);
             }
             else
             {
                 gameObject.transform.localScale = new Vector3(0.0f, playerHigh, 0.0f);
                 moveSpeed = walkSpeed;
-                Debug.Log(moveSpeed);
+                //Debug.Log(moveSpeed);
             }
         }
 
@@ -264,6 +264,7 @@ public class PlayerController : MonoBehaviour
             if (soundstate != SoundState.Idle)
             {
                 ChangeState(SoundState.Idle);
+                Debug.Log("확인중");
             }
         }
 
@@ -309,7 +310,7 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(SetLevel(_soundstate.ToString()));
         }
-        Debug.Log(state.ToString());
+        //Debug.Log(state.ToString());
     }
 
     public void ChangeState(SoundState state)

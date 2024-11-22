@@ -17,19 +17,22 @@ public class Token : MonoBehaviour, IItem
     private Sprite _itemImage;
     [SerializeField]
     private GameObject _itemPrefab;
+    [SerializeField]
+    private string _itemName;
 
     public int tokenIndex;
 
     private void Start()
     {
         type = ItemType.Used;
-        itemName = "토큰";
+        itemName = "토큰1";
         itemImage = _itemImage;
         itemPrefab = _itemPrefab;
         isCanUse = false;
         index = tokenIndex;
-
         this.gameObject.layer = 6;
+
+        StartCoroutine(SetName());
     }
     public void Use(GameObject target)
     {
@@ -52,5 +55,14 @@ public class Token : MonoBehaviour, IItem
 
         }
 
+    }
+
+    private IEnumerator SetName()
+    {
+        if (_itemName != "")
+        {
+            itemName = _itemName;
+        }
+        yield return null;
     }
 }

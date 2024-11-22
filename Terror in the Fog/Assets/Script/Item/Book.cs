@@ -21,6 +21,8 @@ public class Book : MonoBehaviour, IItem
     private GameObject _itemPrefab;
     [SerializeField]
     private int bookIndex;
+    [SerializeField]
+    private string bookName;
 
     private void Start()
     {
@@ -28,6 +30,7 @@ public class Book : MonoBehaviour, IItem
         itemName = "å";
         itemImage = _itemImage;
         itemPrefab = _itemPrefab;
+        itemName = bookName;
         isCanUse = false;
         index = bookIndex;
     }

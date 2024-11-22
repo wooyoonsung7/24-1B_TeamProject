@@ -95,7 +95,7 @@ public class HandController : MonoBehaviour
                     InsideInventory.Instance.AcuquireItem(item);
                     Destroy(hitInfo.transform.gameObject);
                     ItemInfoDisappear();
-
+                    EventManager.instance.CheckIventoryItem(item.itemName);
                 }
             }
         }
@@ -141,7 +141,6 @@ public class HandController : MonoBehaviour
             }
         }
         InsideInventory.Instance.CheckCanUse(i);
-        //theInventory_2.CheckCanUse(i);
     }
 
     private void UseItem() //인벤안의 아이템 사용
@@ -152,17 +151,7 @@ public class HandController : MonoBehaviour
             {
                 InsideInventory.Instance.UsingItem();
             }
-            /*
-            if (theInventory_2.item != null)
-            {
-                if (theInventory_2.item.type == IItem.ItemType.Used)
-                {
-                    if (item != null)
-                    {
-                        theInventory_2.UsingItem();
-                    }
-                }
-            }*/
+
         }
     }
 
