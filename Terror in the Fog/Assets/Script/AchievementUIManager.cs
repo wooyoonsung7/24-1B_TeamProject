@@ -34,7 +34,7 @@ public class AchievementUIManager : MonoBehaviour
 
             GameObject item = Instantiate(achievementItemPrefab, achievementsParent);
 
-            // Prefab의 UI 요소 설정
+            
             item.transform.Find("Icon").GetComponent<Image>().sprite = achievement.icon;
             item.transform.Find("Name").GetComponent<Text>().text = achievement.name;
             item.transform.Find("Description").GetComponent<Text>().text = achievement.description;
