@@ -15,8 +15,8 @@ public class Toy : MonoBehaviour, IItem
 
     [SerializeField]private bool isUnLocked = false; 
 
-    [SerializeField]
-    private GameObject generatedItem;
+    [SerializeField]private GameObject generatedItem;
+    [SerializeField] private bool isKey;
 
     private void Start()
     {
@@ -35,15 +35,29 @@ public class Toy : MonoBehaviour, IItem
         Quaternion quaternion = Quaternion.Euler(itemRot);
         if (isCanUse)
         {
-            Instantiate(generatedItem, itemPos, quaternion);
-
+            isCanUse = false;
             SoundDetector.instance.G_level = 3;
             SoundDetector.instance.SoundPos.Add(transform.position); //레벨3사운드발생
+
+            if (isKey)
+            {
+                StartCoroutine(GenKey(itemPos, quaternion));
+            }
+            else
+            {
+                Instantiate(generatedItem, itemPos, quaternion);
+            }
         }
         else
         {
             Debug.Log("오르골을 작동시킬 수 없다");
         }
+    }
+
+    private IEnumerator GenKey(Vector3 itemPos, Quaternion quaternion)
+    {
+        yield return new WaitUntil(() => SoundDetector.instance.isGenKey);
+        Instantiate(generatedItem, itemPos, quaternion);
     }
 
 }

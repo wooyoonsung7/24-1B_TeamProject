@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour  //게임 전체적으로 <퀘스트, 각 회차의 �
 {
     public static GameManager Instance;
     public static int Days = 0;
-    public static int currentMap = 0;            //0번 튜토리얼, 1번이 집, 2번이 거리, 3번이 타겟의 집
+    public static int currentMap = 0;            //0번 튜토리얼, 1번이 집, 2번이 가는거리, 3번이 타겟의 집, 4번이 돌아오는 거리
     private EVENTTYPE eventType;
     private enum EVENTTYPE
     {
@@ -144,7 +144,7 @@ public class GameManager : MonoBehaviour  //게임 전체적으로 <퀘스트, 각 회차의 �
     }
     private void DayThree()
     {
-
+        EventManager.instance.DayThreeEvent();
     }
     private void DayFour()
     {

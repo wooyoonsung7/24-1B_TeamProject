@@ -32,10 +32,9 @@ public class Drawer : MonoBehaviour, IItem
             Vector3 moveToPos = transform.position + transform.forward * 0.5f;
             moveToPos.y = transform.position.y;
             transform.DOMove(moveToPos, 3f);
-            if (item != null)
-            {
-                item.gameObject.layer = 6;
-            }
+
+            if (item != null) item.gameObject.layer = 6;
+
             isCanUse = false;
         }
         else

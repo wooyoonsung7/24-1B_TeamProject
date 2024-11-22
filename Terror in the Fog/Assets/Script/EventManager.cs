@@ -28,6 +28,9 @@ public class EventManager : MonoBehaviour //이벤트관리
     [SerializeField] private Door day2Door;
     [SerializeField] private Toy toy;
 
+    [Header("DayThree Event")]
+    [SerializeField] private Door day3Door;
+
     private bool EndEvent = false;
     private bool EndEvent_2 = false;
 
@@ -103,6 +106,11 @@ public class EventManager : MonoBehaviour //이벤트관리
             if (name == "토큰2") count++; if (count == 2) day2Door.isCanUse = true;
             if (name == "토큰1") count++; if (count == 2) day2Door.isCanUse = true;
         }
+
+        if (GameManager.Days == 3)
+        {
+            if (name == "다이아반지") day1Door.isCanUse = true;
+        }
     }
 
     public void DayOneEvent()
@@ -124,7 +132,7 @@ public class EventManager : MonoBehaviour //이벤트관리
             }
             if (day1Door.isOpen)
             {
-                GameManager.currentMap = 2;   //거리로 이동
+                GameManager.currentMap = 4;   //거리로 이동
                 SceneManager.LoadScene("Street_1");
             }
         }
@@ -148,23 +156,34 @@ public class EventManager : MonoBehaviour //이벤트관리
             }
             if (day2Door.isOpen)
             {
-                GameManager.currentMap = 2;   //거리로 이동
+                GameManager.currentMap = 4;         //거리로 이동
                 SceneManager.LoadScene("Street_1");
             }
         }
     }
 
-    private void AtStreetEvent_1()
+    public void DayThreeEvent()
+    {
+        if (ResearchManager.instance != null)
+        {
+            if (day3Door.isOpen)
+            {
+                GameManager.currentMap = 4;          //거리로 이동
+                SceneManager.LoadScene("Street_1");
+            }
+        }
+        if (ResearchManager_Simple.instance != null)  //Day3일 때, Street_1에만 해당 스크립트 넣기
+        {
+
+        }
+    }
+
+    private void DayFourEvent()
     {
 
     }
 
-    private void AtStreetEvent_2()
-    {
-
-    }
-
-    private void AtStreetEvent_3()
+    private void DayFiveEvent()
     {
 
     }

@@ -59,6 +59,7 @@ public class SoundDetector : MonoBehaviour
     private bool isOneTime_3 = true;
     public bool isEnd = false;
     public bool isLockSound = false;
+    public bool isGenKey = false;
     public enum LEVEL
     {
         Level3, Level2, Level1, Level0
@@ -165,6 +166,7 @@ public class SoundDetector : MonoBehaviour
         {
             if (enemy.navMeshAgent.hasPath || enemy.navMeshAgent.velocity.sqrMagnitude == 0f)
             {
+                isGenKey = true;
                 //Debug.Log("µµÂøÇß´Ù");
                 SoundPos.Clear();
                 isPlay_3 = false;
