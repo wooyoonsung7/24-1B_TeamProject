@@ -39,6 +39,7 @@ public class Toy : MonoBehaviour, IItem
             isCanUse = false;
             SoundDetector.instance.G_level = 3;
             SoundDetector.instance.SoundPos.Add(transform.position); //레벨3사운드발생
+            SoundManager.instance.PlaySound("Toy");
 
             if (isKey)
             {

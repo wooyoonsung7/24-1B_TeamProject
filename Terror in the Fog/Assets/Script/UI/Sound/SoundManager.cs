@@ -58,8 +58,8 @@ public class SoundManager : MonoBehaviour
             sound.source.loop = sound.loop;
 
             SoundData soundData = sound.soundGameObject.GetComponent<SoundData>();
-            soundData.soundname.Add(sound.soundname);
-            soundData.soundLevel.Add(sound.soundLevel);
+            if(sound.soundname == "Walk" || sound.soundname == "Run") soundData.soundname.Add(sound.soundname);
+            if (sound.soundname == "Walk" || sound.soundname == "Run") soundData.soundLevel.Add(sound.soundLevel);
         }
     }
 

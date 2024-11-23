@@ -53,7 +53,7 @@ public class SoundDetector : MonoBehaviour
     private LayerMask layerMask;
 
     private Vector3 myPos;
-    private bool isOneTime = true;
+    public bool isOneTime = true;
     private bool isOneTime_2 = true;
     private bool isOneTime_3 = true;
     private float timer = 0f;
@@ -77,7 +77,7 @@ public class SoundDetector : MonoBehaviour
         //Debug.Log("isPlay_2" + isPlay_2);
         //Debug.Log("isPlay_3" + isPlay_3);
         //Debug.Log("현재 사운드레벨" + g_level);
-        //Debug.Log("현재 사운드레벨" + level);
+        Debug.Log("현재 사운드레벨" + level);
         //Debug.Log("인식중인 사운드개수" + SoundPos.Count);
         switch (level)
         {
@@ -169,11 +169,13 @@ public class SoundDetector : MonoBehaviour
                 {
                     if (p_collider.gameObject.layer == 6)
                     {
+                        SoundManager.instance.PauseSound("Toy");
                         p_collider.GetComponent<Toy>().isGen = true;
                         ResetHurry();
                     }
                     else if(p_collider.gameObject.layer == 0)
                     {
+                        SoundManager.instance.PauseSound("Emergency");
                         Debug.Log("된다ㅏㅏㅏ");
                         //집주인이 절규하는 목소리 재생
                         if (timer >= 5)
@@ -194,6 +196,7 @@ public class SoundDetector : MonoBehaviour
         SoundPos.Clear();
         isPlay_3 = false;
         g_level = defultLevel;
+        ChangeLevelState(LEVEL.Level0);
     }
     private void MoveToPos()
     {

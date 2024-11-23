@@ -57,21 +57,16 @@ public class Research : IState
             {
                 enemy.navMeshAgent.updateRotation = true;
                 pauseResearch = true;
-                //enemy.CheckAround();
-                //isOneTime = true;
+                isOneTime = true;
             }
             else
             {
-                if (enemy.isCheckAround)
+                if (isOneTime)
                 {
-                    isOneTime = true;
-                    if (isOneTime && !enemy.isCheckAround)
-                    {
-                        pauseResearch = false;
-                        enemy.RestartSearch();
-                        enemy.StartMove();                             //ResearchManaget_Simple¿ë
-                        isOneTime = false;
-                    }
+                    pauseResearch = false;
+                    enemy.RestartSearch();
+                    enemy.StartMove();                             //ResearchManaget_Simple¿ë
+                    isOneTime = false;
                 }
             }
         }
