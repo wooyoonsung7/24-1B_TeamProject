@@ -13,17 +13,20 @@ public class Research : IState
     private bool isFindPlayer = true;
     private bool pauseResearch = false;
     private bool isOneTime = false;
+    private bool isOneTimeInGame = true;
     public void StateEnter(Enemy enemy)
     {
 
-        if (enemy.navMeshAgent != null)                          //몬스터 활동다시 시작
-        {
-            enemy.navMeshAgent.isStopped = false;
-        }
+        if (enemy.navMeshAgent != null) enemy.navMeshAgent.isStopped = false;                          //몬스터 활동다시 시작
         isFindPlayer = true;
+        pauseResearch = false;
 
         enemy.ResetSound();                                         //사운드감지 값초기화
-        enemy.ResetResearch();                                      //탐색 값 초기화
+        if (isOneTimeInGame)
+        {
+            enemy.ResetResearch();                                  //탐색 값 초기화
+            isOneTimeInGame = false;
+        }
     }
     public void StateFixUpdate(Enemy enemy)
     {
@@ -39,30 +42,36 @@ public class Research : IState
         else
         {
             enemy.StopMove();                                          //ResearchManaget_Simple용
+            enemy.StopTween();
         }
 
-        if (enemy != null)                                          
+        if (enemy != null)
         {
             if (enemy.hitTargetList.Count > 0 && isFindPlayer)      //플레이이어 시야내 감지(1순위)
             {
                 enemy.navMeshAgent.updateRotation = true;
                 enemy.stateMachine.SetState(enemy, JudgeChase.GetInstance());
             }
-            
+
             if (SoundDetector.instance.SoundPos.Count > 0)         //플레이어의 사운드감지(2순위)
             {
                 enemy.navMeshAgent.updateRotation = true;
                 pauseResearch = true;
-                isOneTime = true;
+                //enemy.CheckAround();
+                //isOneTime = true;
             }
             else
             {
-                if (isOneTime)
+                if (enemy.isCheckAround)
                 {
-                    pauseResearch = false;
-                    enemy.RestartSearch();
-                    enemy.StartMove();                             //ResearchManaget_Simple용
-                    isOneTime = false;
+                    isOneTime = true;
+                    if (isOneTime && !enemy.isCheckAround)
+                    {
+                        pauseResearch = false;
+                        enemy.RestartSearch();
+                        enemy.StartMove();                             //ResearchManaget_Simple용
+                        isOneTime = false;
+                    }
                 }
             }
         }
@@ -85,11 +94,11 @@ public class FeelStrage : IState
     {
         enemy.navMeshAgent.updateRotation = false;
         enemy.navMeshAgent.isStopped = true;
-        enemy.CheckAround();
     }
     public void StateFixUpdate(Enemy enemy)
     {
         enemy.CheckObject();                                        //시야에서 플레이어감지
+        enemy.CheckAround();
     }
     public void StateUpdate(Enemy enemy)
     {
@@ -110,8 +119,8 @@ public class FeelStrage : IState
     {
         enemy.navMeshAgent.updateRotation = true;
         enemy.navMeshAgent.isStopped = false;
-
         enemy.StartMove();                                          //ResearchManager_Simple용 이동시작
+        enemy.currentTime = 0f;                                     //이상함 감지애니시간 초기화
     }
 }
 
@@ -183,6 +192,7 @@ public class ChaseState : IState
     {
         playerController = enemy.playerController;
         enemy.isFindPlayer = true;
+        SoundManager.instance.PlaySound("EnemyChase");  //쫓기는 브금
     }
 
     public void StateFixUpdate(Enemy enemy)
@@ -224,5 +234,6 @@ public class ChaseState : IState
         f_timer = 0f;                              //타이머초기화
         enemy.timer = 0f;
         enemy.isFindPlayer = false;
+        SoundManager.instance.PauseSound("EnemyChase");  //쫓기는 브금_완
     }
 }

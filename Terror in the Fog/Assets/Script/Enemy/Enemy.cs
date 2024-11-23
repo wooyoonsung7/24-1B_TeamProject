@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using DG.Tweening;
+using static PlayerController;
+using UnityEditor.Rendering;
 
 public class Enemy : MonoBehaviour
 {
@@ -38,7 +40,13 @@ public class Enemy : MonoBehaviour
     public bool pauseResearch = false;
 
     private float Timer = 0f;
+    public float currentTime = 0f;
 
+    private Vector3 currentPos;
+    private bool isOneTime = true;
+    private bool isOneTime2 = true;
+    private bool isOneTime3 = true;
+    private float timer2 = 0f;
     void Start()
     {
         _stateMachine = new StateMachine(this, Research.GetInstance());
@@ -57,6 +65,8 @@ public class Enemy : MonoBehaviour
         {
             _stateMachine.FixedUpdateState(this);
         }
+
+        CheckMove();  //사운드 및 애니메이션용
     }
 
     void Update()
@@ -164,8 +174,50 @@ public class Enemy : MonoBehaviour
         Debug.Log("상태전환확인");
         hitTargetList.Clear();
 
-        //주변확인 애니메이션 및 회전
-        EnemyAnimation.instance.checkAroundSeq.Restart();
+        currentTime += Time.deltaTime;
+        if (currentTime <= 1.3)
+        {
+            transform.Rotate(0, 1, 0);
+        }
+        else if (currentTime <= 3.4)
+        {
+            transform.Rotate(0, -1, 0);
+        }
+        else
+        {
+            isCheckAround = false;
+        }
+    }
+
+    public void CheckMove()
+    {
+        if (isOneTime3)
+        {
+            currentPos = gameObject.transform.position;
+            isOneTime3 = false;
+        }
+        if (!isOneTime3)
+        {
+            timer2 += Time.deltaTime;
+            if (timer2 > 0.1f)
+            {
+                if (currentPos == transform.position && isOneTime2)
+                {
+                    Debug.Log("안들린다");
+                    SoundManager.instance.PauseSound("EnemyMove");
+                    isOneTime = true;
+                    isOneTime2 = false;
+                }
+                else if (currentPos != transform.position && isOneTime)
+                {
+                    SoundManager.instance.PlaySound("EnemyMove");
+                    isOneTime2 = true;
+                    isOneTime = false;
+                }
+                isOneTime3 = true;
+                timer2 = 0f;
+            }
+        }
 
     }
 

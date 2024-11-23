@@ -109,7 +109,7 @@ public class EventManager : MonoBehaviour //이벤트관리
 
         if (GameManager.Days == 3)
         {
-            if (name == "다이아반지") day1Door.isCanUse = true;
+            if (name == "다이아반지") day3Door.isCanUse = true;
         }
     }
 

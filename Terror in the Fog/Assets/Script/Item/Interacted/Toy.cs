@@ -17,6 +17,7 @@ public class Toy : MonoBehaviour, IItem
 
     [SerializeField]private GameObject generatedItem;
     [SerializeField] private bool isKey;
+    public bool isGen = false;
 
     private void Start()
     {
@@ -56,7 +57,9 @@ public class Toy : MonoBehaviour, IItem
 
     private IEnumerator GenKey(Vector3 itemPos, Quaternion quaternion)
     {
-        yield return new WaitUntil(() => SoundDetector.instance.isGenKey);
+        Debug.Log("기다린다");
+        yield return new WaitUntil(() => isGen);
+        Debug.Log("된다");
         Instantiate(generatedItem, itemPos, quaternion);
     }
 

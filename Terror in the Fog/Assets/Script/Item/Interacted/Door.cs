@@ -37,7 +37,7 @@ public class Door : MonoBehaviour, IItem
         isCanUse = isOpened; //몬스터전용 불값
         index = doorIndex;
         doorRot = transform.rotation.eulerAngles;
-        doorPos = transform.position + transform.right * 0.3f;
+        doorPos = transform.position + transform.right * 0.3f - transform.up;
 
         StartCoroutine(CheckEnemy());
     }
@@ -102,8 +102,9 @@ public class Door : MonoBehaviour, IItem
                 if (!isOpen)
                 {
                     Use(gameObject);
-                    yield return new WaitForSeconds(1f);
+                    yield return new WaitForSeconds(0.5f);
                     Use(gameObject);
+                    yield return new WaitForSeconds(0.5f);
                     isOneTime = true;
                 }
 

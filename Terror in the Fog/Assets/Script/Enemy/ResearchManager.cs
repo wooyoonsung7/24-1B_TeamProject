@@ -77,6 +77,8 @@ public class ResearchManager : MonoBehaviour
 
     public void RESEARCH()
     {
+        //Debug.Log("현재완료된 방의 개수" + isDoneIdex.Count);
+
         switch (enemystate)
         {
 
@@ -299,8 +301,8 @@ public class ResearchManager : MonoBehaviour
 
                 floorNumber = 1;
                 roomNumber = floorIndex[floorNumber].columns.Length / 2;
-                //Debug.Log("방의 개수는" + roomNumber);
-                //Debug.Log("층은 " + floorNumber);
+                Debug.Log("방의 개수는" + roomNumber);
+                Debug.Log("층은 " + floorNumber);
                 r_IsEnd = false;
                 ResetIndex();
             }
@@ -310,8 +312,8 @@ public class ResearchManager : MonoBehaviour
                 floorNumber = 0;
                 roomNumber = floorIndex[floorNumber].columns.Length / 2;
 
-                //Debug.Log("방의 개수는" + roomNumber);
-                //Debug.Log("층은 " + floorNumber);
+                Debug.Log("방의 개수는" + roomNumber);
+                Debug.Log("층은 " + floorNumber);
                 r_IsEnd = false;
                 ResetIndex();
             }
@@ -324,6 +326,7 @@ public class ResearchManager : MonoBehaviour
         isDoneIdex.Clear();
         if (!r_IsEnd)
         {
+            moveIndex = 0;
             currentroomNumber = roomNumber;
             for (int i = 0; i < roomNumber; i++)
             {

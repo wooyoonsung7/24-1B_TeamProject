@@ -88,24 +88,24 @@ public class GameManager : MonoBehaviour  //게임 전체적으로 <퀘스트, 각 회차의 �
     {
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            Days = 3;
+            Days = 3; Debug.Log(Days);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            Days = 2;
+            Days = 2; Debug.Log(Days);
         }
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            Days = 1;
+            Days = 1; Debug.Log(Days);
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            Days = 4;
+            Days = 4; Debug.Log(Days);
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            Days = 5;
+            Days = 5; Debug.Log(Days);
         }
     }
     public void transMap()
