@@ -25,6 +25,8 @@ public class Sound
     
     public bool loop;
 
+    public bool isGetComp;
+
     [HideInInspector]
     public AudioSource source;
 }
@@ -50,7 +52,8 @@ public class SoundManager : MonoBehaviour
     {
         foreach (Sound sound in sounds)
         {
-            sound.source = sound.soundGameObject.AddComponent<AudioSource>();
+            if (!sound.isGetComp) sound.source = sound.soundGameObject.AddComponent<AudioSource>();
+            else sound.source = sound.soundGameObject.GetComponent<AudioSource>();
             sound.source.clip = sound.clip;
             sound.source.spatialBlend = sound.spatialBlend;
             sound.source.volume = sound.volume;

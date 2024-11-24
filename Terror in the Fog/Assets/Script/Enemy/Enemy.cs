@@ -2,9 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using DG.Tweening;
-using static PlayerController;
-using UnityEditor.Rendering;
 
 public class Enemy : MonoBehaviour
 {
@@ -168,7 +165,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void CheckAround()  //초기화
+    public void CheckAround()  //초기화  같은 층에서만 사운드재생
     {
         isCheckAround = true;
         Debug.Log("상태전환확인");

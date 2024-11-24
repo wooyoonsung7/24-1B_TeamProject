@@ -162,13 +162,16 @@ public class SoundDetector : MonoBehaviour
 
         foreach (Collider p_collider in target)
         {
-            if (p_collider.gameObject.tag == "Trap")
+            if (p_collider.gameObject.CompareTag("Trap"))
             {
+                Debug.Log("¿À¸£°ñ ²ô±â1");
                 isOneTime = false;
                 if (GameManager.Days == 3)
                 {
+                    Debug.Log("¿À¸£°ñ ²ô±â2");
                     if (p_collider.gameObject.layer == 6)
                     {
+                        Debug.Log("¿À¸£°ñ ²ô±â3");
                         SoundManager.instance.PauseSound("Toy");
                         p_collider.GetComponent<Toy>().isGen = true;
                         ResetHurry();

@@ -6,13 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class Test : MonoBehaviour
 {
-    Vector3 targetRot;
-    float currentTime;
-    int count = 0;
+    public GameObject player;
+    public float maxdistance = 3;
+    public float mindistance = 3;
+ 
     void Start()
     {
-        targetRot = transform.rotation.eulerAngles;
-        targetRot.y += 90;
+
     }
 
     // Update is called once per frame
@@ -23,15 +23,16 @@ public class Test : MonoBehaviour
 
     private void Tests()
     {
-        //Vector3.Lerp(transform.rotation.eulerAngles, targetRot, currentTime * 10)
-        currentTime += Time.deltaTime;
-        if (currentTime <= 1.3)
+        Vector3 targetPos = player.transform.position;
+        targetPos.y += maxdistance;
+        if (transform.position.y < targetPos.y)
         {
-            transform.Rotate(0, 1, 0);
+            //사운드종료
         }
-        else if(currentTime <= 3.4)
+        targetPos.y -= mindistance;
+        if (transform.position.y > targetPos.y)
         {
-            transform.Rotate(0, -1, 0);
+            //사운드 종료
         }
     }
 }

@@ -4,6 +4,7 @@ using DG.Tweening;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using static PlayerController;
+using UnityEditor.Experimental.GraphView;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,10 +19,6 @@ public class PlayerController : MonoBehaviour
     public int stamina_Time = 5;
     public int recover_stamina_Time = 7;
     public bool isHide = false;
-
-    private float defaultWalkSpeed = 0f;
-    private float defaultRunSpeed = 0f;
-    private float defaultCrouchSpeed = 0f;
 
     //카메라 설정 변수
     [Header("Camera Settings")]
@@ -60,7 +57,7 @@ public class PlayerController : MonoBehaviour
     private bool isOneTime_2 = true;
     public bool isOneTime_3 = false;
 
-    private float speedPackTimer = 0f;
+    private Vector3 movement2;
 
     public enum SoundState
     {
@@ -75,11 +72,6 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         s_Image[0] = s_slider.GetComponentInChildren<Image>();
         s_Image[1] = s_slider.transform.GetChild(1).GetComponentInChildren<Image>();
-
-        defaultWalkSpeed = walkSpeed;
-        defaultRunSpeed = runSpeed;
-        defaultCrouchSpeed = crouchSpeed;
-        speedPackTimer = speedPackDuration;
 
         Cursor.lockState = CursorLockMode.Locked;          //마우스 커서를 잠그고 숨긴다
         Cursor.visible = false;
@@ -146,6 +138,10 @@ public class PlayerController : MonoBehaviour
 
             //캐릭터 기준으로 이동
             Vector3 movement = transform.right * moveHorizontal + transform.forward * moveVertical;
+            movement2 = new Vector3(moveHorizontal, 0f, moveVertical);
+            if (CheckHitWall(movement2))
+                movement = Vector3.zero;
+
             rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);  //물리기반 이동
 
             if ((moveHorizontal != 0f || moveVertical != 0f) && !isCrouching && !Input.GetButton("Run")) 
@@ -163,7 +159,7 @@ public class PlayerController : MonoBehaviour
     void HandleRun()
     {
 
-        if (Input.GetButton("Run") && !isCrouching && playerCanRun)
+        if (Input.GetButton("Run") && !isCrouching && playerCanRun && !CheckHitWall(movement2))
         {
             moveSpeed = runSpeed;
 
@@ -357,5 +353,26 @@ public class PlayerController : MonoBehaviour
 
             //Debug.Log("코루틴 중");
         }
+    }
+
+
+
+    //벽에 부딛혔는지 체킹-->벽에 부딪혔을 때, 속도를 0로 처리
+
+    private bool CheckHitWall(Vector3 movement)
+    {
+        movement = transform.TransformDirection(movement);
+        float scope = 0.7f;
+
+        Vector3 rayPosition = transform.position + Vector3.up * 0.1f;
+        Debug.DrawRay(rayPosition, movement * scope, Color.red);
+        if (Physics.Raycast(rayPosition, movement, out RaycastHit hit, scope))
+        {
+            if (hit.collider.CompareTag("Wall"))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

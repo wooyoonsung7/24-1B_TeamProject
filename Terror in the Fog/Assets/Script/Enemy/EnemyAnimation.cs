@@ -40,29 +40,29 @@ public class EnemyAnimation : MonoBehaviour
     }
     private void DOMotion()
     {
-        sequence.Prepend(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 90, 0), 1.5f))
-       .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 180, 0), 1.5f))
-       .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, -90, 0), 1.5f))
+        sequence.Prepend(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 90, 0), 2.5f))
+       .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 180, 0), 2.5f))
+       .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, -90, 0), 2.5f))
        .SetAutoKill(false)
        .Pause()
        .OnComplete(() => Distribute(1));
 
-        sequence2.Prepend(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, -90, 0), 1.5f))
-        .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 1.5f))
-        .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 90, 0), 1.5f))
+        sequence2.Prepend(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, -90, 0), 2.5f))
+        .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 2.5f))
+        .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 90, 0), 2.5f))
         .SetAutoKill(false)
         .Pause()
         .OnComplete(() => Distribute(1));
 
 
-        sequence3.Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, -180, 0), 1.5f))
-         .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 1.5f))
+        sequence3.Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, -180, 0), 2.5f))
+         .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 2.5f))
          .SetAutoKill(false)
          .Pause()
          .OnComplete(() => Distribute(2));
 
-        sequence4.Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 1.5f))
-         .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 180, 0), 1.5f))
+        sequence4.Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 2.5f))
+         .Append(enemy.gameObject.transform.DOLocalRotate(new Vector3(0, 180, 0), 2.5f))
          .SetAutoKill(false)
          .Pause()
          .OnComplete(() => Distribute(2));
@@ -70,17 +70,12 @@ public class EnemyAnimation : MonoBehaviour
 
     private void CheckAround()
     {
-        checkAroundSeq.Prepend(transform.DOLocalRotate(new Vector3(0, 90, 0), 1.5f))
-                      .Append(transform.DOLocalRotate(new Vector3(0, 180, 0), 1.5f))
-                      .Append(transform.DOLocalRotate(new Vector3(0, -90, 0), 1.5f))
+        checkAroundSeq.Prepend(transform.DOLocalRotate(new Vector3(0, 90, 0), 2.5f))
+                      .Append(transform.DOLocalRotate(new Vector3(0, 180, 0), 2.5f))
+                      .Append(transform.DOLocalRotate(new Vector3(0, -90, 0), 2.5f))
                       .SetAutoKill(false)
                       .Pause()
                       .OnComplete(() => enemy.isCheckAround = false);
-    }
-
-    private void DoTutoMotion()
-    {
-
     }
 
     public void DoDayOneMotion()
