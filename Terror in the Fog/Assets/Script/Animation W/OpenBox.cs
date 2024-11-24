@@ -30,11 +30,6 @@ public class OpenBox : MonoBehaviour
     {
         if (isOpen)
         {
-            // 닫기 애니메이션
-            lid.DOLocalRotate(Vector3.zero, duration);
-        }
-        else
-        {
             // 열기 애니메이션
             lid.DOLocalRotate(new Vector3(-openAngle, 0, 0), duration); // 위로 열기
         }
