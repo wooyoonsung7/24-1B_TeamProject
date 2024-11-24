@@ -39,6 +39,7 @@ public class EventManager : MonoBehaviour //이벤트관리
 
     private bool EndEvent = false;
     private bool EndEvent_2 = false;
+    public static bool playerdead = false;
 
     private int count = 0;
     private void Awake()
@@ -73,6 +74,7 @@ public class EventManager : MonoBehaviour //이벤트관리
         {
             GameManager.currentMap = 2;   //거리로 이동
             SceneManager.LoadScene("Street_1");
+            //튜토리얼 종료
         }
     }
 
@@ -98,6 +100,29 @@ public class EventManager : MonoBehaviour //이벤트관리
                 SceneManager.LoadScene("Street_2");
             }
         }
+    }
+
+    public void PlayerDead()
+    {
+        if (GameManager.Days == 0)
+        {
+            SceneManager.LoadScene("TutorialScene");
+        }
+        else
+        {
+            playerdead = true;
+            SceneManager.LoadScene("Home");
+        }
+    }
+    public IEnumerator AfterPlayerDead()
+    {
+        GameObject player = FindObjectOfType<PlayerController>().gameObject;
+        playerdead = false;
+        yield return new WaitForSeconds(0.1f);
+        bed.Use(player);
+        Debug.Log("침대사용완");
+        //자고 일어나는 애니메이션만 제작할 것
+        //애니메이션작동시 자동위치이동!!
     }
     public void CheckIventoryItem(string name)
     {

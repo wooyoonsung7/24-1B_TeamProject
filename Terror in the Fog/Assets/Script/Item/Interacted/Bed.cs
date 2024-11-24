@@ -37,6 +37,7 @@ public class Bed : MonoBehaviour, IItem
             //자고 일어나는 애니메이션
             //저장시스템추가
             door.isCanUse = true;
+            //target.transform.position = transform.position - transform.right * 0.3f;
             GameManager.Instance.PassDay();
         }
     }

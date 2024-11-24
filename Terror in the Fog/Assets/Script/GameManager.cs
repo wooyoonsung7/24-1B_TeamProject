@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour  //게임 전체적으로 <퀘스트, 각 회차의 맵>
@@ -60,6 +58,7 @@ public class GameManager : MonoBehaviour  //게임 전체적으로 <퀘스트, 각 회차의 �
     private void Start()
     {
         //CheckDays();   임시로 빼놓음
+        AfterPlayerDead();
     }
 
     private void Update()
@@ -127,6 +126,13 @@ public class GameManager : MonoBehaviour  //게임 전체적으로 <퀘스트, 각 회차의 �
     {
         Days++;
         Debug.Log("현재 날짜는" + Days + "일차입니다");
+    }
+    public void AfterPlayerDead()
+    {
+        if (EventManager.playerdead)
+        {
+            EventManager.instance.StartCoroutine("AfterPlayerDead"); Days--; Debug.Log("세이브된 날짜는 " + Days);
+        }
     }
 
     private void Tuto()

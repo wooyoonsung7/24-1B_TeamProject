@@ -248,10 +248,6 @@ public class PlayerController : MonoBehaviour
             isFadeOut = false;
         }
     }
-    public void Death()
-    {
-       SceneManager.LoadScene("MainScene");
-    }
 
     public void ETC()
     {
@@ -266,7 +262,7 @@ public class PlayerController : MonoBehaviour
 
         if (transform.position.y < -10f) //낙사
         {
-            Death();
+            EventManager.instance.PlayerDead();
         }
     }
 

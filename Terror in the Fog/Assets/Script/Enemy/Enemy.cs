@@ -163,7 +163,7 @@ public class Enemy : MonoBehaviour
     {
         if (target.Length >= 1)
         {
-            playerController.Death();
+            EventManager.instance.PlayerDead();
         }
     }
 

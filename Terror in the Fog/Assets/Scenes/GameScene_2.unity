@@ -1789,6 +1789,7 @@ MonoBehaviour:
   isCheckAround: 0
   pauseResearch: 0
   currentTime: 0
+  stopResearch: 0
 --- !u!4 &688512236
 Transform:
   m_ObjectHideFlags: 0
@@ -3019,6 +3020,8 @@ MonoBehaviour:
   day2Door: {fileID: 824878121}
   toy: {fileID: 4135159}
   day3Door: {fileID: 0}
+  day4Door: {fileID: 0}
+  day5Door: {fileID: 0}
 --- !u!224 &1135409731 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2013881844780639497, guid: 8dc6f7b009646c0418d677d0293e117a,
@@ -4776,6 +4779,7 @@ GameObject:
   - component: {fileID: 2053841990}
   - component: {fileID: 2053841992}
   - component: {fileID: 2053841991}
+  - component: {fileID: 2053841994}
   m_Layer: 3
   m_Name: head
   m_TagString: Untagged
@@ -4870,6 +4874,27 @@ Transform:
   - {fileID: 265171403}
   m_Father: {fileID: 1793512626}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2053841994
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053841989}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.0000004, y: 1, z: 1.0000002}
+  m_Center: {x: 0.0000038146973, y: -0.0000038146973, z: -0.0000076293945}
 --- !u!1001 &2077304882
 PrefabInstance:
   m_ObjectHideFlags: 0
