@@ -51,6 +51,7 @@ public class SoundDetector : MonoBehaviour
     private float r_DetectRadius = 11f;
     [SerializeField]
     private LayerMask layerMask;
+    int targetMask = (1 << 6) | (1 << 0);
 
     private Vector3 myPos;
     public bool isOneTime = true;
@@ -158,16 +159,21 @@ public class SoundDetector : MonoBehaviour
             timer = 0f;
         }
 
-        Collider[] target = Physics.OverlapSphere(myPos, 1.5f);
+        Collider[] target = Physics.OverlapSphere(myPos, 2f, targetMask);
 
         foreach (Collider p_collider in target)
         {
+            Debug.Log("µµÂøÇß´Ù");
             if (p_collider.gameObject.CompareTag("Trap"))
             {
-                //Debug.Log("¿À¸£°ñ ²ô±â1");
+                Debug.Log("µµÂøÇß´Ù2");
                 isOneTime = false;
 
-                if(GameManager.Days == 2) ResetHurry();
+                if (GameManager.Days == 2)
+                {
+                    SoundManager.instance.PauseSound("Toy");
+                    ResetHurry();
+                }
                 if (GameManager.Days == 3)
                 {
                     //Debug.Log("¿À¸£°ñ ²ô±â2");
@@ -189,17 +195,10 @@ public class SoundDetector : MonoBehaviour
                         }
                     }
                 }
-                if(GameManager.Days == 4) ResetHurry(); //Àá½Ã ¼ö¸®ÇÏ°í µ¹¾Æ°¡´Â ¸ð¼Ç°ú ¸ØÃã
-                if (GameManager.Days == 5)
+                if (GameManager.Days == 5 || GameManager.Days == 4)
                 {
-                    if (p_collider.gameObject.layer == 0)
-                    {
-                        //µ£ : Àá½Ã ¼ö¸®ÇÏ°í µ¹¾Æ°¡´Â ¸ð¼Ç°ú ¸ØÃã
-                    }
-                    if (p_collider.gameObject.layer == 0)
-                    {
-                        //°æº¸À½ ½ÃÀÛ, ÀÌº¥Æ®½ÃÀÛ
-                    }
+                    p_collider.GetComponent<Trap2>().isCanUse = true;
+                    ResetHurry();
                 }
             }
         }

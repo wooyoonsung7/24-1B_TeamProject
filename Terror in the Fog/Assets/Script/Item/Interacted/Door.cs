@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static IItem;
 using DG.Tweening;
-using static UnityEditor.PlayerSettings;
-using Unity.VisualScripting;
 using static ResearchManager;
-using UnityEngine.AI;
 
 public class Door : MonoBehaviour, IItem
 {

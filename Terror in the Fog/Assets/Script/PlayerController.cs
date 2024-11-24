@@ -1,10 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using UnityEngine.SceneManagement;
 using System.Collections;
-using static PlayerController;
-using UnityEditor.Experimental.GraphView;
 
 public class PlayerController : MonoBehaviour
 {

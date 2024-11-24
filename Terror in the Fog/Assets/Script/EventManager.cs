@@ -26,7 +26,6 @@ public class EventManager : MonoBehaviour //이벤트관리
 
     [Header("DayTwo Event")]
     [SerializeField] private Door day2Door;
-    [SerializeField] private Toy toy;
 
     [Header("DayThree Event")]
     [SerializeField] private Door day3Door;
@@ -190,12 +189,7 @@ public class EventManager : MonoBehaviour //이벤트관리
                 EndEvent = true;
             }
 
-            if (toy == null || day2Door == null) return;
-
-            if (toy.isCanUse && !EndEvent_2)
-            {
-                EndEvent_2 = true;
-            }
+            if (day2Door == null) return;
             if (day2Door.isOpen)
             {
                 GameManager.currentMap = 4;         //거리로 이동
