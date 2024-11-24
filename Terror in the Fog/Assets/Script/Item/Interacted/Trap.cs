@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Trap : MonoBehaviour
 {
-
     public GameObject item;
+    public bool isOn = true;
     private void Start()
     {
-        StartCoroutine(CheckItem());
+        if(isOn)StartCoroutine(CheckItem());
     }
 
     private IEnumerator CheckItem()

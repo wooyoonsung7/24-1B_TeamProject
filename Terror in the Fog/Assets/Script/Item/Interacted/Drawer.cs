@@ -17,6 +17,7 @@ public class Drawer : MonoBehaviour, IItem
     [SerializeField] private int drawerIndex = 0;
     [SerializeField] private bool isUnLocked = true;
     [SerializeField] private GameObject item;
+    [SerializeField] private GameObject item2;
 
     private void Start()
     {
@@ -34,6 +35,7 @@ public class Drawer : MonoBehaviour, IItem
             transform.DOMove(moveToPos, 3f);
 
             if (item != null) item.gameObject.layer = 6;
+            if (item2 != null) item2.gameObject.layer = 6;
 
             isCanUse = false;
         }

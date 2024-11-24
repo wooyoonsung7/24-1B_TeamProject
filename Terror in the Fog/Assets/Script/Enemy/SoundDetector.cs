@@ -164,14 +164,16 @@ public class SoundDetector : MonoBehaviour
         {
             if (p_collider.gameObject.CompareTag("Trap"))
             {
-                Debug.Log("¿À¸£°ñ ²ô±â1");
+                //Debug.Log("¿À¸£°ñ ²ô±â1");
                 isOneTime = false;
+
+                if(GameManager.Days == 2) ResetHurry();
                 if (GameManager.Days == 3)
                 {
-                    Debug.Log("¿À¸£°ñ ²ô±â2");
+                    //Debug.Log("¿À¸£°ñ ²ô±â2");
                     if (p_collider.gameObject.layer == 6)
                     {
-                        Debug.Log("¿À¸£°ñ ²ô±â3");
+                        //Debug.Log("¿À¸£°ñ ²ô±â3");
                         SoundManager.instance.PauseSound("Toy");
                         p_collider.GetComponent<Toy>().isGen = true;
                         ResetHurry();
