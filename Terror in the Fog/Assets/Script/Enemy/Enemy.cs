@@ -44,6 +44,8 @@ public class Enemy : MonoBehaviour
     private bool isOneTime2 = true;
     private bool isOneTime3 = true;
     private float timer2 = 0f;
+
+    public bool stopResearch = false; //5일차 이벤트용
     void Start()
     {
         _stateMachine = new StateMachine(this, Research.GetInstance());
@@ -220,7 +222,7 @@ public class Enemy : MonoBehaviour
 
     public void ResearchArea()
     {
-        if (ResearchManager.instance != null) ResearchManager.instance.RESEARCH();
+        if (ResearchManager.instance != null && !stopResearch) ResearchManager.instance.RESEARCH();
         //ResearchManager_Simple도 추가해야함
     }
 

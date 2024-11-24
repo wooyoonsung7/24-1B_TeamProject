@@ -31,6 +31,12 @@ public class EventManager : MonoBehaviour //이벤트관리
     [Header("DayThree Event")]
     [SerializeField] private Door day3Door;
 
+    [Header("DayFour Event")]
+    [SerializeField] private Door day4Door;
+
+    [Header("DayFive Event")]
+    [SerializeField] private Door day5Door;
+
     private bool EndEvent = false;
     private bool EndEvent_2 = false;
 
@@ -111,6 +117,17 @@ public class EventManager : MonoBehaviour //이벤트관리
         {
             if (name == "다이아반지") day3Door.isCanUse = true;
         }
+
+        if (GameManager.Days == 4)
+        {
+            if (name == "토큰3") count++; if (count == 2) day4Door.isCanUse = true;
+            if (name == "토큰4") count++; if (count == 2) day4Door.isCanUse = true;
+        }
+
+        if (GameManager.Days == 5)
+        {
+            if(name == "사파이어귀걸이") day5Door.isCanUse = true;
+        }
     }
 
     public void DayOneEvent()
@@ -178,13 +195,35 @@ public class EventManager : MonoBehaviour //이벤트관리
         }
     }
 
-    private void DayFourEvent()
+    public void DayFourEvent()
     {
+        if (ResearchManager.instance != null)
+        {
+            if (day4Door.isOpen)
+            {
+                GameManager.currentMap = 4;          //거리로 이동
+                SceneManager.LoadScene("Street_1");
+            }
+        }
+        if (ResearchManager_Simple.instance != null)  //Day4일 때, Street_1에만 해당 스크립트 넣기
+        {
 
+        }
     }
 
-    private void DayFiveEvent()
+    public void DayFiveEvent()
     {
+        if (ResearchManager.instance != null)
+        {
+            if (day5Door.isOpen)
+            {
+                GameManager.currentMap = 4;          //거리로 이동
+                SceneManager.LoadScene("Street_1");
+            }
+        }
+        if (ResearchManager_Simple.instance != null)  //Day5일 때, Street_1에만 해당 스크립트 넣기
+        {
 
+        }
     }
 }

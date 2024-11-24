@@ -148,11 +148,11 @@ public class GameManager : MonoBehaviour  //게임 전체적으로 <퀘스트, 각 회차의 �
     }
     private void DayFour()
     {
-
+        EventManager.instance.DayFourEvent();
     }
     private void DayFive()
     {
-
+        EventManager.instance.DayFiveEvent();
     }
 }
 

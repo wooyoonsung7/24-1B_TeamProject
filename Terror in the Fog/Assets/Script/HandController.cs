@@ -95,6 +95,7 @@ public class HandController : MonoBehaviour
                     InsideInventory.Instance.AcuquireItem(item);
                     Destroy(hitInfo.transform.gameObject);
                     ItemInfoDisappear();
+                    Debug.Log("아이템이름은" + item.itemName);
                     EventManager.instance.CheckIventoryItem(item.itemName);
                 }
             }

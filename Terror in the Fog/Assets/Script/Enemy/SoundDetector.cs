@@ -189,8 +189,18 @@ public class SoundDetector : MonoBehaviour
                         }
                     }
                 }
-
-
+                if(GameManager.Days == 4) ResetHurry(); //잠시 수리하고 돌아가는 모션과 멈춤
+                if (GameManager.Days == 5)
+                {
+                    if (p_collider.gameObject.layer == 0)
+                    {
+                        //덫 : 잠시 수리하고 돌아가는 모션과 멈춤
+                    }
+                    if (p_collider.gameObject.layer == 0)
+                    {
+                        //경보음 시작, 이벤트시작
+                    }
+                }
             }
         }
     }

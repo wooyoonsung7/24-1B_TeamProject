@@ -19,32 +19,44 @@ public class VoidSlot : MonoBehaviour, IItem
     [SerializeField]
     private GameObject[] tokenPrf = new GameObject[5];
 
-
+    Vector3 itemRot;
+    Quaternion quaternion;
+    bool isUse = true;
     private void Start()
     {
         type = ItemType.interacted;
         itemName = "∫Û√•¿Â";
         isCanUse = false;
         index = slotIndex;
+
+        itemRot = Vector3.zero;
+        itemRot.x += 72f;
+        Quaternion quaternion = Quaternion.Euler(itemRot);
+        StartCoroutine(SetToken());
     }
     public void Use(GameObject target)
     {
-        SetToken();
+        isUse = true;
         CheckCorrect();
     }
 
-    private void SetToken()
+    private IEnumerator SetToken()
     {
-        Vector3 itemRot = Vector3.zero;
-        itemRot.x += 72f;
-        Quaternion quaternion = Quaternion.Euler(itemRot);
-        for (int i = 0; i< tokenPrf.Length; i++)
+        while(true)
         {
-            Token token = tokenPrf[i].GetComponent<Token>();
-            if (getIndex == token.tokenIndex)
+            if (isUse)
             {
-                Instantiate(tokenPrf[i], transform.position + transform.forward * 0.05f, quaternion);
+                isUse = false;
+                for (int i = 0; i < tokenPrf.Length; i++)
+                {
+                    Token token = tokenPrf[i].GetComponent<Token>();
+                    if (getIndex == token.tokenIndex)
+                    {
+                        Instantiate(tokenPrf[i], transform.position + transform.forward * 0.05f, quaternion);
+                    }
+                }
             }
+            yield return null;
         }
     }
 
