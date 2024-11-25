@@ -21,8 +21,6 @@ public class Toy : MonoBehaviour, IItem
     [SerializeField] private bool isKey;
     public bool isGen = false;
 
-    int targetMask = (1 << 8);
-
     private void Start()
     {
         type = ItemType.interacted;
@@ -63,7 +61,7 @@ public class Toy : MonoBehaviour, IItem
     private IEnumerator GenKey(Vector3 itemPos, Quaternion quaternion)
     {
         Debug.Log("기다린다");
-        yield return new WaitUntil(() => SoundDetector.instance.isLevel3End);
+        yield return new WaitUntil(() => isGen);
         Debug.Log("된다");
         Instantiate(generatedItem, itemPos, quaternion);
     }

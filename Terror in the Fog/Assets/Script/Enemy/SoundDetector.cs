@@ -120,7 +120,7 @@ public class SoundDetector : MonoBehaviour
         //Debug.Log("된다2");             g_level, isPlay 순으로 상위판단값이기에 이를 바꾸어야 다른 것이 바뀐다.
         if (g_level == 3)
         {
-            Debug.Log("된당ㅇㅇㅇㅇ");
+            //Debug.Log("된당ㅇㅇㅇㅇ");
             ChangeLevelState(LEVEL.Level3);
             isPlay_3 = true;
             isPlay_2 = false;
@@ -178,7 +178,7 @@ public class SoundDetector : MonoBehaviour
             {
                 //Debug.Log("오르골 끄기3");
                 SoundManager.instance.PauseSound("Toy");
-                isLevel3End = true;
+                FindObjectOfType<Toy>().isGen = true;
                 //p_collider.GetComponent<Toy>().isGen = true;
                 ResetHurry();
 

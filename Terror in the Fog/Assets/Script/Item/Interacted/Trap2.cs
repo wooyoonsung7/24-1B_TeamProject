@@ -23,6 +23,8 @@ public class Trap2 : MonoBehaviour
             if (other.gameObject.CompareTag("Enemy"))
             {
                 SoundManager.instance.PauseSound("Emergency_Trap" + index);
+                SoundDetector.instance.ResetHurry();
+                isCanUse = true;
             }
         }
     }

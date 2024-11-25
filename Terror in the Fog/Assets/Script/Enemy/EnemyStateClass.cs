@@ -20,6 +20,7 @@ public class Research : IState
         if (enemy.navMeshAgent != null) enemy.navMeshAgent.isStopped = false;                          //몬스터 활동다시 시작
         isFindPlayer = true;
         pauseResearch = false;
+        isOneTime = false;                                          //사운드감지초기화
 
         enemy.ResetSound();                                         //사운드감지 값초기화
         if (isOneTimeInGame)
@@ -27,6 +28,8 @@ public class Research : IState
             enemy.ResetResearch();                                  //탐색 값 초기화
             isOneTimeInGame = false;
         }
+        enemy.RestartSearch();                                      //탐색최기화
+
     }
     public void StateFixUpdate(Enemy enemy)
     {
@@ -88,7 +91,8 @@ public class FeelStrage : IState
     public void StateEnter(Enemy enemy)
     {
         enemy.navMeshAgent.updateRotation = false;
-        enemy.navMeshAgent.isStopped = true;
+        enemy.navMeshAgent.SetDestination(enemy.gameObject.transform.position);
+        //enemy.navMeshAgent.isStopped = true;
     }
     public void StateFixUpdate(Enemy enemy)
     {
@@ -113,7 +117,7 @@ public class FeelStrage : IState
     public void StateExit(Enemy enemy)
     {
         enemy.navMeshAgent.updateRotation = true;
-        enemy.navMeshAgent.isStopped = false;
+        //enemy.navMeshAgent.isStopped = false;
         enemy.StartMove();                                          //ResearchManager_Simple용 이동시작
         enemy.currentTime = 0f;                                     //이상함 감지애니시간 초기화
     }
