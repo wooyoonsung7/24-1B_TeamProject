@@ -47,6 +47,7 @@ MonoBehaviour:
   sounds:
   - soundname: Walk
     soundLevel: 1
+    soundType: 2
     soundGameObject: {fileID: 0}
     clip: {fileID: 8300000, guid: 16e0f0d43db7ace45ab8fcf276eef2b2, type: 3}
     spatialBlend: 1
@@ -57,6 +58,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - soundname: Run
     soundLevel: 2
+    soundType: 2
     soundGameObject: {fileID: 0}
     clip: {fileID: 8300000, guid: 16e0f0d43db7ace45ab8fcf276eef2b2, type: 3}
     spatialBlend: 1
@@ -67,6 +69,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - soundname: EnemyMove
     soundLevel: 0
+    soundType: 2
     soundGameObject: {fileID: 0}
     clip: {fileID: 8300000, guid: 0265a38eaab3632448d0d4239f527b38, type: 3}
     spatialBlend: 1
@@ -77,6 +80,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - soundname: EnemyChase
     soundLevel: 0
+    soundType: 2
     soundGameObject: {fileID: 0}
     clip: {fileID: 8300000, guid: 3c8f0bbd19ba6a74d9226a96fa3fd50d, type: 3}
     spatialBlend: 1
@@ -87,6 +91,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - soundname: Emergency_Trap
     soundLevel: 3
+    soundType: 1
     soundGameObject: {fileID: 0}
     clip: {fileID: 8300000, guid: 86758defc31d14a4882d65f3517d8033, type: 3}
     spatialBlend: 0
@@ -95,3 +100,5 @@ MonoBehaviour:
     loop: 1
     isGetComp: 0
     source: {fileID: 0}
+  soundValue: 0
+  mixer: {fileID: 24100000, guid: 5bafabad1be596d4693f00c977f2cf5c, type: 2}

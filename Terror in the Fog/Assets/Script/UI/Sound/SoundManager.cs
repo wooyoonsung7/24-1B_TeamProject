@@ -13,6 +13,8 @@ public class Sound
 
     public int soundLevel;
 
+    public int soundType;  //0번이면 환경, 1번 사물, 2번 플레이어, 몬스터
+
     public GameObject soundGameObject;
 
     public AudioClip clip;
@@ -37,6 +39,8 @@ public class SoundManager : MonoBehaviour
 
     public List<Sound> sounds = new List<Sound>();
 
+    [SerializeField] AudioMixer mixer;
+
     //public float soundValue = 1f;
     private void Awake()
     {
@@ -59,11 +63,27 @@ public class SoundManager : MonoBehaviour
             sound.source.volume = sound.volume;
             sound.source.pitch = sound.pitch;
             sound.source.loop = sound.loop;
+            if(sound.soundType == 0) sound.source.outputAudioMixerGroup = mixer.FindMatchingGroups("Environment")[0];
+            if(sound.soundType == 1) sound.source.outputAudioMixerGroup = mixer.FindMatchingGroups("Objects")[0];
+            if(sound.soundType == 2) sound.source.outputAudioMixerGroup = mixer.FindMatchingGroups("Character")[0];
 
             SoundData soundData = sound.soundGameObject.GetComponent<SoundData>();
             if(sound.soundname == "Walk" || sound.soundname == "Run") soundData.soundname.Add(sound.soundname);
             if (sound.soundname == "Walk" || sound.soundname == "Run") soundData.soundLevel.Add(sound.soundLevel);
         }
+    }
+
+    public void SetEnvironmentVolume(float volume)
+    {
+        mixer.SetFloat("Environment", Mathf.Log10(volume) * 20);
+    }
+    public void SetObjectsVolume(float volume)
+    {
+        mixer.SetFloat("Objects", Mathf.Log10(volume) * 20);
+    }
+    public void SetCharacterVolume(float volume)
+    {
+        mixer.SetFloat("Character", Mathf.Log10(volume) * 20);
     }
 
 
