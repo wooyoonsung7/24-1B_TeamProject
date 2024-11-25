@@ -125,7 +125,11 @@ public class ResearchManager_Simple : MonoBehaviour
         Debug.Log("데이 1" );
         moveToPos = columns[moveIndex].transform.position;
         enemy.navMeshAgent.SetDestination(moveToPos);
-        if (isEnd_2) yield return StartCoroutine(DayOneEvent());
+        if (isEnd_2)
+        {
+            StopSafeCoroutine();
+            StartSafeCoroutine(); Debug.Log(moveIndex + "번째");
+        }
         yield return new WaitUntil(() => isEnd); isEnd = false;
 
         while (isRunning)
@@ -133,7 +137,12 @@ public class ResearchManager_Simple : MonoBehaviour
             moveIndex = 0;
             for (int i = 0; i < 5; i++)
             {
-                MoveToPos(); if (isEnd_2) yield return StartCoroutine(DayOneEvent()); Debug.Log(moveIndex + "번째");
+                MoveToPos(); 
+                if (isEnd_2)
+                {
+                    StopSafeCoroutine();
+                    StartSafeCoroutine(); Debug.Log(moveIndex + "번째");
+                }
                 yield return new WaitUntil(() => isEnd); isEnd = false;
                 yield return new WaitForSeconds(5f);
             }
@@ -143,6 +152,7 @@ public class ResearchManager_Simple : MonoBehaviour
 
     public IEnumerator DayOneEvent()
     {
+        isRunning = true;
         isEnd_2 = false;
         moveIndex = 5;
 
@@ -157,7 +167,8 @@ public class ResearchManager_Simple : MonoBehaviour
         EnemyAnimation.instance.sequence.Restart();
         yield return new WaitUntil(() => isstepEnd);
         Debug.Log("데이 2완");
-        yield return StartCoroutine(DayOne());
+        yield return null; 
+        StartSafeCoroutine();
     }
 
     public IEnumerator DayTwo()
@@ -236,7 +247,17 @@ public class ResearchManager_Simple : MonoBehaviour
             StopSafeCoroutine();
         }
         ResetValue();
-        if (GameManager.Days == 1) currentCoroutine = StartCoroutine(DayOne());
+        if (GameManager.Days == 1)
+        {
+            if (isEnd_2)
+            {
+                currentCoroutine = StartCoroutine(DayOneEvent());
+            }
+            else
+            {
+                currentCoroutine = StartCoroutine(DayOne());
+            }
+        }
         if(GameManager.Days == 2)currentCoroutine = StartCoroutine(DayTwo());
     }
 

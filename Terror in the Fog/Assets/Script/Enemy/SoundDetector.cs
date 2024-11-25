@@ -51,13 +51,16 @@ public class SoundDetector : MonoBehaviour
     private float r_DetectRadius = 11f;
     [SerializeField]
     private LayerMask layerMask;
-    int targetMask = (1 << 6) | (1 << 0);
+    [SerializeField]
+    private LayerMask targetMask;
 
     private Vector3 myPos;
     public bool isOneTime = true;
     private bool isOneTime_2 = true;
     private bool isOneTime_3 = true;
     private float timer = 0f;
+
+    public bool isLevel3End = false;
     public enum LEVEL
     {
         Level3, Level2, Level1, Level0
@@ -157,59 +160,54 @@ public class SoundDetector : MonoBehaviour
             Debug.Log("레벨3 가는중");
             enemy.navMeshAgent.SetDestination(SoundPos[0]);
             timer = 0f;
+
+  
         }
 
-        Collider[] target = Physics.OverlapSphere(myPos, 2f, targetMask);
-
-        foreach (Collider p_collider in target)
+        float distance = Vector3.Distance(transform.position, SoundPos[0]);
+        if (distance < 1)
         {
             Debug.Log("도착했다");
-            if (p_collider.gameObject.CompareTag("Trap"))
+            isOneTime = false;
+            if (GameManager.Days == 2)
             {
-                Debug.Log("도착했다2");
-                isOneTime = false;
-
-                if (GameManager.Days == 2)
-                {
-                    SoundManager.instance.PauseSound("Toy");
-                    ResetHurry();
-                }
-                if (GameManager.Days == 3)
-                {
-                    //Debug.Log("오르골 끄기2");
-                    if (p_collider.gameObject.layer == 6)
-                    {
-                        //Debug.Log("오르골 끄기3");
-                        SoundManager.instance.PauseSound("Toy");
-                        p_collider.GetComponent<Toy>().isGen = true;
-                        ResetHurry();
-                    }
-                    else if(p_collider.gameObject.layer == 0)
-                    {
-                        SoundManager.instance.PauseSound("Emergency");
-                        Debug.Log("된다ㅏㅏㅏ");
-                        //집주인이 절규하는 목소리 재생
-                        if (timer >= 5)
-                        {
-                            ResetHurry();
-                        }
-                    }
-                }
-                if (GameManager.Days == 5 || GameManager.Days == 4)
-                {
-                    p_collider.GetComponent<Trap2>().isCanUse = true;
-                    ResetHurry();
-                }
+                SoundManager.instance.PauseSound("Toy");
+                ResetHurry();
             }
+            if (GameManager.Days == 3)
+            {
+                //Debug.Log("오르골 끄기3");
+                SoundManager.instance.PauseSound("Toy");
+                isLevel3End = true;
+                //p_collider.GetComponent<Toy>().isGen = true;
+                ResetHurry();
+
+                SoundManager.instance.PauseSound("Emergency");
+                Debug.Log("된다ㅏㅏㅏ");
+                //집주인이 절규하는 목소리 재생
+                if (timer >= 5)
+                {
+                    ResetHurry();
+                }
+
+            }
+            /*
+            if (GameManager.Days == 5 || GameManager.Days == 4)
+            {
+                Collider[] target = Physics.OverlapSphere(myPos, 2, 6);
+                target[0].gameObject.GetComponent<Trap2>().isCanUse = true;
+                ResetHurry();
+            }*/
         }
     }
 
-    private void ResetHurry()
+    public void ResetHurry()
     {
         Debug.Log("레벨3에 도착했다");
         SoundPos.Clear();
         isPlay_3 = false;
         g_level = defultLevel;
+        isLevel3End = false;
         ChangeLevelState(LEVEL.Level0);
     }
     private void MoveToPos()
