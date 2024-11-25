@@ -18,6 +18,12 @@ public class SceneUI : MonoBehaviour
         SceneManager.LoadScene("LoadingUI");
     }
 
+    private IEnumerator LoadScenesSequentially()
+    {
+        AsyncOperation loadAchievementsScene = SceneManager.LoadSceneAsync("AchievementsScene");
+        yield return loadAchievementsScene;
+    }
+
 
 
     public void GameExit()
