@@ -14,7 +14,6 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField]
     private HandController handController;
 
-
     void Start()
     {
         settingsPanel.SetActive(false);

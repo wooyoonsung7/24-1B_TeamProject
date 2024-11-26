@@ -1,17 +1,13 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class InsideInventory : MonoBehaviour
 {
-    public static InsideInventory Instance;
-
-    public static bool inventoryActivated = false;
+    public static InsideInventory Instance = null;
 
     //인벤토리의 슬롯들에게 명령을 내리기위한 변수
     [SerializeField]
@@ -37,7 +33,19 @@ public class InsideInventory : MonoBehaviour
     private bool OneTime = true;
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            transform.parent = null;
+            DontDestroyOnLoad(this.gameObject);
+
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         checkImages = new GameObject[6];
     }
 
@@ -151,6 +159,14 @@ public class InsideInventory : MonoBehaviour
         }
     }
 
+    public void ClearAllItem()
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            slots[i].ClearSlot();
+        }
+    }
+
     private void FadeIn()
     {
         //SetColor((int)currentTime);
@@ -163,10 +179,15 @@ public class InsideInventory : MonoBehaviour
         itemText.DOFade(0f, 0.2f).SetEase(Ease.InOutQuad).SetAutoKill(false);
     }
 
-    private void SetColor(int _alpha)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Color color = itemText.color;
-        color.a = _alpha;
-        itemText.color = color;
+        playerController = FindObjectOfType<PlayerController>();
+        staminaSlider = GameObject.Find("StaminaSlider");
+        itemText = GameObject.Find("ItemNameText").GetComponent<Text>();
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

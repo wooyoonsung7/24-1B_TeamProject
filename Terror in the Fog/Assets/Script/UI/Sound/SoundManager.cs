@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 
 
 [System.Serializable]
@@ -41,6 +42,14 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField] AudioMixer mixer;
 
+    [SerializeField] private Slider E_slider;
+    [SerializeField] private Slider O_slider;
+    [SerializeField] private Slider C_slider;
+    [SerializeField] private GameObject SettingPanal;
+    private static float E_sliderValue = 0;
+    private static float O_sliderValue = 0;
+    private static float C_sliderValue = 0;
+
     //public float soundValue = 1f;
     private void Awake()
     {
@@ -50,8 +59,10 @@ public class SoundManager : MonoBehaviour
         }
 
         SetSound();
-    }
 
+        SettingPanal = GameObject.Find("Setting Canvas");
+        SetSliderValue();
+    }
     private void SetSound()
     {
         foreach (Sound sound in sounds)
@@ -72,18 +83,38 @@ public class SoundManager : MonoBehaviour
             if (sound.soundname == "Walk" || sound.soundname == "Run") soundData.soundLevel.Add(sound.soundLevel);
         }
     }
+    private void SetSliderValue()
+    {
+        E_slider = GameObject.FindGameObjectWithTag("E_Slider").GetComponent<Slider>();
+        O_slider = GameObject.FindGameObjectWithTag("O_Slider").GetComponent<Slider>();
+        C_slider = GameObject.FindGameObjectWithTag("C_Slider").GetComponent<Slider>();
+
+        E_slider.value = E_sliderValue;
+        O_slider.value = O_sliderValue;
+        C_slider.value = C_sliderValue;
+    }
 
     public void SetEnvironmentVolume(float volume)
     {
         mixer.SetFloat("Environment", Mathf.Log10(volume) * 20);
+
     }
     public void SetObjectsVolume(float volume)
     {
         mixer.SetFloat("Objects", Mathf.Log10(volume) * 20);
+
     }
     public void SetCharacterVolume(float volume)
     {
         mixer.SetFloat("Character", Mathf.Log10(volume) * 20);
+    }
+
+    private void FixedUpdate()
+    {
+        E_sliderValue = E_slider.value;
+        O_sliderValue = O_slider.value;
+        C_sliderValue = C_slider.value;
+        //Debug.Log(C_sliderValue);
     }
 
 

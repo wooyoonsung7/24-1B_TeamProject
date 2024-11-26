@@ -141,6 +141,31 @@ public class HandController : MonoBehaviour
                 scrollPoint = -6f;
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            i = 0; scrollPoint = -0.5f;
+        }
+        else if(Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            i = 1; scrollPoint = -1.5f;
+        }
+        else if( Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            i = 2; scrollPoint = -2.5f;
+        }
+        else if(Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            i = 3; scrollPoint = -3.5f;
+        }
+        else if(Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            i = 4; scrollPoint = -4.5f;
+        }
+        else if(Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            i = 5; scrollPoint = -5.5f;
+        }
         InsideInventory.Instance.CheckCanUse(i);
     }
 

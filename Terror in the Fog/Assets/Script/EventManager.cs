@@ -110,6 +110,7 @@ public class EventManager : MonoBehaviour //이벤트관리
         else
         {
             playerdead = true;
+            InsideInventory.Instance.ClearAllItem();
             SceneManager.LoadScene("Home");
         }
     }
