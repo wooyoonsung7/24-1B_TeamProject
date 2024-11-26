@@ -9,7 +9,7 @@ public class SceneUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.None;          //마우스 커서를 잠그고 숨긴다
+        Cursor.lockState = CursorLockMode.None;        
         Cursor.visible = true;
     }
 
@@ -18,11 +18,16 @@ public class SceneUI : MonoBehaviour
         SceneManager.LoadScene("LoadingUI");
     }
 
-    private IEnumerator LoadScenesSequentially()
+   
+    public void LoadAchievementsScene()
     {
-        AsyncOperation loadAchievementsScene = SceneManager.LoadSceneAsync("AchievementsScene");
-        yield return loadAchievementsScene;
+        
+        PlayerPrefs.SetString("NextScene", "AchievementUI");
+        
+        SceneManager.LoadScene("AchievementUI");
     }
+     
+    
 
 
 
