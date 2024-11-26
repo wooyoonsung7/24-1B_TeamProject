@@ -39,6 +39,7 @@ public class EventManager : MonoBehaviour //이벤트관리
     private bool EndEvent = false;
     private bool EndEvent_2 = false;
     public static bool playerdead = false;
+    public bool isGameOver = false;
 
     private int count = 0;
     private void Awake()
@@ -103,16 +104,8 @@ public class EventManager : MonoBehaviour //이벤트관리
 
     public void PlayerDead()
     {
-        if (GameManager.Days == 0)
-        {
-            SceneManager.LoadScene("TutorialScene");
-        }
-        else
-        {
-            playerdead = true;
-            InsideInventory.Instance.ClearAllItem();
-            SceneManager.LoadScene("Home");
-        }
+        GameManager.Instance.GameOverCanvas.SetActive(true);
+        isGameOver = true;
     }
     public IEnumerator AfterPlayerDead()
     {

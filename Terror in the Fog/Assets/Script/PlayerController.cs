@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     private float targetVerticalRotation;         //목표 수직 회전 각도
     private float RotationSpeed = 240f;           //수직 회전 속도
 
-    public float mouseSenesitivity = 2f;  //마우스 감도
+    public static float mouseSenesitivity = 2f;  //마우스 감도
 
     private bool isCrouching = false;     //1인치 모드 인지 여부
     private Rigidbody rb;
@@ -55,6 +55,7 @@ public class PlayerController : MonoBehaviour
     public bool isOneTime_3 = false;
 
     private Vector3 movement2;
+    [SerializeField]private Slider M_Slider;
 
     public enum SoundState
     {
@@ -62,6 +63,10 @@ public class PlayerController : MonoBehaviour
     }
     SoundState soundstate;
 
+    private void Awake()
+    {
+        FindSlider();
+    }
     void Start()
     {
         soundData = GetComponent<SoundData>();
@@ -259,8 +264,13 @@ public class PlayerController : MonoBehaviour
 
         if (transform.position.y < -10f) //낙사
         {
-            EventManager.instance.PlayerDead();
+            PlayerDead();
         }
+    }
+    public void PlayerDead()
+    {
+        //gameObject.SetActive(false);
+        EventManager.instance.PlayerDead();
     }
 
     private void SetSound()
@@ -367,5 +377,19 @@ public class PlayerController : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public void ChangMouseSensitivity(float value)
+    {
+        mouseSenesitivity = value;
+    }
+
+    public void FindSlider()
+    {
+        M_Slider = GameObject.FindGameObjectWithTag("M_Slider").GetComponent<Slider>();
+    }
+    public void FixedUpdate()
+    {
+        M_Slider.value = mouseSenesitivity;
     }
 }

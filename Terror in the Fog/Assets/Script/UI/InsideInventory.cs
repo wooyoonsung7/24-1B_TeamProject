@@ -181,9 +181,16 @@ public class InsideInventory : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        playerController = FindObjectOfType<PlayerController>();
-        staminaSlider = GameObject.Find("StaminaSlider");
-        itemText = GameObject.Find("ItemNameText").GetComponent<Text>();
+        if (scene.name == "MainScene")
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            playerController = FindObjectOfType<PlayerController>();
+            staminaSlider = GameObject.Find("StaminaSlider");
+            itemText = GameObject.Find("ItemNameText").GetComponent<Text>();
+        }
     }
 
     private void OnDestroy()

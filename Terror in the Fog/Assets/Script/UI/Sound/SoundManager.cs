@@ -60,7 +60,7 @@ public class SoundManager : MonoBehaviour
 
         SetSound();
 
-        SettingPanal = GameObject.Find("Setting Canvas");
+        SettingPanal = GameObject.Find("PauseCanvas");
         SetSliderValue();
     }
     private void SetSound()
