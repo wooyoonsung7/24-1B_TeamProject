@@ -12,13 +12,10 @@ public class Book : MonoBehaviour, IItem
     public int index { get; set; }
     public int getIndex { get; set; }
     public Sprite itemImage { get; set; }
-    public GameObject itemPrefab { get; set; }
     public bool isCanUse { get; set; }
 
     [SerializeField]
     private Sprite _itemImage;
-    [SerializeField]
-    private GameObject _itemPrefab;
     [SerializeField]
     private int bookIndex;
     [SerializeField]
@@ -29,7 +26,6 @@ public class Book : MonoBehaviour, IItem
         type = ItemType.Used;
         itemName = "å";
         itemImage = _itemImage;
-        itemPrefab = _itemPrefab;
         itemName = bookName;
         isCanUse = false;
         index = bookIndex;
@@ -44,6 +40,7 @@ public class Book : MonoBehaviour, IItem
             {
                 if (handController.item.index == index)
                 {
+                    //handController.item.getIndex = index;
                     handController.item.isCanUse = true;
                     isCanUse = true;
                     handController.item.Use(target);

@@ -91,8 +91,7 @@ public class FeelStrage : IState
     public void StateEnter(Enemy enemy)
     {
         enemy.navMeshAgent.updateRotation = false;
-        enemy.navMeshAgent.SetDestination(enemy.gameObject.transform.position);
-        //enemy.navMeshAgent.isStopped = true;
+        enemy.navMeshAgent.isStopped = true;
     }
     public void StateFixUpdate(Enemy enemy)
     {
@@ -103,6 +102,7 @@ public class FeelStrage : IState
     {
         if (enemy.hitTargetList.Count > 0)      //플레이이어 시야내 감지(1순위)
         {
+            Debug.Log("바뀐다");
             enemy.stateMachine.SetState(enemy, JudgeChase.GetInstance());
         }
 
@@ -110,6 +110,7 @@ public class FeelStrage : IState
         {
             if (enemy.hitTargetList.Count <= 0)
             {
+                enemy.StartMove();                                          //ResearchManager_Simple용 이동시작
                 enemy.stateMachine.SetState(enemy, Research.GetInstance());
             }
         }
@@ -117,8 +118,7 @@ public class FeelStrage : IState
     public void StateExit(Enemy enemy)
     {
         enemy.navMeshAgent.updateRotation = true;
-        //enemy.navMeshAgent.isStopped = false;
-        enemy.StartMove();                                          //ResearchManager_Simple용 이동시작
+        enemy.navMeshAgent.isStopped = false;
         enemy.currentTime = 0f;                                     //이상함 감지애니시간 초기화
     }
 }

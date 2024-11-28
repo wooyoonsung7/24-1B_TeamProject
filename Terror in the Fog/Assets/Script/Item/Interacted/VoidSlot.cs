@@ -10,7 +10,6 @@ public class VoidSlot : MonoBehaviour, IItem
     public int index { get; set; }
     public int getIndex { get; set; }
     public Sprite itemImage { get; set; }
-    public GameObject itemPrefab { get; set; }
     public bool isCanUse { get; set; }
 
     [SerializeField]

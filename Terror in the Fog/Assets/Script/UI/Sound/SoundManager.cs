@@ -45,7 +45,6 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private Slider E_slider;
     [SerializeField] private Slider O_slider;
     [SerializeField] private Slider C_slider;
-    [SerializeField] private GameObject SettingPanal;
     private static float E_sliderValue = 0;
     private static float O_sliderValue = 0;
     private static float C_sliderValue = 0;
@@ -58,9 +57,8 @@ public class SoundManager : MonoBehaviour
             instance = this;
         }
 
-        SetSound();
+        if(sounds.Count > 0) SetSound();
 
-        SettingPanal = GameObject.Find("PauseCanvas");
         SetSliderValue();
     }
     private void SetSound()

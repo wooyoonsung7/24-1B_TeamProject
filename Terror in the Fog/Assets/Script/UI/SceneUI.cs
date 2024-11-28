@@ -6,13 +6,24 @@ using UnityEngine.SceneManagement;
 
 public class SceneUI : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public GameObject settingsMenu;
     void Start()
     {
         Cursor.lockState = CursorLockMode.None;        
         Cursor.visible = true;
+        settingsMenu.SetActive(false);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (settingsMenu.activeSelf)
+            {
+                settingsMenu.SetActive(false);
+            }
+        }
+    }
     public void LoadTestScene()
     {
         SceneManager.LoadScene("LoadingUI");
@@ -27,9 +38,6 @@ public class SceneUI : MonoBehaviour
         SceneManager.LoadScene("AchievementUI");
     }
      
-    
-
-
 
     public void GameExit()
     {

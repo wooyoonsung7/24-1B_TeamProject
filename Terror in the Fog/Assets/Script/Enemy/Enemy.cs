@@ -172,9 +172,12 @@ public class Enemy : MonoBehaviour
     {
         isCheckAround = true;
         Debug.Log("상태전환확인");
-        hitTargetList.Clear();
 
         currentTime += Time.deltaTime;
+        if (currentTime <= 0.2f)
+        {
+            hitTargetList.Clear();
+        }
         if (currentTime <= 1.3)
         {
             transform.Rotate(0, 1, 0);

@@ -258,7 +258,7 @@ public class ResearchManager_Simple : MonoBehaviour
                 currentCoroutine = StartCoroutine(DayOne());
             }
         }
-        if(GameManager.Days == 2)currentCoroutine = StartCoroutine(DayTwo());
+        if(GameManager.Days == 2) currentCoroutine = StartCoroutine(DayTwo());
     }
 
     public void ResetValue()

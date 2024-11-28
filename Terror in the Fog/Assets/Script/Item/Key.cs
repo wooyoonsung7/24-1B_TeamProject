@@ -11,13 +11,10 @@ public class Key : MonoBehaviour, IItem
     public int index { get; set; }
     public int getIndex { get; set; }
     public Sprite itemImage { get; set; }
-    public GameObject itemPrefab { get; set; }
     public bool isCanUse { get; set; }
 
     [SerializeField]
     private Sprite _itemImage;
-    [SerializeField]
-    private GameObject _itemPrefab;
     [SerializeField]
     private string _itemName;
 
@@ -28,7 +25,6 @@ public class Key : MonoBehaviour, IItem
         itemName = _itemName;
         index = keyIndex;
         itemImage = _itemImage;
-        itemPrefab = _itemPrefab;
         isCanUse = false;          //여기에서 isCanUse는 의미 :  아이템이 사용(=없어짐)될 수 있는가?
     }
     public void Use(GameObject target)
