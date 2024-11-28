@@ -14,22 +14,20 @@ public class Chest : MonoBehaviour, IItem
     public bool isCanUse { get; set; }
 
     [SerializeField]
-    private GameObject chestCap;
+    private OpenBox chestCap;
 
     private void Start()
     {
         type = ItemType.interacted;
         itemName = "주방상자";
         isCanUse = false;
-        index = 3;
+        index = 4;
     }
     public void Use(GameObject target)
     {
         if (isCanUse)
         {
-            Vector3 capPos = chestCap.transform.position + chestCap.transform.right * 1.1f;
-
-            chestCap.transform.DOMove(capPos, 3f);
+            chestCap.ToggleBox();
         }
         else
         {

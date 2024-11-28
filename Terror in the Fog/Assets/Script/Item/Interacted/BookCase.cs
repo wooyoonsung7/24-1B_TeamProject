@@ -35,12 +35,11 @@ public class BookCase : MonoBehaviour, IItem
     {
         if (isCanUse && OneTime)
         {
+            OneTime = false;
             StartCoroutine(UseItem(target));
-            index++;
             if (count >= 3)
             {
                 gameObject.layer = 0;
-                OneTime = false;
             }
         }
     }
@@ -49,24 +48,30 @@ public class BookCase : MonoBehaviour, IItem
     {
         yield return new WaitForSeconds(0.2f);
         GameObject temp = Instantiate(generatedItem[count], target.transform.position, Quaternion.identity);
-        generatedItem[count].GetComponent<BookController>().PlaceBook(slotPositions[count]);
-        temp.gameObject.layer = 0;
+        if (temp != null)
+        {
+            temp.GetComponent<Collider>().enabled = false;
+            temp.GetComponent<BookController>().setPlace = slotPositions[count];
+            temp.GetComponent<BookController>().isPlaced = true;
+            temp.gameObject.layer = 0;
+        }
+
         count++;
+        index++;
+        Debug.Log(index);
+        OneTime = true;
     }
     
     IEnumerator CheckPuzz()
     {
         while (true)
         {
-            //index = 5; Debug.Log(index);
-            //index = 6; Debug.Log(index);
-            //index = 7; Debug.Log(index);
 
             if (count >= 3)
             {
                 Debug.Log("ÆÛÁñ¿Ï");
-                Vector3 itemPos = transform.position - transform.forward * 0.35f;
-                itemPos.y -= (transform.localScale.y / 2 - generatedItem_2.transform.localScale.y / 2);
+                Vector3 itemPos = transform.position - transform.right * 0.8f;
+                //itemPos.y -= (transform.localScale.y / 2 - generatedItem_2.transform.localScale.y / 2);
 
                 Vector3 itemRot = Vector3.zero;
                 itemRot.y += 55f;

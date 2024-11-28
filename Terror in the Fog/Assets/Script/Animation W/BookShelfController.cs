@@ -14,7 +14,7 @@ public class BookShelfController : MonoBehaviour
         if (currentSlotIndex < books.Length)
         {
             // 현재 책을 다음 슬롯에 배치
-            books[currentSlotIndex].PlaceBook(slotPositions[currentSlotIndex]);
+            //books[currentSlotIndex].PlaceBook(slotPositions[currentSlotIndex]);
             currentSlotIndex++;
         }
     }
