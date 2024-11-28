@@ -23,6 +23,8 @@ public class SettingsMenu : MonoBehaviour
 
     void Update() 
     {
+        if (EventManager.instance == null) return;
+
         if (EventManager.instance.isGameOver)
         {
             playerController.enabled = false;  //playerController 스크립트 비활성화
