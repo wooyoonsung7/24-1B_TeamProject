@@ -8,7 +8,7 @@ public class HandController : MonoBehaviour
     private Camera playerCam;
 
     [SerializeField]
-    private float distance = 1f;
+    private float distance = 1.5f;
 
     private bool pickupActivated = false;
 

@@ -22,13 +22,11 @@ public class Token : MonoBehaviour, IItem
     private void Start()
     {
         type = ItemType.Used;
-        itemName = "ÅäÅ«1";
+        itemName = _itemName;
         itemImage = _itemImage;
         isCanUse = false;
         index = tokenIndex;
         this.gameObject.layer = 6;
-
-        StartCoroutine(SetName());
     }
     public void Use(GameObject target)
     {
@@ -51,14 +49,5 @@ public class Token : MonoBehaviour, IItem
 
         }
 
-    }
-
-    private IEnumerator SetName()
-    {
-        if (_itemName != "")
-        {
-            itemName = _itemName;
-        }
-        yield return null;
     }
 }

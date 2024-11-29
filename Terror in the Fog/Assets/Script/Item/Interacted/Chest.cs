@@ -15,6 +15,8 @@ public class Chest : MonoBehaviour, IItem
 
     [SerializeField]
     private OpenBox chestCap;
+    [SerializeField]
+    private GameObject knife;
 
     private void Start()
     {
@@ -28,6 +30,7 @@ public class Chest : MonoBehaviour, IItem
         if (isCanUse)
         {
             chestCap.ToggleBox();
+            knife.layer = 6;
         }
         else
         {

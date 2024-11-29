@@ -6,7 +6,7 @@ using DG.Tweening;
 public class PuzzMachine : MonoBehaviour
 {
     [SerializeField]
-    private GameObject[] voidSlot = new GameObject[5];
+    private VoidSlot[] voidSlots = new VoidSlot[5];
     [SerializeField]
     private Drawer drawer;
 
@@ -20,10 +20,9 @@ public class PuzzMachine : MonoBehaviour
     {
         while (true)
         {
-            foreach (GameObject obj in voidSlot)
+            foreach (VoidSlot obj in voidSlots)
             {
-                IItem item = obj.GetComponent<IItem>();
-                if (item.isCanUse)
+                if (obj.isCanUse)
                 {
                     Debug.Log(stack);
                     stack++;
@@ -34,6 +33,18 @@ public class PuzzMachine : MonoBehaviour
                 Debug.Log("ÆÛÁñ¿Ï");
                 drawer.isCanUse = true;
                 drawer.Use(gameObject);
+                
+                foreach(VoidSlot slot in voidSlots)
+                {
+                    slot.gameObject.layer = 0;
+                }
+                Token[] tokens = FindObjectsOfType<Token>();
+                for (int i = 0; i < tokens.Length; i++)
+                {
+                    tokens[i].gameObject.layer = 0;
+                    Debug.Log("µÈ´Ù");
+                }
+                
                 StopCoroutine("CheckPuzz");
             }
             else

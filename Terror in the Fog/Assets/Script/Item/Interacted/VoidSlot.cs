@@ -20,7 +20,7 @@ public class VoidSlot : MonoBehaviour, IItem
 
     Vector3 itemRot;
     Quaternion quaternion;
-    bool isUse = true;
+    bool isUsing = false;
     private void Start()
     {
         type = ItemType.interacted;
@@ -29,34 +29,34 @@ public class VoidSlot : MonoBehaviour, IItem
         index = slotIndex;
 
         itemRot = Vector3.zero;
-        itemRot.x += 72f;
-        Quaternion quaternion = Quaternion.Euler(itemRot);
-        StartCoroutine(SetToken());
+        itemRot.x -= 75.4f;
+        quaternion = Quaternion.Euler(itemRot);
     }
     public void Use(GameObject target)
     {
+        if (isCanUse && !isUsing)
+        {
+            isCanUse = false;
+            isUsing = true;
+            Debug.Log("累悼茄促");
+            StartCoroutine(SetToken());
+        }
         CheckCorrect();
     }
 
     private IEnumerator SetToken()
     {
-        while(true)
+        for (int i = 0; i < tokenPrf.Length; i++)
         {
-            if (isCanUse)
+            Token token = tokenPrf[i].GetComponent<Token>();
+            if (getIndex == token.tokenIndex)
             {
-                isCanUse = false;
-                for (int i = 0; i < tokenPrf.Length; i++)
-                {
-                    Token token = tokenPrf[i].GetComponent<Token>();
-                    if (getIndex == token.tokenIndex)
-                    {
-                        Instantiate(tokenPrf[i], transform.position + transform.forward * 0.05f, quaternion);
-                        Debug.Log("积己等促");
-                    }
-                }
+                GameObject temp = Instantiate(tokenPrf[i], transform.position + transform.forward * 0.05f, quaternion);
+                Debug.Log("积己等促");
             }
-            yield return null;
         }
+        yield return new WaitForSeconds(0.2f);
+        isUsing = false;
     }
 
     private void CheckCorrect()

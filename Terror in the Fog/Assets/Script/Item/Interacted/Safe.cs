@@ -31,8 +31,8 @@ public class Safe : MonoBehaviour
                 {
                     if (count >= 4)
                     {
-                        Vector3 moveToPos = transform.position + transform.forward * 1f;
-                        transform.DOMove(moveToPos, 1.5f);
+                        Debug.Log("열린다");
+                        transform.DORotate(new Vector3(0, 60f, 0), 1f, RotateMode.LocalAxisAdd);
 
                         safeButtons[i].gameObject.layer = 0;
                         item.gameObject.layer = 6;
@@ -53,9 +53,14 @@ public class Safe : MonoBehaviour
 
                         if (safeButtons[i].isCollect && safeButtons[i].ListIndex == order)
                         {
+                            Debug.Log("맞추었다");
                             order++;
                             Debug.Log(count);
                             count++;
+                        }
+                        else
+                        {
+                            Debug.Log("틀렸다");
                         }
                     }
                 }

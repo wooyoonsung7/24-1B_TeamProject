@@ -371,7 +371,7 @@ public class PlayerController : MonoBehaviour
         List<Vector3> rayPositions = new List<Vector3>();
         rayPositions.Add(transform.position + Vector3.up * 0.7f);
         rayPositions.Add(transform.position - Vector3.up * transform.localScale.y /2 *1.5f);
-        rayPositions.Add(transform.position);
+        rayPositions.Add(transform.position - Vector3.up * 0.1f);
 
         foreach (Vector3 pos in rayPositions)
         {

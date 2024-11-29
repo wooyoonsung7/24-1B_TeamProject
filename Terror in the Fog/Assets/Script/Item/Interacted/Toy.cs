@@ -20,40 +20,48 @@ public class Toy : MonoBehaviour, IItem
     [SerializeField] private bool isKey;
     public bool isGen = false;
 
+    //Vector3 itemPos;
+    Quaternion quaternion;
     private void Start()
     {
         type = ItemType.interacted;
         itemName = "오르골";
-        index = 6;
+        index = 2;
         isCanUse = isUnLocked;
+        if (!isKey) StartCoroutine("CheckUse");
+
+
+        Vector3 itemRot = Vector3.zero;
+        itemRot.x -= 90f;
+        quaternion = Quaternion.Euler(itemRot);
+    }
+
+    private IEnumerator CheckUse()
+    {
+        while (true)
+        {
+            if (isCanUse)
+            {
+                isCanUse = false;
+                SoundDetector.instance.G_level = 3;
+                SoundDetector.instance.SoundPos.Add(transform.position); //레벨3사운드발생
+                SoundManager.instance.PlaySound("Toy");
+                Instantiate(generatedItem, transform.position - transform.right * 0.3f, quaternion);
+                StopCoroutine("CheckUse");
+            }
+
+            yield return null;
+        }
     }
     public void Use(GameObject target)
     {
-        Vector3 itemPos = transform.position + transform.forward * 0.3f;
-        itemPos.y -= (transform.localScale.y - generatedItem.transform.localScale.y / 2);
-
-        Vector3 itemRot = Vector3.zero;
-        itemRot.y += 55f;
-        Quaternion quaternion = Quaternion.Euler(itemRot);
-        if (isCanUse)
+        if (isCanUse && isKey)
         {
             isCanUse = false;
             SoundDetector.instance.G_level = 3;
             SoundDetector.instance.SoundPos.Add(transform.position); //레벨3사운드발생
             SoundManager.instance.PlaySound("Toy");
-
-            if (isKey)
-            {
-                StartCoroutine(GenKey(itemPos, quaternion));
-            }
-            else
-            {
-                Instantiate(generatedItem, itemPos, quaternion);
-            }
-        }
-        else
-        {
-            Debug.Log("오르골을 작동시킬 수 없다");
+            StartCoroutine(GenKey(transform.position - transform.right * 0.1f, quaternion));
         }
     }
 
@@ -63,5 +71,6 @@ public class Toy : MonoBehaviour, IItem
         yield return new WaitUntil(() => isGen);
         Debug.Log("된다");
         Instantiate(generatedItem, itemPos, quaternion);
+        StopCoroutine("CheckUse");
     }
 }
