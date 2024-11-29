@@ -26,7 +26,7 @@ public class LoadingBarController : MonoBehaviour
     public IEnumerator LoadTutorialScene()
     {
 
-        AsyncOperation operation = SceneManager.LoadSceneAsync("TutorialScene");
+        AsyncOperation operation = SceneManager.LoadSceneAsync("Home");
         operation.allowSceneActivation = false;
         float fakeProgress = 0f;
 

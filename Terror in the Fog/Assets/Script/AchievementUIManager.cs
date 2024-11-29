@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class AchievementUIManager : MonoBehaviour
 {
@@ -78,5 +79,15 @@ public class AchievementUIManager : MonoBehaviour
 
         // 업데이트된 데이터로 다시 생성
         PopulateAchievements();
+    }
+
+
+    void Update()
+    {
+      
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("MainScene"); 
+        }
     }
 }
