@@ -35,7 +35,6 @@ public class VoidSlot : MonoBehaviour, IItem
     }
     public void Use(GameObject target)
     {
-        isUse = true;
         CheckCorrect();
     }
 
@@ -43,15 +42,16 @@ public class VoidSlot : MonoBehaviour, IItem
     {
         while(true)
         {
-            if (isUse)
+            if (isCanUse)
             {
-                isUse = false;
+                isCanUse = false;
                 for (int i = 0; i < tokenPrf.Length; i++)
                 {
                     Token token = tokenPrf[i].GetComponent<Token>();
                     if (getIndex == token.tokenIndex)
                     {
                         Instantiate(tokenPrf[i], transform.position + transform.forward * 0.05f, quaternion);
+                        Debug.Log("생성된다");
                     }
                 }
             }

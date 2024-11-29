@@ -8,7 +8,7 @@ public class PuzzMachine : MonoBehaviour
     [SerializeField]
     private GameObject[] voidSlot = new GameObject[5];
     [SerializeField]
-    private GameObject drawer;
+    private Drawer drawer;
 
     private int stack = 0;
     void Start()
@@ -32,9 +32,8 @@ public class PuzzMachine : MonoBehaviour
             if (stack >= 5)
             {
                 Debug.Log("ÆÛÁñ¿Ï");
-                Vector3 moveToPos = drawer.transform.position + transform.forward * 0.5f;
-                moveToPos.y = drawer.transform.position.y;
-                drawer.transform.DOMove(moveToPos, 3f);
+                drawer.isCanUse = true;
+                drawer.Use(gameObject);
                 StopCoroutine("CheckPuzz");
             }
             else

@@ -36,7 +36,7 @@ public class Token : MonoBehaviour, IItem
         HandController handController = target.GetComponentInChildren<HandController>();
         if (handController.item != null)
         {
-            if (handController.item.index >= 10 && handController.item.index <= 14)
+            if (handController.item.index >= 15 && handController.item.index < 20)
             {
                 handController.item.isCanUse = true;
                 isCanUse = true;

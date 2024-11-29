@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
@@ -367,13 +368,24 @@ public class PlayerController : MonoBehaviour
         movement = transform.TransformDirection(movement);
         float scope = 0.7f;
 
-        Vector3 rayPosition = transform.position + Vector3.up * 0.1f;
-        Debug.DrawRay(rayPosition, movement * scope, Color.red);
-        if (Physics.Raycast(rayPosition, movement, out RaycastHit hit, scope))
+        List<Vector3> rayPositions = new List<Vector3>();
+        rayPositions.Add(transform.position + Vector3.up * 0.7f);
+        rayPositions.Add(transform.position - Vector3.up * transform.localScale.y /2 *1.5f);
+        rayPositions.Add(transform.position);
+
+        foreach (Vector3 pos in rayPositions)
         {
-            if (hit.collider.CompareTag("Wall"))
+            Debug.DrawRay(pos, movement * scope, Color.red);
+        }
+
+        foreach (Vector3 pos in rayPositions)
+        {
+            if (Physics.Raycast(pos, movement, out RaycastHit hit, scope))
             {
-                return true;
+                if (hit.collider.CompareTag("Wall"))
+                {
+                    return true;
+                }
             }
         }
         return false;
