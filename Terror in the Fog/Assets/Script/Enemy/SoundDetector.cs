@@ -165,7 +165,7 @@ public class SoundDetector : MonoBehaviour
         }
 
         float distance = Vector3.Distance(transform.position, SoundPos[0]);
-        if (distance < 1)
+        if (distance < 1.5)
         {
             Debug.Log("µµÂøÇß´Ù");
             isOneTime = false;

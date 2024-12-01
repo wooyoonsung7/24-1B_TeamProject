@@ -17,6 +17,8 @@ public class Chest : MonoBehaviour, IItem
     private OpenBox chestCap;
     [SerializeField]
     private GameObject knife;
+    [SerializeField]
+    private GameObject Locked;
 
     private void Start()
     {
@@ -24,12 +26,15 @@ public class Chest : MonoBehaviour, IItem
         itemName = "주방상자";
         isCanUse = false;
         index = 4;
+
+        if(knife != null) knife.layer = 0;
     }
     public void Use(GameObject target)
     {
         if (isCanUse)
         {
             chestCap.ToggleBox();
+            Locked.SetActive(false);
             knife.layer = 6;
         }
         else

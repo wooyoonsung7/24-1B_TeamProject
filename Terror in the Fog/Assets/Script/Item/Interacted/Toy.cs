@@ -46,7 +46,7 @@ public class Toy : MonoBehaviour, IItem
                 SoundDetector.instance.G_level = 3;
                 SoundDetector.instance.SoundPos.Add(transform.position); //레벨3사운드발생
                 SoundManager.instance.PlaySound("Toy");
-                Instantiate(generatedItem, transform.position - transform.right * 0.3f, quaternion);
+                gameObject.GetComponent<MusicBoxToken>().ReleaseToken();
                 StopCoroutine("CheckUse");
             }
 
@@ -61,7 +61,7 @@ public class Toy : MonoBehaviour, IItem
             SoundDetector.instance.G_level = 3;
             SoundDetector.instance.SoundPos.Add(transform.position); //레벨3사운드발생
             SoundManager.instance.PlaySound("Toy");
-            StartCoroutine(GenKey(transform.position - transform.right * 0.1f, quaternion));
+            StartCoroutine(GenKey(transform.position - transform.right * 0.45f, quaternion));
         }
     }
 

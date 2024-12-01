@@ -23,6 +23,8 @@ public class Drawer : MonoBehaviour, IItem
     public Transform drawer; // 서랍의 Transform
     public float openValue = 1.6f; // 서랍을 열었을 때의 Z 위치
     public float closePositionZ = 0f; // 서랍을 닫았을 때의 Z 위치
+    private float itemPosZ_1 = 0f;
+    private float itemPosZ_2 = 0f;
 
     public bool isOpen = false;
     private bool canOpen = true;
@@ -36,6 +38,18 @@ public class Drawer : MonoBehaviour, IItem
         index = drawerIndex;
 
         closePositionZ = transform.localPosition.z;
+        if (item != null)
+        {
+            item.gameObject.layer = 0;
+            itemPosZ_1 = item.transform.localPosition.z;
+            Debug.Log("된다1");
+        }
+        if (item2 != null)
+        {
+            item2.gameObject.layer = 0;
+            itemPosZ_2 = item2.transform.localPosition.z;
+            //Debug.Log("된다1");
+        }
     }
     public void Use(GameObject target)
     {
@@ -71,8 +85,18 @@ public class Drawer : MonoBehaviour, IItem
         if (isOpen)
         {
             drawer.DOLocalMoveZ(closePositionZ - openValue, 0.5f).SetEase(Ease.OutQuad).OnComplete(() => canOpen = true);
-            if (item != null) item.gameObject.layer = 6;
-            if (item2 != null) item2.gameObject.layer = 6;
+            if (item != null)
+            {
+                Debug.Log("된다2");
+                item.gameObject.layer = 6;
+                item.transform.DOLocalMoveZ(itemPosZ_1 - openValue, 0.5f).SetEase(Ease.OutQuad);
+
+            }
+            if (item2 != null)
+            {
+                item2.gameObject.layer = 6;
+                item2.transform.DOLocalMoveZ(itemPosZ_2 - 0.1f, 0.5f).SetEase(Ease.OutQuad);
+            }
         }
         yield return null;
     }
@@ -81,6 +105,17 @@ public class Drawer : MonoBehaviour, IItem
         if (!isOpen)
         {
             drawer.DOLocalMoveZ(closePositionZ, 0.5f).SetEase(Ease.OutQuad).OnComplete(() => canOpen = true);
+            if (item != null)
+            {
+                Debug.Log("된다3");
+                item.gameObject.layer = 0;
+                item.transform.DOLocalMoveZ(itemPosZ_1, 0.5f).SetEase(Ease.OutQuad);
+            }
+            if (item2 != null)
+            {
+                item2.gameObject.layer = 0;
+                item2.transform.DOLocalMoveZ(itemPosZ_2, 0.5f).SetEase(Ease.OutQuad);
+            }
         }
         yield return null;
     }
