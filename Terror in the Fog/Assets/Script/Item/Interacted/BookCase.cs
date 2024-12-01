@@ -37,10 +37,6 @@ public class BookCase : MonoBehaviour, IItem
         {
             OneTime = false;
             StartCoroutine(UseItem(target));
-            if (count >= 3)
-            {
-                gameObject.layer = 0;
-            }
         }
     }
 
@@ -58,6 +54,7 @@ public class BookCase : MonoBehaviour, IItem
 
         count++;
         index++;
+        if (count >= 3) gameObject.layer = 0;
         Debug.Log(index);
         OneTime = true;
     }
@@ -74,7 +71,7 @@ public class BookCase : MonoBehaviour, IItem
                 //itemPos.y -= (transform.localScale.y / 2 - generatedItem_2.transform.localScale.y / 2);
 
                 Vector3 itemRot = Vector3.zero;
-                itemRot.y += 55f;
+                itemRot.z += 90f;
                 Quaternion quaternion = Quaternion.Euler(itemRot);
 
                 Instantiate(generatedItem_2, itemPos, quaternion);

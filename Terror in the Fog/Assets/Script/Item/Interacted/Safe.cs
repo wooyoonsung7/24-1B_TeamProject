@@ -19,6 +19,7 @@ public class Safe : MonoBehaviour
     void Start()
     {
         StartCoroutine("CheckPuzz"); //성능의 우려로 인해서 코루틴으로 변경
+        item.layer = 0;
     }
     IEnumerator CheckPuzz()
     {

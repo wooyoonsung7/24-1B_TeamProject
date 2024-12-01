@@ -32,26 +32,10 @@ public class Trap : MonoBehaviour
                 {
                     Debug.Log("귀걸이가 없어졌다");
                     SoundManager.instance.PlaySound("Emergency");
-                    StartCoroutine(Day5Event());
+                    EventManager.instance.StartCoroutine("Day5Event");
                     break;
                 }
             }
-
-            yield return null;
-        }
-    }
-    IEnumerator Day5Event()
-    {
-        while (true)
-        {
-            Debug.Log("이벤트진행중");
-            Enemy enemy = FindObjectOfType<Enemy>();
-            enemy.stopResearch = true;
-            enemy.gameObject.GetComponent<SoundDetector>().isDetectOFF = true;
-            enemy.navMeshAgent.SetDestination(new Vector3(11.15f, 5.57f, -41.88f));
-            enemy.transform.rotation = Quaternion.Euler(0f, 90, 0);
-            yield return new WaitForSeconds(1f);
-            if (enemy.transform.position == new Vector3(11.15f, 5.57f, -41.88f)) break;
 
             yield return null;
         }

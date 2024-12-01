@@ -28,18 +28,32 @@ public class Chest : MonoBehaviour, IItem
         index = 4;
 
         if(knife != null) knife.layer = 0;
+        if (GameManager.Days == 4) StartCoroutine("CheckUse");
     }
     public void Use(GameObject target)
     {
         if (isCanUse)
         {
             chestCap.ToggleBox();
-            Locked.SetActive(false);
+            //Locked.SetActive(false);
             knife.layer = 6;
         }
         else
         {
             Debug.Log("¿­¼è°¡ ¾øÀ½");
+        }
+    }
+
+    private IEnumerator CheckUse()
+    {
+        while (true)
+        {
+            if (isCanUse)
+            {
+                Locked.SetActive(false);
+                StopCoroutine("CheckUse");
+            }
+            yield return null;
         }
     }
 }

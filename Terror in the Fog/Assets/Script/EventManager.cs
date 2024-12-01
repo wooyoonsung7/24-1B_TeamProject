@@ -122,29 +122,30 @@ public class EventManager : MonoBehaviour //이벤트관리
         Debug.Log("된다2");
         if (GameManager.Days == 1)
         {
-            if (name == "루비목걸이") day1Door.isCanUse = true; Debug.Log("된다");
+            if (name == "루비목걸이") { day1Door.isCanUse = true; Debug.Log("된다"); }
         }
 
         if (GameManager.Days == 2)
         {
-            if (name == "토큰2") count++; if (count == 2) day2Door.isCanUse = true;
-            if (name == "토큰1") count++; if (count == 2) day2Door.isCanUse = true;
+            if (name == "숲토큰") { count++; if (count == 2) { day2Door.isCanUse = true; } }
+            if (name == "꽃토큰") { count++; if (count == 2) { day2Door.isCanUse = true; } }
         }
 
         if (GameManager.Days == 3)
         {
-            if (name == "다이아반지") day3Door.isCanUse = true;
+            if (name == "다이아반지") { day3Door.isCanUse = true; }
         }
 
         if (GameManager.Days == 4)
         {
-            if (name == "토큰3") count++; if (count == 2) day4Door.isCanUse = true;
-            if (name == "토큰4") count++; if (count == 2) day4Door.isCanUse = true;
+            if (name == "신전토큰") { count++; if (count == 2) { day4Door.isCanUse = true; } }
+            if (name == "근위대토큰") { count++; if (count == 2) { day4Door.isCanUse = true; } }
+
         }
 
         if (GameManager.Days == 5)
         {
-            if(name == "사파이어귀걸이") day5Door.isCanUse = true;
+            if (name == "사파이어귀걸이") { day5Door.isCanUse = true; }
         }
     }
 
@@ -237,6 +238,24 @@ public class EventManager : MonoBehaviour //이벤트관리
         if (ResearchManager_Simple.instance != null)  //Day5일 때, Street_1에만 해당 스크립트 넣기
         {
 
+        }
+    }
+
+    IEnumerator Day5Event()
+    {
+        while (true)
+        {
+            Debug.Log("이벤트진행중");
+            Enemy enemy = FindObjectOfType<Enemy>();
+            enemy.stopResearch = true;
+            enemy.navMeshAgent.speed *= 1.5f;
+            enemy.gameObject.GetComponent<SoundDetector>().isDetectOFF = true;
+            enemy.navMeshAgent.SetDestination(new Vector3(11.15f, 5.57f, -41.88f));
+            enemy.transform.rotation = Quaternion.Euler(0f, 90, 0);
+            yield return new WaitForSeconds(1f);
+            if (enemy.transform.position == new Vector3(11.15f, 5.57f, -41.88f)) break;
+
+            yield return null;
         }
     }
 }
