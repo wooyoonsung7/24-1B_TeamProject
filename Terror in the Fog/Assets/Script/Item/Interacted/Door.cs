@@ -46,6 +46,7 @@ public class Door : MonoBehaviour, IItem
         }
         else
         {
+            SoundManager.instance.PlaySound("CanNotOpen");
             Debug.Log("문이 잠겼습니다");
         }
     }
@@ -62,6 +63,9 @@ public class Door : MonoBehaviour, IItem
             {
                 StartCoroutine(OpenDoor());
                 StartCoroutine(CloseDoor());
+
+                if(isOpen) SoundManager.instance.PlaySound("OpenDoor");
+                else SoundManager.instance.PlaySound("CloseDoor");
             }
         }
         yield return null;
@@ -98,8 +102,10 @@ public class Door : MonoBehaviour, IItem
                 if (!isOpen)
                 {
                     Use(gameObject);
+                    SoundManager.instance.PlaySound("OpenDoor_E");
                     yield return new WaitForSeconds(0.5f);
                     Use(gameObject);
+                    SoundManager.instance.PlaySound("CloseDoor_E");
                     yield return new WaitForSeconds(0.5f);
                     isOneTime = true;
                 }

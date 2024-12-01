@@ -39,6 +39,7 @@ public class Key : MonoBehaviour, IItem
 
                 if (handController.item.index == index)
                 {
+                    SoundManager.instance.PlaySound("CanOpen");
                     handController.item.isCanUse = true;
                     isCanUse = true;
                     Debug.Log("¸ÂÃçÁø´Ù");
