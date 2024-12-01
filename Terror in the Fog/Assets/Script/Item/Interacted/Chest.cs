@@ -35,8 +35,9 @@ public class Chest : MonoBehaviour, IItem
         if (isCanUse)
         {
             chestCap.ToggleBox();
-            //Locked.SetActive(false);
+            SoundManager.instance.PlaySound("OpenBox");
             knife.layer = 6;
+            gameObject.layer = 0;
         }
         else
         {

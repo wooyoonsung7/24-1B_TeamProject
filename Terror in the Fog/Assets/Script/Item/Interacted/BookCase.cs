@@ -44,6 +44,7 @@ public class BookCase : MonoBehaviour, IItem
     {
         yield return new WaitForSeconds(0.2f);
         GameObject temp = Instantiate(generatedItem[count], target.transform.position, Quaternion.identity);
+        SoundManager.instance.PlaySound("SetBook");
         if (temp != null)
         {
             temp.GetComponent<Collider>().enabled = false;
@@ -67,6 +68,7 @@ public class BookCase : MonoBehaviour, IItem
             if (count >= 3)
             {
                 Debug.Log("ÆÛÁñ¿Ï");
+                SoundManager.instance.PlaySound("FalledKey");
                 Vector3 itemPos = transform.position - transform.right * 0.8f;
                 //itemPos.y -= (transform.localScale.y / 2 - generatedItem_2.transform.localScale.y / 2);
 

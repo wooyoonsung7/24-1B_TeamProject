@@ -26,6 +26,8 @@ public class Door : MonoBehaviour, IItem
     [SerializeField] private float detectRadius;
     [SerializeField] private LayerMask TargetMask;
     private bool isOneTime = true;
+
+    AudioSource[] audioSources;
     private void Start()
     {
         type = ItemType.interacted;
@@ -36,6 +38,13 @@ public class Door : MonoBehaviour, IItem
         doorPos = transform.position + transform.right * 0.3f - transform.up;
 
         StartCoroutine(CheckEnemy());
+        GetAudioSource();
+
+    }
+
+    public void GetAudioSource()
+    {
+        audioSources = FindAnyObjectByType<Enemy>().gameObject.GetComponents<AudioSource>();
     }
 
     public void Use(GameObject target)
@@ -95,16 +104,16 @@ public class Door : MonoBehaviour, IItem
         {
             Collider[] targets = Physics.OverlapSphere(doorPos, detectRadius, TargetMask);
 
-
             if (targets.Length > 0 && isOneTime)
             {
                 isOneTime = false;
                 if (!isOpen)
                 {
                     Use(gameObject);
-                    SoundManager.instance.PlaySound("OpenDoor_E");
+                    audioSources[1].Play();
                     yield return new WaitForSeconds(0.5f);
                     Use(gameObject);
+                    audioSources[2].Play();
                     SoundManager.instance.PlaySound("CloseDoor_E");
                     yield return new WaitForSeconds(0.5f);
                     isOneTime = true;

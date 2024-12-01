@@ -52,6 +52,12 @@ public class EventManager : MonoBehaviour //이벤트관리
     {
         if (roomdoor != null && !EndEvent)
         {
+            if (isOneTime)
+            {
+                enemy.gameObject.SetActive(false);
+                isOneTime = false;
+            }
+
             if (roomdoor.isCanUse)
             {
                 enemy.gameObject.SetActive(true);
@@ -108,13 +114,6 @@ public class EventManager : MonoBehaviour //이벤트관리
                 SceneManager.LoadScene("Street_2");
                 isOneTime = true;
             }
-
-            if (isOneTime)
-            {
-                isOneTime = false;
-                SoundManager.instance.PlaySound("Fireplace");
-                Debug.Log("들린다");
-            }
         }
     }
 
@@ -167,8 +166,6 @@ public class EventManager : MonoBehaviour //이벤트관리
 
     public void DayOneEvent()
     {
-        SetSound();
-
         if (ResearchManager_Simple.instance != null)
         {
             if (!EndEvent)
@@ -194,7 +191,6 @@ public class EventManager : MonoBehaviour //이벤트관리
 
     public void DayTwoEvent()
     {
-        SetSound();
 
         if (ResearchManager_Simple.instance != null)
         {
@@ -215,7 +211,6 @@ public class EventManager : MonoBehaviour //이벤트관리
 
     public void DayThreeEvent()
     {
-        SetSound();
 
         if (ResearchManager.instance != null)
         {
@@ -233,7 +228,6 @@ public class EventManager : MonoBehaviour //이벤트관리
 
     public void DayFourEvent()
     {
-        SetSound();
 
         if (ResearchManager.instance != null)
         {
@@ -251,7 +245,6 @@ public class EventManager : MonoBehaviour //이벤트관리
 
     public void DayFiveEvent()
     {
-        SetSound();
 
         if (ResearchManager.instance != null)
         {
@@ -282,16 +275,6 @@ public class EventManager : MonoBehaviour //이벤트관리
             if (enemy.transform.position == new Vector3(11.15f, 5.57f, -41.88f)) break;
 
             yield return null;
-        }
-    }
-
-    private void SetSound()
-    {
-        if (isOneTime)
-        {
-            isOneTime = false;
-            SoundManager.instance.PlaySound("Fireplace");
-            Debug.Log("들린다");
         }
     }
 }
