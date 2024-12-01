@@ -42,6 +42,7 @@ public class EventManager : MonoBehaviour //이벤트관리
     public bool isGameOver = false;
 
     private int count = 0;
+    private bool isOneTime = true;
     private void Awake()
     {
         instance = this;
@@ -72,7 +73,7 @@ public class EventManager : MonoBehaviour //이벤트관리
         housedoor.isCanUse = true;
         if (housedoor.isOpen)
         {
-            GameManager.currentMap = 2;   //거리로 이동
+            GameManager.currentMap = 4;   //거리로 이동
             SceneManager.LoadScene("Street_1");
             //튜토리얼 종료
         }
@@ -87,6 +88,13 @@ public class EventManager : MonoBehaviour //이벤트관리
                 GameManager.currentMap = 3;
                 SceneManager.LoadScene("GameScene_" + day);
             }
+
+            if (isOneTime)
+            {
+                isOneTime = false;
+                SoundManager.instance.PlaySound("Knell");
+                Debug.Log("들린다");
+            }
         }
     }
 
@@ -98,6 +106,14 @@ public class EventManager : MonoBehaviour //이벤트관리
             {
                 GameManager.currentMap = 2;
                 SceneManager.LoadScene("Street_2");
+                isOneTime = true;
+            }
+
+            if (isOneTime)
+            {
+                isOneTime = false;
+                SoundManager.instance.PlaySound("Fireplace");
+                Debug.Log("들린다");
             }
         }
     }
@@ -151,6 +167,8 @@ public class EventManager : MonoBehaviour //이벤트관리
 
     public void DayOneEvent()
     {
+        SetSound();
+
         if (ResearchManager_Simple.instance != null)
         {
             if (!EndEvent)
@@ -176,6 +194,8 @@ public class EventManager : MonoBehaviour //이벤트관리
 
     public void DayTwoEvent()
     {
+        SetSound();
+
         if (ResearchManager_Simple.instance != null)
         {
             if (!EndEvent)
@@ -195,6 +215,8 @@ public class EventManager : MonoBehaviour //이벤트관리
 
     public void DayThreeEvent()
     {
+        SetSound();
+
         if (ResearchManager.instance != null)
         {
             if (day3Door.isOpen)
@@ -211,6 +233,8 @@ public class EventManager : MonoBehaviour //이벤트관리
 
     public void DayFourEvent()
     {
+        SetSound();
+
         if (ResearchManager.instance != null)
         {
             if (day4Door.isOpen)
@@ -227,6 +251,8 @@ public class EventManager : MonoBehaviour //이벤트관리
 
     public void DayFiveEvent()
     {
+        SetSound();
+
         if (ResearchManager.instance != null)
         {
             if (day5Door.isOpen)
@@ -256,6 +282,16 @@ public class EventManager : MonoBehaviour //이벤트관리
             if (enemy.transform.position == new Vector3(11.15f, 5.57f, -41.88f)) break;
 
             yield return null;
+        }
+    }
+
+    private void SetSound()
+    {
+        if (isOneTime)
+        {
+            isOneTime = false;
+            SoundManager.instance.PlaySound("Fireplace");
+            Debug.Log("들린다");
         }
     }
 }

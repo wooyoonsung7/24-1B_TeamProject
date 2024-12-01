@@ -84,6 +84,7 @@ public class Drawer : MonoBehaviour, IItem
     {
         if (isOpen)
         {
+            SoundManager.instance.PlaySound("OpenDrawer");
             drawer.DOLocalMoveZ(closePositionZ - openValue, 0.5f).SetEase(Ease.OutQuad).OnComplete(() => canOpen = true);
             if (item != null)
             {
@@ -104,6 +105,7 @@ public class Drawer : MonoBehaviour, IItem
     {
         if (!isOpen)
         {
+            SoundManager.instance.PlaySound("CloseDrawer");
             drawer.DOLocalMoveZ(closePositionZ, 0.5f).SetEase(Ease.OutQuad).OnComplete(() => canOpen = true);
             if (item != null)
             {
