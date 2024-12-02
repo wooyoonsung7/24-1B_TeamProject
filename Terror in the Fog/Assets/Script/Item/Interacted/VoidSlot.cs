@@ -21,6 +21,7 @@ public class VoidSlot : MonoBehaviour, IItem
     Vector3 itemRot;
     Quaternion quaternion;
     bool isUsing = false;
+    public bool isSettingAtHome = false;
     private void Start()
     {
         type = ItemType.interacted;
@@ -28,9 +29,19 @@ public class VoidSlot : MonoBehaviour, IItem
         isCanUse = false;
         index = slotIndex;
 
-        itemRot = Vector3.zero;
-        itemRot.x -= 75.4f;
-        quaternion = Quaternion.Euler(itemRot);
+        if (!isSettingAtHome)
+        {
+            itemRot = Vector3.zero;
+            itemRot.x -= 75.4f;
+            quaternion = Quaternion.Euler(itemRot);
+        }
+        else
+        {
+            itemRot = Vector3.zero;
+            itemRot.x -= 90f;
+            itemRot.y -= 180f;
+            quaternion = Quaternion.Euler(itemRot);
+        }
     }
     public void Use(GameObject target)
     {
@@ -52,7 +63,14 @@ public class VoidSlot : MonoBehaviour, IItem
             Token token = tokenPrf[i].GetComponent<Token>();
             if (getIndex == token.tokenIndex)
             {
-                GameObject temp = Instantiate(tokenPrf[i], transform.position + transform.forward * 0.05f, quaternion);
+                if (!isSettingAtHome)
+                {
+                    Instantiate(tokenPrf[i], transform.position + transform.forward * 0.05f, quaternion);
+                }
+                else
+                {
+                    Instantiate(tokenPrf[i], transform.position - transform.forward * 0.03f, quaternion);
+                }
                 Debug.Log("생성된다");
             }
         }

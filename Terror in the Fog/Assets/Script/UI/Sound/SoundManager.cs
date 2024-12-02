@@ -138,11 +138,20 @@ public class SoundManager : MonoBehaviour
         }
 
     }
-    public void PauseAllSound()
+    public void PauseAllSound(string playName)
     {
         for (int i = 0; i< sounds.Count; i++)
         {
-            PauseSound(sounds[i].soundname);
+            if (sounds[i].soundname == playName)
+            {
+                PlaySound(sounds[i].soundname);
+                //맞는 사운드
+            }
+            else
+            {
+                PauseSound(sounds[i].soundname);
+            }
+
             if (i == sounds.Count - 1)
             {
                 isEnd = true;

@@ -52,7 +52,8 @@ public class VoidSlot_2 : MonoBehaviour, IItem
             Valuable item = itemPrf[i].GetComponent<Valuable>();
             if (getIndex == item.Index)
             {
-                GameObject temp = Instantiate(itemPrf[i], transform.position - transform.forward * 0.05f, quaternion);
+                SoundManager.instance.PlaySound("SetItem");
+                GameObject temp = Instantiate(itemPrf[i], transform.position - transform.forward * 0.03f, quaternion);
                 Debug.Log("생성된다");
             }
         }
