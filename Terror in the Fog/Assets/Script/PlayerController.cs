@@ -275,7 +275,7 @@ public class PlayerController : MonoBehaviour
     }
     private IEnumerator SetSounds()
     {
-        SoundManager.instance.PauseAllSound("PlayerDead");
+        SoundManager.instance.PauseAllSound("");
         yield return new WaitUntil(()=> SoundManager.instance.isEnd);
         EventManager.instance.PlayerDead();
     }

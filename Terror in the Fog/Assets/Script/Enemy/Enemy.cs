@@ -48,6 +48,7 @@ public class Enemy : MonoBehaviour
     public bool stopResearch = false; //5일차 이벤트용
     void Start()
     {
+        _animator = GetComponent<Animator>();
         _stateMachine = new StateMachine(this, Research.GetInstance());
         navMeshAgent = GetComponent<NavMeshAgent>();
     }
@@ -163,9 +164,19 @@ public class Enemy : MonoBehaviour
     {
         if (target.Length >= 1)
         {
-            playerController.PlayerDead();
-            gameObject.SetActive(false);
+            StartCoroutine(KillAnimation());
         }
+    }
+
+    private IEnumerator KillAnimation()
+    {
+
+        SoundManager.instance.PauseAllSound("PlayerDead");
+        _animator.SetTrigger("IsKill");
+        navMeshAgent.isStopped = true;
+        yield return new WaitForSeconds(2f);
+        gameObject.SetActive(false);
+        EventManager.instance.PlayerDead();
     }
 
     public void CheckAround()  //초기화  같은 층에서만 사운드재생
@@ -208,12 +219,14 @@ public class Enemy : MonoBehaviour
                 {
                     Debug.Log("안들린다");
                     SoundManager.instance.PauseSound("EnemyMove");
+                    _animator.SetBool("IsMove", false);
                     isOneTime = true;
                     isOneTime2 = false;
                 }
                 else if (currentPos != transform.position && isOneTime)
                 {
                     SoundManager.instance.PlaySound("EnemyMove");
+                    _animator.SetBool("IsMove", true);
                     isOneTime2 = true;
                     isOneTime = false;
                 }
