@@ -49,6 +49,7 @@ public class SoundManager : MonoBehaviour
     private static float O_sliderValue = 0;
     private static float C_sliderValue = 0;
 
+    public bool isEnd = false;
     //public float soundValue = 1f;
     private void Awake()
     {
@@ -137,16 +138,16 @@ public class SoundManager : MonoBehaviour
         }
 
     }
-    public void StopSound(string name)
+    public void PauseAllSound()
     {
-        Sound soundToStop = sounds.Find(sound => sound.soundname == name);
-
-        if (soundToStop != null)
+        for (int i = 0; i< sounds.Count; i++)
         {
-            if (soundToStop.source.isPlaying)
+            PauseSound(sounds[i].soundname);
+            if (i == sounds.Count - 1)
             {
-                soundToStop.source.Stop();
+                isEnd = true;
             }
         }
     }
+
 }

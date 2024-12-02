@@ -270,7 +270,18 @@ public class PlayerController : MonoBehaviour
     }
     public void PlayerDead()
     {
+        StartCoroutine(SetSounds());
         //gameObject.SetActive(false);
+    }
+    private IEnumerator SetSounds()
+    {
+        SoundManager.instance.PauseAllSound();
+        yield return new WaitUntil(()=> SoundManager.instance.isEnd);
+        Debug.Log("플레이어 사망");
+        yield return new WaitForSeconds(1f);
+        SoundManager.instance.PlaySound("PlayerDead");
+        SoundManager.instance.PlaySound("GetItme");
+        yield return new WaitForSeconds(2f);
         EventManager.instance.PlayerDead();
     }
 

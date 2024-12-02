@@ -35,7 +35,7 @@ public class Cake : MonoBehaviour, IItem
         {
             if (isCanUse)
             {
-                //케이크가 짤리는 사운드
+                SoundManager.instance.PlaySound("CutCake");
                 yield return new WaitForSeconds(0.1f);
                 cake_1.SetActive(false);
                 cake_2.SetActive(true);

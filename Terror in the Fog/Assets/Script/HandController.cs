@@ -91,6 +91,7 @@ public class HandController : MonoBehaviour
             {
                 if (item.type == IItem.ItemType.Used)
                 {
+                    SoundManager.instance.PlaySound("GetItem");
                     Debug.Log(item.itemName + " È¹µæ Çß½À´Ï´Ù.");
                     InsideInventory.Instance.AcuquireItem(item);
                     Destroy(hitInfo.transform.gameObject);

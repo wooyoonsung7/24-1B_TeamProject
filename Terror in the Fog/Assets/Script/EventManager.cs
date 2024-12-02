@@ -135,32 +135,56 @@ public class EventManager : MonoBehaviour //이벤트관리
     public void CheckIventoryItem(string name)
     {
         Debug.Log("된다2");
-        if (GameManager.Days == 1)
+        if (GameManager.Days == 0 && roomdoor != null)
         {
-            if (name == "루비목걸이") { day1Door.isCanUse = true; Debug.Log("된다"); }
+            if (name == "금괴")
+            {
+                SoundManager.instance.PauseSound("GetItem");
+                SoundManager.instance.PlaySound("GetSpecial");
+            }
         }
 
-        if (GameManager.Days == 2)
+        if (GameManager.Days == 1 && day1Door != null)
+        {
+            if (name == "루비목걸이")
+            {
+                SoundManager.instance.PauseSound("GetItem");
+                SoundManager.instance.PlaySound("GetSpecial");
+                day1Door.isCanUse = true; Debug.Log("된다");
+            }
+        }
+
+        if (GameManager.Days == 2 && day2Door != null)
         {
             if (name == "숲토큰") { count++; if (count == 2) { day2Door.isCanUse = true; } }
             if (name == "꽃토큰") { count++; if (count == 2) { day2Door.isCanUse = true; } }
         }
 
-        if (GameManager.Days == 3)
+        if (GameManager.Days == 3 && day3Door != null)
         {
-            if (name == "다이아반지") { day3Door.isCanUse = true; }
+            if (name == "다이아반지")
+            {
+                SoundManager.instance.PauseSound("GetItem");
+                SoundManager.instance.PlaySound("GetSpecial");
+                day3Door.isCanUse = true; 
+            }
         }
 
-        if (GameManager.Days == 4)
+        if (GameManager.Days == 4 && day4Door != null)
         {
             if (name == "신전토큰") { count++; if (count == 2) { day4Door.isCanUse = true; } }
             if (name == "근위대토큰") { count++; if (count == 2) { day4Door.isCanUse = true; } }
 
         }
 
-        if (GameManager.Days == 5)
+        if (GameManager.Days == 5 && day5Door != null)
         {
-            if (name == "사파이어귀걸이") { day5Door.isCanUse = true; }
+            if (name == "사파이어귀걸이")
+            {
+                SoundManager.instance.PauseSound("GetItem");
+                SoundManager.instance.PlaySound("GetSpecial");
+                day5Door.isCanUse = true; 
+            }
         }
     }
 

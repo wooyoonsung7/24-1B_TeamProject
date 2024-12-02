@@ -163,8 +163,8 @@ public class Enemy : MonoBehaviour
     {
         if (target.Length >= 1)
         {
-            gameObject.SetActive(false);
             playerController.PlayerDead();
+            gameObject.SetActive(false);
         }
     }
 

@@ -44,7 +44,7 @@ public class Door : MonoBehaviour, IItem
 
     public void GetAudioSource()
     {
-        audioSources = FindAnyObjectByType<Enemy>().gameObject.GetComponents<AudioSource>();
+        if(FindAnyObjectByType<Enemy>() != null) audioSources = FindAnyObjectByType<Enemy>().gameObject.GetComponents<AudioSource>();
     }
 
     public void Use(GameObject target)

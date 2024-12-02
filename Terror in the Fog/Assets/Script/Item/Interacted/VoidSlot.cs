@@ -36,6 +36,7 @@ public class VoidSlot : MonoBehaviour, IItem
     {
         if (isCanUse && !isUsing)
         {
+            SoundManager.instance.PlaySound("SetToken");
             isCanUse = false;
             isUsing = true;
             Debug.Log("작동한다");

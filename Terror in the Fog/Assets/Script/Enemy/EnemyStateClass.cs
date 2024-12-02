@@ -92,6 +92,7 @@ public class FeelStrage : IState
     {
         enemy.navMeshAgent.updateRotation = false;
         enemy.navMeshAgent.isStopped = true;
+        SoundManager.instance.PlaySound("EnemyDoubt"); //의심하는 사운드추가
     }
     public void StateFixUpdate(Enemy enemy)
     {
@@ -120,6 +121,7 @@ public class FeelStrage : IState
         enemy.navMeshAgent.updateRotation = true;
         enemy.navMeshAgent.isStopped = false;
         enemy.currentTime = 0f;                                     //이상함 감지애니시간 초기화
+        SoundManager.instance.PauseSound("EnemyDoubt"); //의심하는 사운드추가
     }
 }
 
@@ -138,11 +140,11 @@ public class JudgeChase : IState
     {
         if (enemy != null)
         {
-            
             enemy.navMeshAgent.isStopped = true;  //수행중 행동 전부 초기화 끄기
             enemy.StopTween();                    //수행중인 애니메이션 모두 초기화
             enemy.StopMove();                    //ResearchManager_Simple용 정지
             detectStartTime = Time.time;
+            SoundManager.instance.PlaySound("EnemyDetect"); //발각되는 사운드추가
             //enemy.FeelStrage() 추가예정
         }
     }

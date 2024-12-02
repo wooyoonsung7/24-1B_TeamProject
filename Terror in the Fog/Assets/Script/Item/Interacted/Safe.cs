@@ -19,7 +19,8 @@ public class Safe : MonoBehaviour
     void Start()
     {
         StartCoroutine("CheckPuzz"); //성능의 우려로 인해서 코루틴으로 변경
-        item.layer = 0;
+        if (item != null) item.layer = 0;
+
     }
     IEnumerator CheckPuzz()
     {
@@ -33,6 +34,7 @@ public class Safe : MonoBehaviour
                     if (count >= 4)
                     {
                         Debug.Log("열린다");
+                        SoundManager.instance.PlaySound("OpenSafe");
                         transform.DORotate(new Vector3(0, 60f, 0), 1f, RotateMode.LocalAxisAdd);
 
                         safeButtons[i].gameObject.layer = 0;
@@ -49,6 +51,7 @@ public class Safe : MonoBehaviour
                 {
                     if (safeButtons[i].selected && safeButtons[i].isCanUse)
                     {
+                        SoundManager.instance.PlaySound("SafeButton_" + selectCount);
                         selectCount++;
                         safeButtons[i].isCanUse = false;
 
