@@ -144,6 +144,9 @@ public class ResearchManager_Simple : MonoBehaviour
                     StartSafeCoroutine(); Debug.Log(moveIndex + "¹øÂ°");
                 }
                 yield return new WaitUntil(() => isEnd); isEnd = false;
+                //Vector3 currentRot = transform.localEulerAngles;
+                //currentRot.y -= 90f;
+                //transform.DOLocalRotate(currentRot, 0.2f);
                 yield return new WaitForSeconds(5f);
             }
             yield return null;

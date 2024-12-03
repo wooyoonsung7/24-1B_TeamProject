@@ -49,6 +49,5 @@ public class Valuable : MonoBehaviour, IItem
             }
 
         }
-
     }
 }

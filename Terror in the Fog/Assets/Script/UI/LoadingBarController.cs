@@ -9,14 +9,13 @@ public class LoadingBarController : MonoBehaviour
 {
     public Slider progressBar;
     public Image fillImage;
-    float fakeProgress = 0f;
 
     [SerializeField, Range(1f, 7f)]
     private float loadingSpeed = 0.01f;
 
 
 
-
+    AsyncOperation operation;
     private void Start()
     {
         // 로딩 시작
@@ -25,11 +24,18 @@ public class LoadingBarController : MonoBehaviour
 
     public IEnumerator LoadTutorialScene()
     {
+        if (!EventManager.TutorialEnd)
+        {
+            operation = SceneManager.LoadSceneAsync("TutorialScene");
+        }
+        else
+        {
+            operation = SceneManager.LoadSceneAsync("Home");
+            GameManager.Days--;
+        }
 
-        AsyncOperation operation = SceneManager.LoadSceneAsync("Home");
         operation.allowSceneActivation = false;
         float fakeProgress = 0f;
-
 
 
 

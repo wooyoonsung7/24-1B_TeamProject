@@ -211,6 +211,7 @@ public class ChaseState : IState
             f_timer += Time.deltaTime;
             if (findTime <= f_timer)
             {
+                if (!enemy.isOneTime4) return;
                 enemy.stateMachine.SetState(enemy, FeelStrage.GetInstance());
                 Debug.Log("¼û±â ¼º°ø");
             }
@@ -223,6 +224,7 @@ public class ChaseState : IState
         else
         {
             enemy.CheckDeath();
+            if (!enemy.isOneTime4) return;
             if (enemy.timer >= notChaseTime)
             {
                 enemy.stateMachine.SetState(enemy, FeelStrage.GetInstance());

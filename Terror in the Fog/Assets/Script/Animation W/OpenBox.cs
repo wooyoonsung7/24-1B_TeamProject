@@ -9,8 +9,6 @@ public class OpenBox : MonoBehaviour
     public float openAngle = 90f; // 열리는 각도
     public float duration = 1f; // 애니메이션 지속 시간
 
-    private bool isOpen = false; // 상자가 열렸는지 여부 확인
-
     public void ToggleBox()
     {
         lid.DOLocalRotate(new Vector3(-openAngle, 0, 0), duration); // 위로 열기

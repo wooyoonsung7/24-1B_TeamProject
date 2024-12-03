@@ -43,6 +43,7 @@ public class Enemy : MonoBehaviour
     private bool isOneTime = true;
     private bool isOneTime2 = true;
     private bool isOneTime3 = true;
+    public bool isOneTime4 = true;
     private float timer2 = 0f;
 
     public bool stopResearch = false; //5일차 이벤트용
@@ -162,19 +163,33 @@ public class Enemy : MonoBehaviour
 
     public void CheckDeath()
     {
-        if (target.Length >= 1)
+        if (target.Length >= 1 && isOneTime4)
         {
-            StartCoroutine(KillAnimation());
+            isOneTime4 = false;
+
+            if (playerController.isHide)
+            {
+
+                StartCoroutine(CheckDead());
+            }
+            else
+            {
+                SoundManager.instance.PauseAllSound();
+                _animator.SetTrigger("IsKill");
+                navMeshAgent.isStopped = true;
+                FindObjectOfType<KillAnimation>().StartCoroutine("Animation");
+            }
+
         }
     }
 
-    private IEnumerator KillAnimation()
+    private IEnumerator CheckDead()
     {
-
-        SoundManager.instance.PauseAllSound("PlayerDead");
+        SoundManager.instance.PauseAllSound();
         _animator.SetTrigger("IsKill");
+        SoundManager.instance.PlaySound("PlayerDead");
         navMeshAgent.isStopped = true;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.1f);
         gameObject.SetActive(false);
         EventManager.instance.PlayerDead();
     }

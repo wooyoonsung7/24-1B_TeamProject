@@ -6493,7 +6493,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 6749923275588443402}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 6749923275588443403}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b1b6d4e9e961a840b014e84f5a55e2b, type: 3}
@@ -6782,6 +6782,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbefe119bf0eb8e459a0251c3bdd6172, type: 3}
+--- !u!95 &3808115969042775482 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4222252659745000365, guid: cbefe119bf0eb8e459a0251c3bdd6172,
+    type: 3}
+  m_PrefabInstance: {fileID: 3808115969042775481}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6749923275588443402
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6803,7 +6809,7 @@ PrefabInstance:
     - target: {fileID: 5258731672809242560, guid: e778ebe41ee836845b1ed30ee530392a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 21.64
+      value: 42.72
       objectReference: {fileID: 0}
     - target: {fileID: 5258731672809242560, guid: e778ebe41ee836845b1ed30ee530392a,
         type: 3}
@@ -6813,7 +6819,7 @@ PrefabInstance:
     - target: {fileID: 5258731672809242560, guid: e778ebe41ee836845b1ed30ee530392a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -52.56
+      value: -41.501
       objectReference: {fileID: 0}
     - target: {fileID: 5258731672809242560, guid: e778ebe41ee836845b1ed30ee530392a,
         type: 3}
@@ -6863,8 +6869,33 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8290689265717713727, guid: e778ebe41ee836845b1ed30ee530392a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6749923275588443404}
   m_SourcePrefab: {fileID: 100100000, guid: e778ebe41ee836845b1ed30ee530392a, type: 3}
+--- !u!1 &6749923275588443403 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8290689265717713727, guid: e778ebe41ee836845b1ed30ee530392a,
+    type: 3}
+  m_PrefabInstance: {fileID: 6749923275588443402}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6749923275588443404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6749923275588443403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 443483ac77c953e429ab12f03f6eba06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 688512231}
+  player: {fileID: 1793512625}
+  animator: {fileID: 3808115969042775482}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

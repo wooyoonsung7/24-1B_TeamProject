@@ -15,10 +15,13 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField]
     private HandController handController;
 
+    private Enemy enemy;
+
     void Start()
     {
         pausemenu.SetActive(false);
         settingsMenu.SetActive(false);
+        if(FindAnyObjectByType<Enemy>() != null) enemy = FindAnyObjectByType<Enemy>();
     }
 
     void Update() 
@@ -45,6 +48,21 @@ public class SettingsMenu : MonoBehaviour
             return;
         }
 
+        if (Paused == true)
+        {
+            if (ButtonUI.isEnd)
+            {
+                CloseSettingsMenu();
+                ButtonUI.isEnd = false;
+            }
+            if (ButtonUI.isEnd_2)
+            {
+                ReturnToMainMenu();
+                ButtonUI.isEnd_2 = false;
+            }
+        }
+
+        if(enemy != null) if (!enemy.isOneTime4) return;
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (settingsMenu.activeSelf)
@@ -61,20 +79,6 @@ public class SettingsMenu : MonoBehaviour
                 {
                     OpenSettingsMenu();
                 }
-            }
-        }
-
-        if (Paused == true)
-        {
-            if (ButtonUI.isEnd)
-            {
-                CloseSettingsMenu();
-                ButtonUI.isEnd = false;
-            }
-            if (ButtonUI.isEnd_2)
-            {
-                ReturnToMainMenu();
-                ButtonUI.isEnd_2 = false;
             }
         }
     }

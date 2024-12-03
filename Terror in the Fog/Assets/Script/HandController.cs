@@ -192,4 +192,9 @@ public class HandController : MonoBehaviour
             }
         }
     }
+
+    public void isDead()  //사망시, 옷장밖으로 내보내기
+    {
+        Interaction();
+    }
 }
