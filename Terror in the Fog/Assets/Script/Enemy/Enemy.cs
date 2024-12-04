@@ -254,21 +254,21 @@ public class Enemy : MonoBehaviour
 
     public void ResearchArea()
     {
-        Debug.Log("탐색된다");
+        //Debug.Log("탐색된다");
         if (ResearchManager.instance != null && !stopResearch) ResearchManager.instance.RESEARCH();
         //ResearchManager_Simple도 추가해야함
     }
 
     public void RestartSearch()
     {
-        Debug.Log("탐색초기화된다");
+        //Debug.Log("탐색초기화된다");
         if (ResearchManager.instance != null)
         {
             if (ResearchManager.instance.enemystate == ResearchManager.ENEMYSTATE.OPENDOOR || ResearchManager.instance.enemystate == ResearchManager.ENEMYSTATE.ENTERROOM)
             {
                 ResearchManager.instance.changeTime = Time.time;
                 ResearchManager.instance.ChangeEnemyState(ResearchManager.instance.enemystate);
-                Debug.Log("돌아간다");
+                //Debug.Log("돌아간다");
             }
             else
             {

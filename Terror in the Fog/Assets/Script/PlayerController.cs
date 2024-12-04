@@ -127,7 +127,7 @@ public class PlayerController : MonoBehaviour
     //카메라 초기 위치 및 회전을 설정하는 함수
     void SetupCameras()
     {
-        firstPersonCamera.transform.localPosition = new Vector3(0f, 0f, -0.24f);
+        firstPersonCamera.transform.localPosition = new Vector3(0f, 0f, -0.55f);
         firstPersonCamera.transform.localRotation = Quaternion.identity;
     }
 
@@ -346,7 +346,7 @@ public class PlayerController : MonoBehaviour
             if (soundstate == SoundState.Idle || soundstate == SoundState.Crouch)
             {
                 SoundDetector.instance.G_level = 0;
-                //Debug.Log("전달 레벨은 " + SoundDetector.instance.G_level);
+                Debug.Log("전달 레벨은 " + SoundDetector.instance.G_level);
             }
             if (soundstate == SoundState.Walk || soundstate == SoundState.Run)
             {
@@ -355,7 +355,7 @@ public class PlayerController : MonoBehaviour
                     if (soundData.soundname[i] == _name)
                     {
                         SoundDetector.instance.G_level = soundData.soundLevel[i];
-                        //Debug.Log("전달 레벨은 " + SoundDetector.instance.G_level);
+                        Debug.Log("전달 레벨은 " + SoundDetector.instance.G_level);
                     }
                 }
             }
@@ -372,7 +372,7 @@ public class PlayerController : MonoBehaviour
     private bool CheckHitWall(Vector3 movement)
     {
         movement = transform.TransformDirection(movement);
-        float scope = 0.7f;
+        float scope = 0.5f;
 
         List<Vector3> rayPositions = new List<Vector3>();
         rayPositions.Add(transform.position + Vector3.up * 0.7f);

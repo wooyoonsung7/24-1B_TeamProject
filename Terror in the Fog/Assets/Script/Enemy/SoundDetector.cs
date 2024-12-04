@@ -17,9 +17,10 @@ public class SoundDetector : MonoBehaviour
         {
             if (g_level > value)
             {
-                if (g_level != 3 && value == 0)
+                if (g_level != 3 && value == 0)  //현재레벨이 3이 아니고 전달값이 0 일때, 강제로 바꾸어준다
                 {
                     g_level = value;
+                    ResetPos();
                 }
                 else return;
             }
@@ -49,10 +50,10 @@ public class SoundDetector : MonoBehaviour
     private float detectRadius = 11f;
     [SerializeField]
     private float r_DetectRadius = 11f;
+    /*
     [SerializeField]
-    private LayerMask layerMask;
-    [SerializeField]
-    private LayerMask targetMask;
+    private LayerMask layerMask; */
+    private PlayerController playerController;
 
     private Vector3 myPos;
     public bool isOneTime = true;
@@ -71,6 +72,7 @@ public class SoundDetector : MonoBehaviour
         instance = this;
         enemy = GetComponent<Enemy>();
         ChangeLevelState(LEVEL.Level0);
+        playerController = FindObjectOfType<PlayerController>();
     }
 
     public void OnDetect()
@@ -191,13 +193,6 @@ public class SoundDetector : MonoBehaviour
                 }
 
             }
-            /*
-            if (GameManager.Days == 5 || GameManager.Days == 4)
-            {
-                Collider[] target = Physics.OverlapSphere(myPos, 2, 6);
-                target[0].gameObject.GetComponent<Trap2>().isCanUse = true;
-                ResetHurry();
-            }*/
         }
     }
 
@@ -212,25 +207,24 @@ public class SoundDetector : MonoBehaviour
     }
     private void MoveToPos()
     {
-        Collider[] target = Physics.OverlapSphere(myPos, r_DetectRadius, layerMask);
-        foreach (Collider p_collider in target)
+        //Collider[] target = Physics.OverlapSphere(myPos, r_DetectRadius, layerMask);
+        float distance = Vector3.Distance(transform.position, playerController.transform.position);
+        if(distance <= r_DetectRadius)
         {
             //Debug.Log("된다");
-            SoundPos.Add(p_collider.transform.position);
+            SoundPos.Add(playerController.transform.position);
             enemy.navMeshAgent.updateRotation = false;
             enemy.transform.DOLookAt(SoundPos[0], 0.5f).OnComplete(() => enemy.navMeshAgent.updateRotation = true);
 
-            //timer += Time.deltaTime;
             if (isOneTime_2)
             {
                 //Debug.Log("이거 안되?");
                 enemy.navMeshAgent.SetDestination(SoundPos[0]);
-                //timer = 0f;
                 isOneTime_2 = false;
             }
         }
-        
-        if (target.Length <= 0) isPlay_2 = false;
+
+        if (isOneTime_2) return;
 
         if (!enemy.navMeshAgent.pathPending && enemy.navMeshAgent.remainingDistance <= enemy.navMeshAgent.stoppingDistance)
         {
@@ -244,13 +238,15 @@ public class SoundDetector : MonoBehaviour
             }
         }
     }
+    
     private void CheckPos()
     {
-        Collider[] target = Physics.OverlapSphere(myPos, detectRadius, layerMask);
-        foreach (Collider p_collider in target)
+        float distance = Vector3.Distance(transform.position, playerController.transform.position);
+        //Collider[] target = Physics.OverlapSphere(myPos, detectRadius, layerMask);
+        if (distance <= detectRadius)
         {
             //Debug.Log("된다된다");
-            SoundPos.Add(p_collider.transform.position);
+            SoundPos.Add(playerController.transform.position);
             enemy.navMeshAgent.updateRotation = false;
             enemy.transform.DOLookAt(SoundPos[0], 0.5f).OnComplete(() => enemy.navMeshAgent.updateRotation = true);
 
@@ -260,8 +256,8 @@ public class SoundDetector : MonoBehaviour
                 isOneTime_3 = false;
             }
         }
-        
-        if (target.Length <= 0) isPlay_1 = false;
+
+        if (isOneTime_3) return;
 
         if (!enemy.navMeshAgent.pathPending && enemy.navMeshAgent.remainingDistance <= enemy.navMeshAgent.stoppingDistance)
         {
