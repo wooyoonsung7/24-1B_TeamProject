@@ -76,7 +76,9 @@ public class HandController : MonoBehaviour
     {
         pickupActivated = true;
         actionText.gameObject.SetActive(true);
-        actionText.text = item.itemName+ "상화작용" + "<color=yellow>" + "(F)" + "</color>";
+        //아이템을 가지고 있는 상태에서 대상타입이 인터렉티브 일때, 아이템 사용으로 변경
+        actionText.text = item.itemName + "상호작용" + "(F 또는 좌클릭)";
+        //item.itemName + "상호작용" + "<color=yellow>" + "(F 또는 좌클릭)" + "</color>"
     }
     private void ItemInfoDisappear() //아이템임을 표시 끄기
     {

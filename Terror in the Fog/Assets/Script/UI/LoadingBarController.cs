@@ -24,11 +24,11 @@ public class LoadingBarController : MonoBehaviour
 
     public IEnumerator LoadTutorialScene()
     {
-        if (!EventManager.TutorialEnd)
+        if (GameManager.Days == 0)
         {
             operation = SceneManager.LoadSceneAsync("TutorialScene");
         }
-        else
+        else if(GameManager.Days > 0)
         {
             operation = SceneManager.LoadSceneAsync("Home");
             GameManager.Days--;

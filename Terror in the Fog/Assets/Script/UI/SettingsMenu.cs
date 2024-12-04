@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Runtime.CompilerServices;
 
 public class SettingsMenu : MonoBehaviour
 {
@@ -84,6 +85,7 @@ public class SettingsMenu : MonoBehaviour
     }
     public void OpenSettingsMenu()
     {
+        PauseSounds();
         Time.timeScale = 0f;
         pausemenu.SetActive(true);
         Paused = true;
@@ -141,6 +143,16 @@ public class SettingsMenu : MonoBehaviour
             EventManager.playerdead = true;
             InsideInventory.Instance.ClearAllItem();
             SceneManager.LoadScene("Home");
+        }
+    }
+
+    private void PauseSounds()
+    {
+
+        string[] soundnames = {"Walk", "Run", "EnemyMove" };
+        foreach (string str in soundnames)
+        {
+            SoundManager.instance.PauseSound(str);
         }
     }
 }

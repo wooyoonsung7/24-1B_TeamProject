@@ -43,8 +43,6 @@ public class EventManager : MonoBehaviour //이벤트관리
 
     private int count = 0;
     private bool isOneTime = true;
-
-    public static bool TutorialEnd = false;  //임시용
     private void Awake()
     {
         instance = this;
@@ -83,7 +81,6 @@ public class EventManager : MonoBehaviour //이벤트관리
         {
             GameManager.currentMap = 4;   //거리로 이동
             SceneManager.LoadScene("Street_1");
-            TutorialEnd = true;
             //튜토리얼 종료
         }
     }
