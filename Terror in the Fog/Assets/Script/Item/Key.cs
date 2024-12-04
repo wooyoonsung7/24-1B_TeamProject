@@ -34,19 +34,12 @@ public class Key : MonoBehaviour, IItem
         {
             if (handController.item != null)
             {
-                Debug.Log("문의 번호는" + handController.item.index);
-                Debug.Log("열쇠번호는" + index);
 
                 if (handController.item.index == index)
                 {
                     SoundManager.instance.PlaySound("CanOpen");
                     handController.item.isCanUse = true;
                     isCanUse = true;
-                    Debug.Log("맞춰진다");
-                }
-                else
-                {
-                    Debug.Log("아이템이 유효하지 않습니다");
                 }
             }
         }

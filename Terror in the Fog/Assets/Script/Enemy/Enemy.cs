@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -44,6 +45,7 @@ public class Enemy : MonoBehaviour
     private bool isOneTime2 = true;
     private bool isOneTime3 = true;
     public bool isOneTime4 = true;
+    private bool isOneTime5 = true;
     private float timer2 = 0f;
 
     public bool stopResearch = false; //5일차 이벤트용
@@ -51,6 +53,7 @@ public class Enemy : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _stateMachine = new StateMachine(this, Research.GetInstance());
+        Research.GetInstance().isOneTimeInGame = true;
         navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
@@ -132,7 +135,7 @@ public class Enemy : MonoBehaviour
 
     public void StopFinding()
     {
-        Debug.Log("확인되는기?" + isFind);
+        //Debug.Log("확인되는기?" + isFind);
         if (isFindPlayer)
         {
             if (isFind)
@@ -232,7 +235,7 @@ public class Enemy : MonoBehaviour
             {
                 if (currentPos == transform.position && isOneTime2)
                 {
-                    Debug.Log("안들린다");
+                    //Debug.Log("안들린다");
                     SoundManager.instance.PauseSound("EnemyMove");
                     _animator.SetBool("IsMove", false);
                     isOneTime = true;
@@ -240,7 +243,8 @@ public class Enemy : MonoBehaviour
                 }
                 else if (currentPos != transform.position && isOneTime)
                 {
-                    SoundManager.instance.PlaySound("EnemyMove");
+                    if (CheckFloor()) SoundManager.instance.PlaySound("EnemyMove");
+                    else SoundManager.instance.PauseSound("EnemyMove");
                     _animator.SetBool("IsMove", true);
                     isOneTime2 = true;
                     isOneTime = false;
@@ -249,7 +253,30 @@ public class Enemy : MonoBehaviour
                 timer2 = 0f;
             }
         }
+        float distance = Vector3.Distance(playerController.transform.position, transform.position);
+        if (distance <= SoundDetector.instance.r_DetectRadius && isOneTime5)
+        {
+            SoundManager.instance.PlaySound("HeartBit");
+            isOneTime5 = false;
+        }
+        else if(distance > 10.5f && !isOneTime5)
+        {
+            SoundManager.instance.PauseSound("HeartBit");
+            isOneTime5 = true;
+        }
 
+    }
+    private bool CheckFloor()
+    {
+        float value = 5f;
+        if (playerController.transform.position.y >= transform.position.y + value || playerController.transform.position.y <= transform.position.y - value)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     public void ResearchArea()

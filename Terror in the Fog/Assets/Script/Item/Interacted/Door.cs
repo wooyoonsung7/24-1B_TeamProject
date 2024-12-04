@@ -26,6 +26,7 @@ public class Door : MonoBehaviour, IItem
     [SerializeField] private float detectRadius;
     [SerializeField] private LayerMask TargetMask;
     private bool isOneTime = true;
+    private bool isEnemy = false;
 
     AudioSource[] audioSources;
     private void Start()
@@ -55,8 +56,7 @@ public class Door : MonoBehaviour, IItem
         }
         else
         {
-            SoundManager.instance.PlaySound("CanNotOpen");
-            Debug.Log("문이 잠겼습니다");
+            if (!isEnemy) SoundManager.instance.PlaySound("CanNotOpen");
         }
     }
 
@@ -73,8 +73,11 @@ public class Door : MonoBehaviour, IItem
                 StartCoroutine(OpenDoor());
                 StartCoroutine(CloseDoor());
 
-                if(isOpen) SoundManager.instance.PlaySound("OpenDoor");
-                else SoundManager.instance.PlaySound("CloseDoor");
+                if (!isEnemy)
+                {
+                    if (isOpen) SoundManager.instance.PlaySound("OpenDoor");
+                    else SoundManager.instance.PlaySound("CloseDoor");
+                }
             }
         }
         yield return null;
@@ -107,6 +110,7 @@ public class Door : MonoBehaviour, IItem
             if (targets.Length > 0 && isOneTime)
             {
                 isOneTime = false;
+                isEnemy = true;
                 if (!isOpen)
                 {
                     Use(gameObject);
@@ -114,9 +118,9 @@ public class Door : MonoBehaviour, IItem
                     yield return new WaitForSeconds(0.5f);
                     Use(gameObject);
                     audioSources[2].Play();
-                    SoundManager.instance.PlaySound("CloseDoor_E");
                     yield return new WaitForSeconds(0.5f);
                     isOneTime = true;
+                    isEnemy = false;
                 }
 
                 if (!isCanUse)

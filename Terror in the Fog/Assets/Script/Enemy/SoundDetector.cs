@@ -48,8 +48,7 @@ public class SoundDetector : MonoBehaviour
 
     [SerializeField]
     private float detectRadius = 11f;
-    [SerializeField]
-    private float r_DetectRadius = 11f;
+    public float r_DetectRadius = 11f;
     /*
     [SerializeField]
     private LayerMask layerMask; */
@@ -83,7 +82,7 @@ public class SoundDetector : MonoBehaviour
         //Debug.Log("isPlay_2" + isPlay_2);
         //Debug.Log("isPlay_3" + isPlay_3);
         //Debug.Log("현재 사운드레벨" + g_level);
-        Debug.Log("현재 사운드레벨" + level);
+        //Debug.Log("현재 사운드레벨" + level);
         //Debug.Log("인식중인 사운드개수" + SoundPos.Count);
         switch (level)
         {
@@ -159,7 +158,7 @@ public class SoundDetector : MonoBehaviour
         timer += Time.deltaTime;
         if (timer > 4 && isOneTime)
         {
-            Debug.Log("레벨3 가는중");
+            //Debug.Log("레벨3 가는중");
             enemy.navMeshAgent.SetDestination(SoundPos[0]);
             timer = 0f;
 
@@ -169,7 +168,7 @@ public class SoundDetector : MonoBehaviour
         float distance = Vector3.Distance(transform.position, SoundPos[0]);
         if (distance < 1.5)
         {
-            Debug.Log("도착했다");
+            //Debug.Log("도착했다");
             isOneTime = false;
             if (GameManager.Days == 2)
             {
@@ -185,7 +184,6 @@ public class SoundDetector : MonoBehaviour
                 ResetHurry();
 
                 SoundManager.instance.PauseSound("Emergency");
-                Debug.Log("된다ㅏㅏㅏ");
                 //집주인이 절규하는 목소리 재생
                 if (timer >= 5)
                 {
@@ -198,7 +196,7 @@ public class SoundDetector : MonoBehaviour
 
     public void ResetHurry()
     {
-        Debug.Log("레벨3에 도착했다");
+        //Debug.Log("레벨3에 도착했다");
         SoundPos.Clear();
         isPlay_3 = false;
         g_level = defultLevel;

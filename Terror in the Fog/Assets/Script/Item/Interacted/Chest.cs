@@ -42,7 +42,6 @@ public class Chest : MonoBehaviour, IItem
         else
         {
             SoundManager.instance.PlaySound("CanNotOpen");
-            Debug.Log("열쇠가 없음");
         }
     }
 

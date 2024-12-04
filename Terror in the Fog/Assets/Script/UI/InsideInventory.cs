@@ -109,7 +109,6 @@ public class InsideInventory : MonoBehaviour
 
         if (OneTime && slots[i_index].item != null) //아이템이름표시
         {
-            Debug.Log("된다.");
             itemText.text = slots[i_index].item.itemName;
             FadeIn();
             OneTime = false;

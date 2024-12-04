@@ -9,14 +9,10 @@ public class MovePoint : MonoBehaviour
     {
         if (other.gameObject.tag == "Enemy")
         {
-            //Debug.Log("된다....");
             if (ResearchManager_Simple.instance != null)
             {
-                //Debug.Log("된다....");
-                Debug.Log(ResearchManager_Simple.instance.moveIndex);
                 if (ResearchManager_Simple.instance.moveIndex == pointIndex)
                 {
-                    //Debug.Log("된다");
                     ResearchManager_Simple.instance.isEnd = true;
                 }
             }

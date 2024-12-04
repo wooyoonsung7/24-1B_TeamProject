@@ -33,7 +33,6 @@ public class Safe : MonoBehaviour
                 {
                     if (count >= 4)
                     {
-                        Debug.Log("열린다");
                         SoundManager.instance.PlaySound("OpenSafe");
                         transform.DORotate(new Vector3(0, 60f, 0), 1f, RotateMode.LocalAxisAdd);
 
@@ -45,6 +44,7 @@ public class Safe : MonoBehaviour
                     else
                     {
                         StartCoroutine(Clear());
+                        //틀렸을 때, 사운드 추가
                     }
                 }
                 else
@@ -57,14 +57,9 @@ public class Safe : MonoBehaviour
 
                         if (safeButtons[i].isCollect && safeButtons[i].ListIndex == order)
                         {
-                            Debug.Log("맞추었다");
                             order++;
                             Debug.Log(count);
                             count++;
-                        }
-                        else
-                        {
-                            Debug.Log("틀렸다");
                         }
                     }
                 }

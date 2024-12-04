@@ -39,7 +39,6 @@ public class VoidSlot_2 : MonoBehaviour, IItem
         {
             isCanUse = false;
             isUsing = true;
-            Debug.Log("작동한다");
             StartCoroutine(SetValuable());
         }
     }
@@ -54,7 +53,6 @@ public class VoidSlot_2 : MonoBehaviour, IItem
             {
                 SoundManager.instance.PlaySound("SetItem");
                 GameObject temp = Instantiate(itemPrf[i], transform.position - transform.forward * 0.03f, quaternion);
-                Debug.Log("생성된다");
             }
         }
         yield return new WaitForSeconds(0.2f);

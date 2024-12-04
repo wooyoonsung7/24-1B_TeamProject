@@ -56,7 +56,6 @@ public class BookCase : MonoBehaviour, IItem
         count++;
         index++;
         if (count >= 3) gameObject.layer = 0;
-        Debug.Log(index);
         OneTime = true;
     }
     
@@ -67,9 +66,9 @@ public class BookCase : MonoBehaviour, IItem
 
             if (count >= 3)
             {
-                Debug.Log("ÆÛÁñ¿Ï");
                 SoundManager.instance.PlaySound("FalledKey");
                 Vector3 itemPos = transform.position - transform.right * 0.8f;
+                itemPos.y += 0.1f;
                 //itemPos.y -= (transform.localScale.y / 2 - generatedItem_2.transform.localScale.y / 2);
 
                 Vector3 itemRot = Vector3.zero;

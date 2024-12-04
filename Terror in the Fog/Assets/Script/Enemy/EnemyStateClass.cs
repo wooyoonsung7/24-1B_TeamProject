@@ -13,7 +13,7 @@ public class Research : IState
     private bool isFindPlayer = true;
     private bool pauseResearch = false;
     private bool isOneTime = false;
-    private bool isOneTimeInGame = true;
+    public bool isOneTimeInGame = true;
     public void StateEnter(Enemy enemy)
     {
 
@@ -23,9 +23,11 @@ public class Research : IState
         isOneTime = false;                                          //사운드감지초기화
 
         enemy.ResetSound();                                         //사운드감지 값초기화
+        Debug.Log("잘 초기화가 되는지 :" + isOneTimeInGame);
         if (isOneTimeInGame)
         {
             enemy.ResetResearch();                                  //탐색 값 초기화
+            Debug.Log("된다다다다다");
             isOneTimeInGame = false;
         }
         enemy.RestartSearch();                                      //탐색최기화
@@ -103,7 +105,7 @@ public class FeelStrage : IState
     {
         if (enemy.hitTargetList.Count > 0)      //플레이이어 시야내 감지(1순위)
         {
-            Debug.Log("바뀐다");
+            //Debug.Log("바뀐다");
             enemy.stateMachine.SetState(enemy, JudgeChase.GetInstance());
         }
 
@@ -218,7 +220,7 @@ public class ChaseState : IState
             else
             {
                 enemy.CheckDeath();
-                Debug.Log("숨기 실패");
+                //Debug.Log("숨기 실패");
             }
         }
         else

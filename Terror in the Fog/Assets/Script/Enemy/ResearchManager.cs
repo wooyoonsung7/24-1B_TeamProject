@@ -122,7 +122,7 @@ public class ResearchManager : MonoBehaviour
         --currentroomNumber;
         int randomNumber = Random.Range(0, currentroomNumber);
 
-        if (currentroomNumber > 0)
+        if (isDoneIdex.Count > 0)
         {
             moveIndex = isDoneIdex[randomNumber];
             ChangeEnemyState(ENEMYSTATE.OPENDOOR);
@@ -333,7 +333,7 @@ public class ResearchManager : MonoBehaviour
                 isDoneIdex.Add(i);  //0~3까지만 관리하는 의도
             }
             r_IsEnd = true;
-            Debug.Log(isDoneIdex.Count);
+            Debug.Log("isDoneIndex카운트 :" + isDoneIdex.Count);
         }
         if (isDoneIdex.Count == roomNumber)
         {

@@ -50,7 +50,6 @@ public class VoidSlot : MonoBehaviour, IItem
             SoundManager.instance.PlaySound("SetToken");
             isCanUse = false;
             isUsing = true;
-            Debug.Log("작동한다");
             StartCoroutine(SetToken());
         }
         CheckCorrect();
@@ -71,7 +70,6 @@ public class VoidSlot : MonoBehaviour, IItem
                 {
                     Instantiate(tokenPrf[i], transform.position - transform.forward * 0.03f, quaternion);
                 }
-                Debug.Log("생성된다");
             }
         }
         yield return new WaitForSeconds(0.2f);

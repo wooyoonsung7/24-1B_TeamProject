@@ -32,7 +32,6 @@ public class Valuable : MonoBehaviour, IItem
     }
     public void Use(GameObject target)
     {
-        Debug.Log("토큰 사용");
         HandController handController = target.GetComponentInChildren<HandController>();
         if (handController.item != null)
         {
@@ -43,11 +42,6 @@ public class Valuable : MonoBehaviour, IItem
                 handController.item.getIndex = index;
                 handController.item.Use(target);
             }
-            else
-            {
-                Debug.Log("아이템이 유효하지 않습니다");
-            }
-
         }
     }
 }

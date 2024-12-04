@@ -65,9 +65,7 @@ public class Toy : MonoBehaviour, IItem
 
     private IEnumerator GenKey(Vector3 itemPos, Quaternion quaternion)
     {
-        Debug.Log("기다린다");
         yield return new WaitUntil(() => isGen);
-        Debug.Log("된다");
         Instantiate(generatedItem, itemPos, quaternion);
         StopCoroutine("CheckUse");
     }

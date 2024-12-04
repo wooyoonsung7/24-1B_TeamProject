@@ -64,7 +64,7 @@ public class AchievementUIManager : MonoBehaviour
             {
                 achievement.isUnlocked = true;
                 RefreshUI();
-                Debug.Log($"Achievement Unlocked: {achievementName}");
+                //Debug.Log($"Achievement Unlocked: {achievementName}");
                 break;
             }
         }

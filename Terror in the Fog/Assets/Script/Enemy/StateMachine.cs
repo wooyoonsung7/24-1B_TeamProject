@@ -22,7 +22,6 @@ public class StateMachine
     {
         if (currentState == null || currentState == state)
         {
-            Debug.Log("상태변경불가");
             return;
         }
 

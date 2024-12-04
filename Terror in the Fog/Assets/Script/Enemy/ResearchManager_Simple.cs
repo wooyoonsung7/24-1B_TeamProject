@@ -122,13 +122,12 @@ public class ResearchManager_Simple : MonoBehaviour
     {
         isRunning = true;
 
-        Debug.Log("데이 1" );
         moveToPos = columns[moveIndex].transform.position;
         enemy.navMeshAgent.SetDestination(moveToPos);
         if (isEnd_2)
         {
             StopSafeCoroutine();
-            StartSafeCoroutine(); Debug.Log(moveIndex + "번째");
+            StartSafeCoroutine();
         }
         yield return new WaitUntil(() => isEnd); isEnd = false;
 
@@ -141,7 +140,7 @@ public class ResearchManager_Simple : MonoBehaviour
                 if (isEnd_2)
                 {
                     StopSafeCoroutine();
-                    StartSafeCoroutine(); Debug.Log(moveIndex + "번째");
+                    StartSafeCoroutine();
                 }
                 yield return new WaitUntil(() => isEnd); isEnd = false;
                 //Vector3 currentRot = transform.localEulerAngles;
@@ -159,17 +158,16 @@ public class ResearchManager_Simple : MonoBehaviour
         isEnd_2 = false;
         moveIndex = 5;
 
-        MoveToPos(); Debug.Log(moveIndex + "번째");
+        MoveToPos();
         yield return new WaitUntil(() => isEnd); isEnd = false;
 
-        MoveToPos(); Debug.Log(moveIndex + "번째");
+        MoveToPos();
         yield return new WaitUntil(() => isEnd); isEnd = false;
 
-        MoveToPos(); Debug.Log(moveIndex + "번째");
+        MoveToPos();
         yield return new WaitUntil(() => isEnd); isEnd = false;
         EnemyAnimation.instance.sequence.Restart();
         yield return new WaitUntil(() => isstepEnd);
-        Debug.Log("데이 2완");
         yield return null; 
         StartSafeCoroutine();
     }
@@ -178,7 +176,6 @@ public class ResearchManager_Simple : MonoBehaviour
     {
         isRunning = true;
 
-        Debug.Log("0번째");
         moveToPos = columns[moveIndex].transform.position;
         enemy.navMeshAgent.SetDestination(moveToPos);
         yield return new WaitUntil(() => isEnd); isEnd = false;
@@ -186,13 +183,12 @@ public class ResearchManager_Simple : MonoBehaviour
         moveIndex = 0;
         while (isRunning)
         {
-            Debug.Log("돌아간다");
             moveIndex = 0;
 
-            if (moveIndex == 0) MoveToPos(); Debug.Log("인덱스" + moveIndex + "애니완?" + isEnd);
+            if (moveIndex == 0) MoveToPos();
             if (moveIndex == 1) yield return new WaitUntil(() => isEnd); isEnd = false;
 
-            if (moveIndex == 1) MoveToPos(); Debug.Log("인덱스" + moveIndex + "애니완?" + isEnd);
+            if (moveIndex == 1) MoveToPos();
             if (moveIndex == 2)
             {
                 yield return new WaitUntil(() => isEnd); isEnd = false;
@@ -202,14 +198,13 @@ public class ResearchManager_Simple : MonoBehaviour
                 isstepEnd = false;
             }
 
-            if (moveIndex == 2) MoveToPos(); Debug.Log("인덱스" + moveIndex + "애니완?" + isEnd);
+            if (moveIndex == 2) MoveToPos();
             if (moveIndex == 3) yield return new WaitUntil(() => isEnd); isEnd = false;
 
 
-            if (moveIndex == 3) MoveToPos(); Debug.Log("인덱스" + moveIndex + "애니완?" + isEnd);
+            if (moveIndex == 3) MoveToPos();
             if (moveIndex == 4)
             {
-                Debug.Log("문제2");
                 yield return new WaitUntil(() => isEnd); isEnd = false;
                 yield return new WaitForSeconds(0.5f);
                 EnemyAnimation.instance.sequence2.Restart();
@@ -217,13 +212,12 @@ public class ResearchManager_Simple : MonoBehaviour
                 isstepEnd = false;
             }
 
-            if (moveIndex == 4) MoveToPos(); Debug.Log("인덱스" + moveIndex + "애니완?" + isEnd);
+            if (moveIndex == 4) MoveToPos();
             if (moveIndex == 5) yield return new WaitUntil(() => isEnd); isEnd = false;
 
-            if (moveIndex == 5) MoveToPos(); Debug.Log("인덱스" + moveIndex + "애니완?" + isEnd);
+            if (moveIndex == 5) MoveToPos();
             if (moveIndex == 6)
             {
-                Debug.Log("문제3");
                 yield return new WaitUntil(() => isEnd); isEnd = false;
                 yield return new WaitForSeconds(0.5f);
                 EnemyAnimation.instance.sequence.Restart();

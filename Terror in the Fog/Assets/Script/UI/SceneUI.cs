@@ -42,7 +42,6 @@ public class SceneUI : MonoBehaviour
     public void GameExit()
     {
         Application.Quit();
-        Debug.Log("나간다");
     }
 
     public void GoToStreet()

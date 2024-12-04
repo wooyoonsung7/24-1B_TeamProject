@@ -259,7 +259,6 @@ public class PlayerController : MonoBehaviour
             if (soundstate != SoundState.Idle)
             {
                 ChangeState(SoundState.Idle);
-                Debug.Log("확인중");
             }
         }
 
@@ -346,7 +345,7 @@ public class PlayerController : MonoBehaviour
             if (soundstate == SoundState.Idle || soundstate == SoundState.Crouch)
             {
                 SoundDetector.instance.G_level = 0;
-                Debug.Log("전달 레벨은 " + SoundDetector.instance.G_level);
+                //Debug.Log("전달 레벨은 " + SoundDetector.instance.G_level);
             }
             if (soundstate == SoundState.Walk || soundstate == SoundState.Run)
             {
@@ -355,7 +354,7 @@ public class PlayerController : MonoBehaviour
                     if (soundData.soundname[i] == _name)
                     {
                         SoundDetector.instance.G_level = soundData.soundLevel[i];
-                        Debug.Log("전달 레벨은 " + SoundDetector.instance.G_level);
+                        //Debug.Log("전달 레벨은 " + SoundDetector.instance.G_level);
                     }
                 }
             }

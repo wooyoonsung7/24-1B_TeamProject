@@ -18,7 +18,7 @@ public class BookController : MonoBehaviour
         {
             if (isPlaced)
             {
-                Debug.Log("된다된다");
+                //Debug.Log("된다된다");
                 transform.DOMove(setPlace.position, 0.5f).SetEase(Ease.OutQuad);
                 transform.DOLocalRotate(new Vector3(-90, 90, 0), 0.5f).SetEase(Ease.OutQuad); // Y축 기준 90도 회전
                 isPlaced = false;

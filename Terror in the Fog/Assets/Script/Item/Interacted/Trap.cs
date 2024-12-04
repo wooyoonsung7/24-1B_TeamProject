@@ -30,7 +30,6 @@ public class Trap : MonoBehaviour
             {
                 if (item == null)
                 {
-                    Debug.Log("귀걸이가 없어졌다");
                     SoundManager.instance.PlaySound("Emergency");
                     EventManager.instance.StartCoroutine("Day5Event");
                     break;

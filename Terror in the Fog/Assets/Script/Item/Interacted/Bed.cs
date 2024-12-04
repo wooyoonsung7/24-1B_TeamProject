@@ -24,7 +24,6 @@ public class Bed : MonoBehaviour, IItem
 
     public void Use(GameObject target)
     {
-        Debug.Log("사용시도");
         if (isCanUse)
         {
             Debug.Log("침대사용");

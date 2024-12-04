@@ -102,7 +102,6 @@ public class EventManager : MonoBehaviour //이벤트관리
             {
                 isOneTime = false;
                 SoundManager.instance.PlaySound("Knell");
-                Debug.Log("들린다");
             }
         }
     }
@@ -153,7 +152,7 @@ public class EventManager : MonoBehaviour //이벤트관리
             {
                 SoundManager.instance.PauseSound("GetItem");
                 SoundManager.instance.PlaySound("GetSpecial");
-                day1Door.isCanUse = true; Debug.Log("된다");
+                day1Door.isCanUse = true;
             }
         }
 
@@ -291,10 +290,9 @@ public class EventManager : MonoBehaviour //이벤트관리
     {
         while (true)
         {
-            Debug.Log("이벤트진행중");
             Enemy enemy = FindObjectOfType<Enemy>();
             enemy.stopResearch = true;
-            enemy.navMeshAgent.speed *= 1.5f;
+            enemy.navMeshAgent.speed = 10f;
             enemy.gameObject.GetComponent<SoundDetector>().isDetectOFF = true;
             enemy.navMeshAgent.SetDestination(new Vector3(11.15f, 5.57f, -41.88f));
             enemy.transform.rotation = Quaternion.Euler(0f, 90, 0);

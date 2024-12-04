@@ -42,7 +42,6 @@ public class Drawer : MonoBehaviour, IItem
         {
             item.gameObject.layer = 0;
             itemPosZ_1 = item.transform.localPosition.z;
-            Debug.Log("된다1");
         }
         if (item2 != null)
         {
@@ -60,7 +59,6 @@ public class Drawer : MonoBehaviour, IItem
         else
         {
             SoundManager.instance.PlaySound("CanNotOpen");
-            Debug.Log("열쇠가 없음");
         }
     }
 
@@ -89,7 +87,6 @@ public class Drawer : MonoBehaviour, IItem
             drawer.DOLocalMoveZ(closePositionZ - openValue, 0.5f).SetEase(Ease.OutQuad).OnComplete(() => canOpen = true);
             if (item != null)
             {
-                Debug.Log("된다2");
                 item.gameObject.layer = 6;
                 item.transform.DOLocalMoveZ(itemPosZ_1 - openValue, 0.5f).SetEase(Ease.OutQuad);
 
@@ -110,7 +107,6 @@ public class Drawer : MonoBehaviour, IItem
             drawer.DOLocalMoveZ(closePositionZ, 0.5f).SetEase(Ease.OutQuad).OnComplete(() => canOpen = true);
             if (item != null)
             {
-                Debug.Log("된다3");
                 item.gameObject.layer = 0;
                 item.transform.DOLocalMoveZ(itemPosZ_1, 0.5f).SetEase(Ease.OutQuad);
             }

@@ -24,13 +24,11 @@ public class PuzzMachine : MonoBehaviour
             {
                 if (obj.isCanUse)
                 {
-                    Debug.Log(stack);
                     stack++;
                 }
             }
             if (stack >= 5)
             {
-                Debug.Log("퍼즐완");
                 drawer.isCanUse = true;
                 drawer.Use(gameObject);
                 
@@ -42,7 +40,6 @@ public class PuzzMachine : MonoBehaviour
                 for (int i = 0; i < tokens.Length; i++)
                 {
                     tokens[i].gameObject.layer = 0;
-                    Debug.Log("된다");
                 }
                 
                 StopCoroutine("CheckPuzz");
