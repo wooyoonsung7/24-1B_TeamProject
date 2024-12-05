@@ -32,7 +32,6 @@ public class Bed : MonoBehaviour, IItem
             //자고 일어나는 애니메이션
             
             door.isCanUse = true;
-            //target.transform.position = transform.position - transform.right * 0.3f;
             GameManager.Instance.PassDay();
         }
     }
@@ -40,7 +39,10 @@ public class Bed : MonoBehaviour, IItem
     private IEnumerator UseBed()
     {
         SoundManager.instance.PlaySound("GoToSleep");
-        yield return new WaitForSeconds(1f);
+        BedClickFade bed = GetComponent<BedClickFade>();
+        bed.BedAnimation();
+        yield return new WaitForSeconds(2f);
+        yield return new WaitUntil(() => !bed.isFading);
         SoundManager.instance.PlaySound("WakeUp");
     }
 }

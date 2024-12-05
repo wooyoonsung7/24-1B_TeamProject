@@ -19,6 +19,7 @@ public class EventManager : MonoBehaviour //이벤트관리
     [Header("AtHome")]
     [SerializeField] private Bed bed;
     [SerializeField] private Door homeDoor;
+    [SerializeField] private Transform spawnPos;
 
     [Header("DayOne Event")]
     [SerializeField] private Safe safe;
@@ -124,6 +125,7 @@ public class EventManager : MonoBehaviour //이벤트관리
     public IEnumerator AfterPlayerDead()
     {
         GameObject player = FindObjectOfType<PlayerController>().gameObject;
+        player.transform.position = spawnPos.position;
         playerdead = false;
         yield return new WaitForSeconds(0.1f);
         bed.Use(player);

@@ -18,6 +18,8 @@ public class VoidSlot : MonoBehaviour, IItem
     [SerializeField]
     private GameObject[] tokenPrf = new GameObject[5];
 
+    private Token saveToken;
+
     Vector3 itemRot;
     Quaternion quaternion;
     bool isUsing = false;
@@ -25,22 +27,34 @@ public class VoidSlot : MonoBehaviour, IItem
     private void Start()
     {
         type = ItemType.interacted;
-        itemName = "∫Û√•¿Â";
         isCanUse = false;
         index = slotIndex;
 
         if (!isSettingAtHome)
         {
+            itemName = "∫Û√•¿Â";
             itemRot = Vector3.zero;
             itemRot.x -= 75.4f;
             quaternion = Quaternion.Euler(itemRot);
         }
         else
         {
+            itemName = "√•ªÛ<≈‰≈´>";
             itemRot = Vector3.zero;
             itemRot.x -= 90f;
             itemRot.y -= 180f;
             quaternion = Quaternion.Euler(itemRot);
+
+            if (SaveData.instance.data.ContainsKey("≈‰≈´ΩΩ∑‘" + index))
+            {
+                GameObject temp = Instantiate(tokenPrf[SaveData.instance.data["≈‰≈´ΩΩ∑‘" + index]], transform.position - transform.forward * 0.03f, quaternion);
+                saveToken = temp.GetComponent<Token>();
+                StartCoroutine(CheckSave());
+            }
+            else
+            {
+                StartCoroutine(CheckSave());
+            }
         }
     }
     public void Use(GameObject target)
@@ -68,7 +82,9 @@ public class VoidSlot : MonoBehaviour, IItem
                 }
                 else
                 {
-                    Instantiate(tokenPrf[i], transform.position - transform.forward * 0.03f, quaternion);
+                    GameObject temp = Instantiate(tokenPrf[i], transform.position - transform.forward * 0.03f, quaternion);
+                    saveToken = temp.GetComponent<Token>();
+                    SaveData.instance.data.Add("≈‰≈´ΩΩ∑‘" + index, i);
                 }
             }
         }
@@ -85,6 +101,25 @@ public class VoidSlot : MonoBehaviour, IItem
         else
         {
             isCanUse = false;
+        }
+    }
+
+    private IEnumerator CheckSave()
+    {
+        while (true)
+        {
+            if (SaveData.instance.data.ContainsKey("≈‰≈´ΩΩ∑‘" + index))
+            {
+                if (saveToken == null)
+                {
+                    SaveData.instance.data.Remove("≈‰≈´ΩΩ∑‘" + index);
+                }
+                else
+                {
+                    Debug.Log("æ¯æÓ¡≥¥Ÿ");
+                }
+            }
+            yield return null;
         }
     }
 }

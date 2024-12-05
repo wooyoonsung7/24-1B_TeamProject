@@ -9,18 +9,11 @@ public class BedClickFade : MonoBehaviour
     [SerializeField] private Image fadeImage; // 페이드용 이미지
     [SerializeField] private float fadeDuration = 1.0f; // 페이드 지속 시간
     [SerializeField] private float holdDuration = 2.0f; // 검은 화면 유지 시간
+    [SerializeField] private Transform spawnPos;
 
-    private bool isFading = false;
+    public bool isFading = false;
 
-    private void Start()
-    {
-        if (fadeImage == null)
-        {
-            Debug.LogError("Fade Image를 설정해 주세요!");
-        }
-    }
-
-    private void OnMouseDown()
+    public void BedAnimation()
     {
         if (isFading || fadeImage == null) return;
 
@@ -35,6 +28,9 @@ public class BedClickFade : MonoBehaviour
         yield return fadeImage.DOFade(1, fadeDuration).WaitForCompletion();
 
         // 검은 화면 유지
+        PlayerController player = FindObjectOfType<PlayerController>();
+        player.transform.position = spawnPos.position;
+        player.Theta += 180;
         yield return new WaitForSeconds(holdDuration);
 
         // 페이드 아웃

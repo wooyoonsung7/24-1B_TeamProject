@@ -21,8 +21,6 @@ public class Valuable : MonoBehaviour, IItem
 
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
-
         type = ItemType.Used;
         itemName = _itemName;
         itemImage = _itemImage;
