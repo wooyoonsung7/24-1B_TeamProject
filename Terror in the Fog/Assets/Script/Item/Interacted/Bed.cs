@@ -13,8 +13,6 @@ public class Bed : MonoBehaviour, IItem
     public Sprite itemImage { get; set; }
     public bool isCanUse { get; set; }
 
-    [SerializeField]private Door door;
-
     private void Start()
     {
         type = ItemType.interacted;
@@ -31,7 +29,7 @@ public class Bed : MonoBehaviour, IItem
             StartCoroutine(UseBed());
             //자고 일어나는 애니메이션
             
-            door.isCanUse = true;
+            EventManager.instance.isCanOpen = true;
             if(GameManager.Days != 5 )GameManager.Instance.PassDay();
         }
     }
@@ -43,6 +41,7 @@ public class Bed : MonoBehaviour, IItem
         bed.BedAnimation();
         yield return new WaitForSeconds(2f);
         yield return new WaitUntil(() => !bed.isFading);
+        FindObjectOfType<SubtitleManager>().ShowSubtitle(GameManager.Days);
         SoundManager.instance.PlaySound("WakeUp");
     }
 }

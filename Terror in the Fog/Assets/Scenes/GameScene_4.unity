@@ -183,7 +183,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 86b3c54d35441a949a355071d1955397, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -225,7 +225,8 @@ Transform:
   m_LocalPosition: {x: 30.438, y: -1.7888, z: -33.773}
   m_LocalScale: {x: 1, y: 1.823281, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 993711551}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &25786370
@@ -3505,6 +3506,90 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1161014443}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &993711550
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 5918905}
+    m_Modifications:
+    - target: {fileID: 3488419507880943895, guid: da16b404e3536864e897a6aaa99943fc,
+        type: 3}
+      propertyPath: m_Name
+      value: Cushion
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261121732871011245, guid: da16b404e3536864e897a6aaa99943fc,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 16.859999
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261121732871011245, guid: da16b404e3536864e897a6aaa99943fc,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 9.2470665
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261121732871011245, guid: da16b404e3536864e897a6aaa99943fc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.14100075
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261121732871011245, guid: da16b404e3536864e897a6aaa99943fc,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261121732871011245, guid: da16b404e3536864e897a6aaa99943fc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.009838104
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261121732871011245, guid: da16b404e3536864e897a6aaa99943fc,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261121732871011245, guid: da16b404e3536864e897a6aaa99943fc,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261121732871011245, guid: da16b404e3536864e897a6aaa99943fc,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261121732871011245, guid: da16b404e3536864e897a6aaa99943fc,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261121732871011245, guid: da16b404e3536864e897a6aaa99943fc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261121732871011245, guid: da16b404e3536864e897a6aaa99943fc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261121732871011245, guid: da16b404e3536864e897a6aaa99943fc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: da16b404e3536864e897a6aaa99943fc, type: 3}
+--- !u!4 &993711551 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4261121732871011245, guid: da16b404e3536864e897a6aaa99943fc,
+    type: 3}
+  m_PrefabInstance: {fileID: 993711550}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1005738018
 GameObject:
   m_ObjectHideFlags: 0
@@ -3689,6 +3774,7 @@ MonoBehaviour:
   targetHousedoor: {fileID: 0}
   bed: {fileID: 0}
   homeDoor: {fileID: 0}
+  spawnPos: {fileID: 0}
   safe: {fileID: 0}
   day1Door: {fileID: 0}
   day2Door: {fileID: 0}
@@ -3696,6 +3782,7 @@ MonoBehaviour:
   day4Door: {fileID: 1738902333}
   day5Door: {fileID: 0}
   isGameOver: 0
+  isCanOpen: 0
 --- !u!224 &1135409731 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2013881844780639497, guid: 8dc6f7b009646c0418d677d0293e117a,

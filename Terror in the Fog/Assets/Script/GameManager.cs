@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour  //게임 전체적으로 <퀘스트, 각 회차의 �
             
         }
         EventManager.instance.GotoTargetHouse(Days);
-        EventManager.instance.GoToStreet();
+        EventManager.instance.CheckGoToStreet();
     }
 
     public void PassDay()

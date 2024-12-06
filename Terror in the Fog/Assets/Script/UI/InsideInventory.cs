@@ -31,6 +31,9 @@ public class InsideInventory : MonoBehaviour
     private GameObject[] checkImages;
 
     private bool OneTime = true;
+
+    int[] indexs = { 15, 16, 17, 18, 19, 90, 91, 92, 93, 94 };
+    int[] tokenIndexs = { 15, 16, 17, 18, 19 };
     private void Awake()
     {
         if (Instance == null)
@@ -164,6 +167,48 @@ public class InsideInventory : MonoBehaviour
         {
             slots[i].ClearSlot();
         }
+    }
+
+    public bool CheckInventory()  //1~4일차의 아이템들고 나가기방지용_Home씬용
+    {
+        foreach (var slot in slots)
+        {
+            if (slot.item != null)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    public void CheckInventory_2() //귀중품이나 토큰이외의 아이템 반입금지
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].item != null)
+            {
+                for (int j = 0; j < indexs.Length; j++)
+                {
+                    if (slots[i].item.index == indexs[j]) break;
+                    else if(j == indexs.Length - 1) slots[i].ClearSlot();
+                }
+            }
+        }
+    }
+
+    public bool CheckInventory_3()
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].item != null)
+            {
+                for (int j = 0; j < tokenIndexs.Length; j++)
+                {
+                    if (slots[i].item.index == tokenIndexs[j]) break;
+                    else if (j == tokenIndexs.Length - 1) return false;
+                }
+            }
+        }
+        return true;
     }
 
     private void FadeIn()

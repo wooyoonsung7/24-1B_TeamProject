@@ -23,11 +23,9 @@ public class Research : IState
         isOneTime = false;                                          //사운드감지초기화
 
         enemy.ResetSound();                                         //사운드감지 값초기화
-        Debug.Log("잘 초기화가 되는지 :" + isOneTimeInGame);
         if (isOneTimeInGame)
         {
             enemy.ResetResearch();                                  //탐색 값 초기화
-            Debug.Log("된다다다다다");
             isOneTimeInGame = false;
         }
         enemy.RestartSearch();                                      //탐색최기화

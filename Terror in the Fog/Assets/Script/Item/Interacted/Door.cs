@@ -141,6 +141,12 @@ public class Door : MonoBehaviour, IItem
                     }
                 }
             }
+            if (isEnemy)
+            {
+                yield return null;
+                isEnemy = false;
+            }
+
             yield return new WaitForSeconds(1f * Time.deltaTime);
         }
     }

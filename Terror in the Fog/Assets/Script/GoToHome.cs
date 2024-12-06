@@ -9,6 +9,7 @@ public class GoToHome : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            InsideInventory.Instance.CheckInventory_2();
             GameManager.currentMap = 1;
             SceneManager.LoadScene("Home");
         }

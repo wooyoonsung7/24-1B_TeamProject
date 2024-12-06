@@ -44,6 +44,7 @@ public class EventManager : MonoBehaviour //이벤트관리
 
     private int count = 0;
     private bool isOneTime = true;
+    public bool isCanOpen = false;
     private void Awake()
     {
         instance = this;
@@ -104,16 +105,46 @@ public class EventManager : MonoBehaviour //이벤트관리
         }
     }
 
-    public void GoToStreet()
+    public void CheckGoToStreet()
     {
         if (homeDoor != null)
         {
-            if (homeDoor.isOpen)
+            if (GameManager.Days != 5)
             {
-                GameManager.currentMap = 2;
-                SceneManager.LoadScene("Street_2");
-                isOneTime = true;
+                if (isCanOpen && InsideInventory.Instance.CheckInventory())
+                {
+                    homeDoor.isCanUse = true;
+
+                    GoToStreet();
+                }
+                else
+                {
+                    homeDoor.isCanUse = false;
+                }
             }
+            else
+            {
+                if (isCanOpen && InsideInventory.Instance.CheckInventory_3())
+                {
+                    homeDoor.isCanUse = true;
+
+                    GoToStreet();
+                }
+                else
+                {
+                    homeDoor.isCanUse = false;
+                }
+            }
+        }
+    }
+
+    private void GoToStreet()
+    {
+        if (homeDoor.isOpen)
+        {
+            GameManager.currentMap = 2;
+            SceneManager.LoadScene("Street_2");
+            isOneTime = true;
         }
     }
 
@@ -130,8 +161,6 @@ public class EventManager : MonoBehaviour //이벤트관리
         yield return new WaitForSeconds(0.1f);
         bed.Use(player);
         Debug.Log("침대사용완");
-        //자고 일어나는 애니메이션만 제작할 것
-        //애니메이션작동시 자동위치이동!!
     }
     public void CheckIventoryItem(string name)
     {
