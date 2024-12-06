@@ -188,6 +188,14 @@ public class EventManager : MonoBehaviour //이벤트관리
             }
         }
     }
+    /*
+    public bool CheckInventory()
+    {
+        if (GameManager.Days != 5)
+        {
+
+        }
+    }*/
 
     public void DayOneEvent()
     {

@@ -32,7 +32,7 @@ public class Bed : MonoBehaviour, IItem
             //자고 일어나는 애니메이션
             
             door.isCanUse = true;
-            GameManager.Instance.PassDay();
+            if(GameManager.Days != 5 )GameManager.Instance.PassDay();
         }
     }
 

@@ -135,7 +135,15 @@ public class GameManager : MonoBehaviour  //게임 전체적으로 <퀘스트, 각 회차의 �
     {
         if (EventManager.playerdead)
         {
-            EventManager.instance.StartCoroutine("AfterPlayerDead"); Days--; Debug.Log("세이브된 날짜는 " + Days);
+            if (Days != 5)
+            {
+                EventManager.instance.StartCoroutine("AfterPlayerDead"); Days--; Debug.Log("세이브된 날짜는 " + Days);
+            }
+            else
+            {
+                EventManager.instance.StartCoroutine("AfterPlayerDead");
+            }
+
         }
     }
 
