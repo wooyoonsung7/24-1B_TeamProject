@@ -31,7 +31,6 @@ public class BedClickFade : MonoBehaviour
         yield return fadeImage.DOFade(1, fadeDuration).WaitForCompletion();
 
         // D-day 업데이트 및 표시
-        dDayText.text = $"{dDay}일차";
         dDayText.gameObject.SetActive(true);
         dDayText.DOFade(1, fadeDuration).SetEase(Ease.InOutQuad).Play(); // 텍스트 페이드 인
         yield return new WaitForSeconds(holdDuration);
