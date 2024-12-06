@@ -32,7 +32,7 @@ public class Door : MonoBehaviour, IItem
     private void Start()
     {
         type = ItemType.interacted;
-        itemName = "Door";
+        itemName = "문";
         isCanUse = isOpened; //몬스터전용 불값
         index = doorIndex;
         doorRot = transform.rotation.eulerAngles;

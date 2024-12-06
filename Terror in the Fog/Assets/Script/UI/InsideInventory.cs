@@ -31,9 +31,12 @@ public class InsideInventory : MonoBehaviour
     private GameObject[] checkImages;
 
     private bool OneTime = true;
+    public bool ItemExist = false;
+    public string ItemName;
 
     int[] indexs = { 15, 16, 17, 18, 19, 90, 91, 92, 93, 94 };
     int[] tokenIndexs = { 15, 16, 17, 18, 19 };
+    int[] ValuableId = { 90, 91, 92, 93, 94 };
     private void Awake()
     {
         if (Instance == null)
@@ -122,6 +125,7 @@ public class InsideInventory : MonoBehaviour
             if (i != index)                            //인벤토리의 사용가능표시, 아이템사용가능 초기화
             {
                 checkImages[i].SetActive(false);
+                ItemExist = false;
 
                 if (slots[i].item == null)
                 {
@@ -134,9 +138,26 @@ public class InsideInventory : MonoBehaviour
 
         if (slots[index].item != null)
         {
+            ItemExist = true;
+            ItemName = slots[index].item.itemName;
             //Debug.Log("확인 3");
             slots[index].isCanUse = true;
         }
+        else ItemExist = false;
+    }
+
+    public bool CheckItem()  //인벤토리에서 사용할 메서드
+    {
+        if (slots[i_index].item == null) return false;
+        for (int j = 0; j < ValuableId.Length; j++)
+        {
+            if (slots[i_index].item.index == ValuableId[j])
+            {
+                ItemExist = false;
+                return false;
+            }
+        }
+        return true;
     }
 
     public void UsingItem()
@@ -229,7 +250,7 @@ public class InsideInventory : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        else
+        else if(scene.name != "GameClear")
         {
             playerController = FindObjectOfType<PlayerController>();
             staminaSlider = GameObject.Find("StaminaSlider");

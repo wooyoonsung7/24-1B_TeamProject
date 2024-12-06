@@ -11,17 +11,26 @@ public class SceneUI : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;        
         Cursor.visible = true;
-        settingsMenu.SetActive(false);
+        if(settingsMenu != null) settingsMenu.SetActive(false);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (settingsMenu != null)
         {
-            if (settingsMenu.activeSelf)
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                settingsMenu.SetActive(false);
+                if (settingsMenu.activeSelf)
+                {
+                    settingsMenu.SetActive(false);
+                }
             }
+        }
+
+        if (ButtonUI.isEnd)
+        {
+            GoToMain();
+            ButtonUI.isEnd = false;
         }
     }
     public void LoadTestScene()
@@ -37,16 +46,15 @@ public class SceneUI : MonoBehaviour
         
         SceneManager.LoadScene("AchievementUI");
     }
-     
+
 
     public void GameExit()
     {
         Application.Quit();
     }
 
-    public void GoToStreet()
+    public void GoToMain()
     {
-        SceneManager.LoadScene("Street");
+        SceneManager.LoadScene("MainScene");
     }
-
 }

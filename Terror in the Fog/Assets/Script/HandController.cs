@@ -58,8 +58,8 @@ public class HandController : MonoBehaviour
 
         Debug.DrawRay(rayOrigin, rayDir * distance, Color.red);
 
-        //오브젝트일 때, 획득 X는 실제로 바닥에 아이템이 있을 때, 아이템과 오브젝트가 곂치기 때문에 제거, 다른 방법사용
-        if (Physics.Raycast(rayOrigin, rayDir, out hitInfo, distance, whatIsTarget)) //해당 아이템이 아이템임을 인식
+        
+        if (Physics.Raycast(rayOrigin, rayDir, out hitInfo, distance, whatIsTarget)) //아이템 감지
         {
 
             item = hitInfo.collider.GetComponent<IItem>();
@@ -72,12 +72,37 @@ public class HandController : MonoBehaviour
         }
     }
 
-    private void ItemInfoAppear() //아이템임을 표시 하기
+    private void ItemInfoAppear() //아이템UI표시
     {
         pickupActivated = true;
         actionText.gameObject.SetActive(true);
-        //아이템을 가지고 있는 상태에서 대상타입이 인터렉티브 일때, 아이템 사용으로 변경
-        actionText.text = item.itemName + "상호작용" + "(F 또는 좌클릭)";
+
+        if (item.type == IItem.ItemType.Used)
+        {
+            actionText.text = item.itemName + "획득" + "(F 또는 좌클릭)";
+        }
+        else
+        {
+            if (InsideInventory.Instance.ItemExist)
+            {
+                if (InsideInventory.Instance.CheckItem()) actionText.text = InsideInventory.Instance.ItemName + "사용" + "(우클릭)";
+                else
+                {
+                    if (item.type == IItem.ItemType.interacted)
+                    {
+                        actionText.text = item.itemName + "상호작용" + "(F 또는 좌클릭)";
+                    }
+                }
+            }
+            else
+            {
+                if (item.type == IItem.ItemType.interacted)
+                {
+                    actionText.text = item.itemName + "상호작용" + "(F 또는 좌클릭)";
+                }
+            }
+        }
+
         //item.itemName + "상호작용" + "<color=yellow>" + "(F 또는 좌클릭)" + "</color>"
     }
     private void ItemInfoDisappear() //아이템임을 표시 끄기
@@ -94,11 +119,9 @@ public class HandController : MonoBehaviour
                 if (item.type == IItem.ItemType.Used)
                 {
                     SoundManager.instance.PlaySound("GetItem");
-                    Debug.Log(item.itemName + " 획득 했습니다.");
                     InsideInventory.Instance.AcuquireItem(item);
                     Destroy(hitInfo.transform.gameObject);
                     ItemInfoDisappear();
-                    Debug.Log("아이템이름은" + item.itemName);
                     EventManager.instance.CheckIventoryItem(item.itemName);
                 }
             }

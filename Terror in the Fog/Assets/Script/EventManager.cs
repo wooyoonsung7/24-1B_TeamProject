@@ -45,6 +45,8 @@ public class EventManager : MonoBehaviour //이벤트관리
     private int count = 0;
     private bool isOneTime = true;
     public bool isCanOpen = false;
+
+    public bool isGameClear = false;
     private void Awake()
     {
         instance = this;
@@ -114,26 +116,20 @@ public class EventManager : MonoBehaviour //이벤트관리
                 if (isCanOpen && InsideInventory.Instance.CheckInventory())
                 {
                     homeDoor.isCanUse = true;
-
                     GoToStreet();
                 }
-                else
-                {
-                    homeDoor.isCanUse = false;
-                }
+                else homeDoor.isCanUse = false;
             }
             else
             {
                 if (isCanOpen && InsideInventory.Instance.CheckInventory_3())
                 {
                     homeDoor.isCanUse = true;
-
                     GoToStreet();
                 }
-                else
-                {
-                    homeDoor.isCanUse = false;
-                }
+                else homeDoor.isCanUse = false;
+
+                CheckGameClear();
             }
         }
     }
@@ -146,6 +142,29 @@ public class EventManager : MonoBehaviour //이벤트관리
             SceneManager.LoadScene("Street_2");
             isOneTime = true;
         }
+    }
+
+    private void CheckGameClear()
+    {
+        int[] slotIds = { 90, 91, 92, 93, 94 };
+        int count = 0;
+        for (int i = 0; i < slotIds.Length; i++)
+        {
+            if (SaveData.instance.data.ContainsKey("귀중품슬롯" + slotIds[i]))
+            {
+                count++;
+            }
+        }
+        if (count >= slotIds.Length) { isGameClear = true; GameClear(); } 
+        else count = 0;
+    }
+
+    private void GameClear()
+    {
+        //전부 초기화
+        //애니메이션(연출)넣기
+        GameManager.Days = 0;
+        SceneManager.LoadScene("GameClear");
     }
 
     public void PlayerDead()

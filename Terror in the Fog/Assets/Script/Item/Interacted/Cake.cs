@@ -20,7 +20,7 @@ public class Cake : MonoBehaviour, IItem
     private void Start()
     {
         type = ItemType.interacted;
-        itemName = "Cake";
+        itemName = "диюле╘";
         isCanUse = false;
         index = Index;
 

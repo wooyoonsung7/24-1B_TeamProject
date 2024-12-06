@@ -14,7 +14,6 @@ public class BedClickFade : MonoBehaviour
     [SerializeField] private Transform spawnPos;
 
     public bool isFading = false;
-    private int dDay = 1; // 디데이 초기값 (1일차부터 시작)
 
     public void BedAnimation()
     {
@@ -30,27 +29,27 @@ public class BedClickFade : MonoBehaviour
         // 페이드 인
         yield return fadeImage.DOFade(1, fadeDuration).WaitForCompletion();
 
-        // D-day 업데이트 및 표시
-        dDayText.gameObject.SetActive(true);
-        dDayText.DOFade(1, fadeDuration).SetEase(Ease.InOutQuad).Play(); // 텍스트 페이드 인
-        yield return new WaitForSeconds(holdDuration);
-        dDayText.DOFade(0, fadeDuration).SetEase(Ease.InOutQuad).Play(); // 텍스트 페이드 아웃
-
         // 검은 화면 유지
         PlayerController player = FindObjectOfType<PlayerController>();
         player.transform.position = spawnPos.position;
         player.Theta += 180;
         yield return new WaitForSeconds(holdDuration);
 
-        // 텍스트 숨기기
-        dDayText.gameObject.SetActive(false);
-
         // 페이드 아웃
         yield return fadeImage.DOFade(0, fadeDuration).WaitForCompletion();
 
         isFading = false;
+        yield return StartCoroutine(DaysAni());
+    }
 
+    private IEnumerator DaysAni()
+    {
+        Debug.Log("된다ㅏㅏ");
         // D-day 증가 (5일차까지 제한)
-        dDay = Mathf.Min(dDay + 1, 5);
+        dDayText.text = "Day " + GameManager.Days;
+        // D-day 업데이트 및 표시
+        dDayText.DOFade(1, fadeDuration).SetEase(Ease.InOutQuad).Play(); // 텍스트 페이드 인
+        yield return new WaitForSeconds(holdDuration - 0.5f);
+        dDayText.DOFade(0, fadeDuration).SetEase(Ease.InOutQuad).Play(); // 텍스트 페이드 아웃
     }
 }

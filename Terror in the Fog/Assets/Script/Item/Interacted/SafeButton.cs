@@ -25,7 +25,7 @@ public class SafeButton : MonoBehaviour, IItem
     {
         currentPos = transform.position;
         type = ItemType.interacted;
-        itemName = "금고버튼";
+        itemName = "버튼";
         isCanUse = true;
 
         originalPosition = transform.localPosition;

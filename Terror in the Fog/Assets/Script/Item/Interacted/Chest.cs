@@ -23,7 +23,7 @@ public class Chest : MonoBehaviour, IItem
     private void Start()
     {
         type = ItemType.interacted;
-        itemName = "주방상자";
+        itemName = "상자";
         isCanUse = false;
         index = 4;
 

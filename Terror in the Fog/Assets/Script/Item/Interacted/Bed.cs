@@ -16,7 +16,7 @@ public class Bed : MonoBehaviour, IItem
     private void Start()
     {
         type = ItemType.interacted;
-        itemName = "Bed";
+        itemName = "Ä§´ë";
         isCanUse = true;
     }
 
@@ -41,7 +41,6 @@ public class Bed : MonoBehaviour, IItem
         bed.BedAnimation();
         yield return new WaitForSeconds(2f);
         yield return new WaitUntil(() => !bed.isFading);
-        FindObjectOfType<SubtitleManager>().ShowSubtitle(GameManager.Days);
         SoundManager.instance.PlaySound("WakeUp");
     }
 }
