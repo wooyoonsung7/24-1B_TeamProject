@@ -96,7 +96,7 @@ public class InsideInventory : MonoBehaviour
         if (count >= slots.Length)
         {
             isFull = true;
-            Debug.Log("¿Œ∫•≈‰∏Æ∞° ∞°µÊ √°¿æ¥œ¥Ÿ");
+            //Debug.Log("¿Œ∫•≈‰∏Æ∞° ∞°µÊ √°¿æ¥œ¥Ÿ");
         }
         else
         {

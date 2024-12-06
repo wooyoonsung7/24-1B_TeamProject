@@ -179,11 +179,11 @@ public class EventManager : MonoBehaviour //이벤트관리
         playerdead = false;
         yield return new WaitForSeconds(0.1f);
         bed.Use(player);
-        Debug.Log("침대사용완");
+        //Debug.Log("침대사용완");
     }
     public void CheckIventoryItem(string name)
     {
-        Debug.Log("된다2");
+        //Debug.Log("된다2");
         if (GameManager.Days == 0 && roomdoor != null)
         {
             if (name == "금괴")

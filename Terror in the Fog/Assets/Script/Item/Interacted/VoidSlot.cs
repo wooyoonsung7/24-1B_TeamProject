@@ -58,7 +58,6 @@ public class VoidSlot : MonoBehaviour, IItem
 
             if (GameManager.Days == 5 && SaveData.instance.data.ContainsKey("토큰슬롯_5일차용" + index))
             {
-                Debug.Log("생성된다ㅏㅏ");
                 GameObject temp = Instantiate(tokenPrf[SaveData.instance.data["토큰슬롯_5일차용" + index]], transform.position - transform.forward * 0.03f, quaternion);
                 saveToken = temp.GetComponent<Token>();
             }
@@ -122,7 +121,6 @@ public class VoidSlot : MonoBehaviour, IItem
                 {
                     if (GameManager.Days == 5 || GameManager.Days == 4)
                     {
-                        Debug.Log("저장된다ㅏㅏ");
                         SaveData.instance.data.Add("토큰슬롯_5일차용" + index, SaveData.instance.data["토큰슬롯" + index]);
                     }
                 }

@@ -213,7 +213,7 @@ public class ChaseState : IState
             {
                 if (!enemy.isOneTime4) return;
                 enemy.stateMachine.SetState(enemy, FeelStrage.GetInstance());
-                Debug.Log("见扁 己傍");
+                //Debug.Log("见扁 己傍");
             }
             else
             {

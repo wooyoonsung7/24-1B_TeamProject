@@ -115,7 +115,7 @@ public class ResearchManager : MonoBehaviour
 
     private void ChangeRoom()
     {
-        Debug.Log("방 교체");
+        //Debug.Log("방 교체");
         stepNumber = 0;
         //Debug.Log("설정값이 " + currentroomNumber);
         isDoneIdex.Remove(moveIndex);
@@ -301,8 +301,8 @@ public class ResearchManager : MonoBehaviour
 
                 floorNumber = 1;
                 roomNumber = floorIndex[floorNumber].columns.Length / 2;
-                Debug.Log("방의 개수는" + roomNumber);
-                Debug.Log("층은 " + floorNumber);
+                //Debug.Log("방의 개수는" + roomNumber);
+                //Debug.Log("층은 " + floorNumber);
                 r_IsEnd = false;
                 ResetIndex();
             }
@@ -312,8 +312,8 @@ public class ResearchManager : MonoBehaviour
                 floorNumber = 0;
                 roomNumber = floorIndex[floorNumber].columns.Length / 2;
 
-                Debug.Log("방의 개수는" + roomNumber);
-                Debug.Log("층은 " + floorNumber);
+                //Debug.Log("방의 개수는" + roomNumber);
+                //Debug.Log("층은 " + floorNumber);
                 r_IsEnd = false;
                 ResetIndex();
             }
@@ -322,7 +322,7 @@ public class ResearchManager : MonoBehaviour
 
     private void ResetIndex()
     {
-        Debug.Log("초기화");
+        //Debug.Log("초기화");
         isDoneIdex.Clear();
         if (!r_IsEnd)
         {
@@ -333,7 +333,7 @@ public class ResearchManager : MonoBehaviour
                 isDoneIdex.Add(i);  //0~3까지만 관리하는 의도
             }
             r_IsEnd = true;
-            Debug.Log("isDoneIndex카운트 :" + isDoneIdex.Count);
+            //Debug.Log("isDoneIndex카운트 :" + isDoneIdex.Count);
         }
         if (isDoneIdex.Count == roomNumber)
         {

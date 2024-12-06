@@ -44,7 +44,6 @@ public class BedClickFade : MonoBehaviour
 
     private IEnumerator DaysAni()
     {
-        Debug.Log("된다ㅏㅏ");
         // D-day 증가 (5일차까지 제한)
         dDayText.text = "Day " + GameManager.Days;
         // D-day 업데이트 및 표시

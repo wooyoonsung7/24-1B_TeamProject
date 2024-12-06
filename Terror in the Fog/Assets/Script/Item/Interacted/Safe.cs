@@ -58,7 +58,6 @@ public class Safe : MonoBehaviour
                         if (safeButtons[i].isCollect && safeButtons[i].ListIndex == order)
                         {
                             order++;
-                            Debug.Log(count);
                             count++;
                         }
                     }

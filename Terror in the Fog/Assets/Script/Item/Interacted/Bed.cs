@@ -24,7 +24,7 @@ public class Bed : MonoBehaviour, IItem
     {
         if (isCanUse)
         {
-            Debug.Log("침대사용");
+            //Debug.Log("침대사용");
             isCanUse = false;
             StartCoroutine(UseBed());
             //자고 일어나는 애니메이션

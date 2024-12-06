@@ -856,6 +856,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4951417731868065427, guid: 6461ee2a1a9462a438f1ed1745c88365,
         type: 3}
+      propertyPath: sounds.Array.data[3].volume
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4951417731868065427, guid: 6461ee2a1a9462a438f1ed1745c88365,
+        type: 3}
       propertyPath: sounds.Array.data[4].volume
       value: 0.3
       objectReference: {fileID: 0}
@@ -907,7 +912,7 @@ PrefabInstance:
     - target: {fileID: 4951417731868065427, guid: 6461ee2a1a9462a438f1ed1745c88365,
         type: 3}
       propertyPath: sounds.Array.data[14].volume
-      value: 1
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 4951417731868065427, guid: 6461ee2a1a9462a438f1ed1745c88365,
         type: 3}
@@ -3373,6 +3378,7 @@ MonoBehaviour:
   targetHousedoor: {fileID: 0}
   bed: {fileID: 0}
   homeDoor: {fileID: 0}
+  spawnPos: {fileID: 0}
   safe: {fileID: 0}
   day1Door: {fileID: 0}
   day2Door: {fileID: 0}
@@ -3380,6 +3386,8 @@ MonoBehaviour:
   day4Door: {fileID: 0}
   day5Door: {fileID: 0}
   isGameOver: 0
+  isCanOpen: 0
+  isGameClear: 0
 --- !u!1 &755185061
 GameObject:
   m_ObjectHideFlags: 0
@@ -6204,6 +6212,8 @@ MonoBehaviour:
   staminaSlider: {fileID: 0}
   itemText: {fileID: 0}
   isFull: 0
+  ItemExist: 0
+  ItemName: 
 --- !u!114 &1896277970
 MonoBehaviour:
   m_ObjectHideFlags: 0
