@@ -95,17 +95,17 @@ public class SoundManager : MonoBehaviour
 
     public void SetEnvironmentVolume(float volume)
     {
-        mixer.SetFloat("Environment", Mathf.Log10(volume) * 20);
+        mixer.SetFloat("Environment", (volume - 5) * 4);
 
     }
     public void SetObjectsVolume(float volume)
     {
-        mixer.SetFloat("Objects", Mathf.Log10(volume) * 20);
+        mixer.SetFloat("Objects", (volume - 5) * 4);
 
     }
     public void SetCharacterVolume(float volume)
     {
-        mixer.SetFloat("Character", Mathf.Log10(volume) * 20);
+        mixer.SetFloat("Character", (volume - 5) * 4);
     }
 
     private void FixedUpdate()

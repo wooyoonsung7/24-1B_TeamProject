@@ -66,8 +66,9 @@ public class KillAnimation : MonoBehaviour
     {
         Vector3 targetLookPos = transform.position;
         targetLookPos.y = target.transform.position.y;
-
-        transform.DOLookAt(target.transform.position + new Vector3(0f,1.5f,0f), 0.1f);
+        Vector3 lookPos = target.transform.position;
+        lookPos.y = 1.75f;
+        transform.DOLookAt(lookPos, 0.1f);
         target.transform.DOLookAt(targetLookPos, 0.01f);
         player.transform.DOMove(MovePos(), 0.3f);
         player.enabled = false;

@@ -350,7 +350,7 @@ public class EventManager : MonoBehaviour //이벤트관리
             enemy.stopResearch = true;
             enemy.navMeshAgent.speed = 10f;
             enemy.gameObject.GetComponent<SoundDetector>().isDetectOFF = true;
-            enemy.navMeshAgent.SetDestination(new Vector3(11.15f, 5.57f, -41.88f));
+            enemy.navMeshAgent.SetDestination(new Vector3(25.9f, 5.57f, -41.8f));
             enemy.transform.rotation = Quaternion.Euler(0f, 90, 0);
             yield return new WaitForSeconds(1f);
             if (enemy.transform.position == new Vector3(11.15f, 5.57f, -41.88f)) break;
