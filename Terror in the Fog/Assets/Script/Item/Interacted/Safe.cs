@@ -44,7 +44,8 @@ public class Safe : MonoBehaviour
                     else
                     {
                         StartCoroutine(Clear());
-                        //틀렸을 때, 사운드 추가
+                        yield return new WaitForSeconds(0.15f);
+                        SoundManager.instance.PlaySound("SafeFail");
                     }
                 }
                 else

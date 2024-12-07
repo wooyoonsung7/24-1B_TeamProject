@@ -37,7 +37,7 @@ public class Achievement            //업적 클레스 선언 (MonoBehaviour X)
 
     protected virtual void OnAchievementUnlocked()
     {
-        Debug.Log($"업적달성 : {name}");                //$ 표시가 들러있는 String에서 {} 변수 값
+        //Debug.Log($"업적달성 : {name}");                //$ 표시가 들러있는 String에서 {} 변수 값
     }
 
 }
