@@ -96,7 +96,7 @@ public class FeelStrage : IState
     }
     public void StateFixUpdate(Enemy enemy)
     {
-        enemy.CheckObject();                                        //시야에서 플레이어감지
+        //enemy.CheckObject();                                        //시야에서 플레이어감지
         enemy.CheckAround();
     }
     public void StateUpdate(Enemy enemy)

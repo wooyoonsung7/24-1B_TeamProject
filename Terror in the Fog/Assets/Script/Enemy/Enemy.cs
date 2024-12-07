@@ -119,7 +119,7 @@ public class Enemy : MonoBehaviour
                     }
 
                     isFind = true; //플레이어감지 불값 켜기
-                    //Debug.Log("보인다");
+                    Debug.Log("보인다");
                     Debug.DrawLine(myPos, targetPos, Color.red);
                 }
             }

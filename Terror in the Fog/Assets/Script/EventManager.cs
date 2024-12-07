@@ -65,7 +65,7 @@ public class EventManager : MonoBehaviour //이벤트관리
             if (roomdoor.isCanUse)
             {
                 enemy.gameObject.SetActive(true);
-                ResearchManager_Simple.instance.StartCoroutine("Tuto");
+                ResearchManager_Simple.instance.StartSafeCoroutine();
                 EndEvent = true;
             }
         }
@@ -80,7 +80,6 @@ public class EventManager : MonoBehaviour //이벤트관리
 
     private void ExitTargetHouse() //타겟의 집에서 나가기
     {
-        housedoor.isCanUse = true;
         if (housedoor.isOpen)
         {
             GameManager.currentMap = 4;   //거리로 이동
@@ -189,6 +188,7 @@ public class EventManager : MonoBehaviour //이벤트관리
         {
             if (name == "금괴")
             {
+                housedoor.isCanUse = true;
                 SoundManager.instance.PauseSound("GetItem");
                 SoundManager.instance.PlaySound("GetSpecial");
             }
