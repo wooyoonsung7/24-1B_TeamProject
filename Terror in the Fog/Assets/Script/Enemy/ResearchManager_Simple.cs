@@ -48,6 +48,14 @@ public class ResearchManager_Simple : MonoBehaviour
     private IEnumerator Tuto()
     {
         MoveToPos();
+        yield return new WaitUntil(() => isEnd); isEnd = false;
+        MoveToPos();
+        yield return new WaitUntil(() => isEnd); isEnd = false;
+        EnemyAnimation.instance.sequence.Restart();
+        yield return new WaitUntil(() => isstepEnd);
+        yield return StartCoroutine("GoBack");
+        /*
+        MoveToPos();
         yield return new WaitForSeconds(CheckTime(moveToPos));
         MoveToPos_2();
 
@@ -61,6 +69,7 @@ public class ResearchManager_Simple : MonoBehaviour
         yield return new WaitUntil(() => isstepEnd);
 
         yield return StartCoroutine("GoBack");
+        */
     }
 
     public IEnumerator GoBack()
@@ -69,7 +78,15 @@ public class ResearchManager_Simple : MonoBehaviour
         moveIndex = 2;
         moveToPos = columns[--moveIndex].transform.position;
         enemy.navMeshAgent.SetDestination(moveToPos);
+        yield return new WaitUntil(() => isEnd); isEnd = false;
+        moveToPos = columns[--moveIndex].transform.position;
+        enemy.navMeshAgent.SetDestination(moveToPos);
+        OFFState();
+        yield return new WaitUntil(() => isEnd); isEnd = false;
+        enemy.gameObject.SetActive(false);
+        EventEnd = true;
 
+        /*
         yield return new WaitForSeconds(CheckTime(moveToPos) + 6f * Time.deltaTime);
 
         if (enemy.navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete && enemy.navMeshAgent.remainingDistance <= 0.1f)
@@ -82,11 +99,10 @@ public class ResearchManager_Simple : MonoBehaviour
 
         yield return new WaitForSeconds(CheckTime(moveToPos));
 
-        if (enemy.navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete && enemy.navMeshAgent.remainingDistance <= 0.1f)
-        {
-            enemy.gameObject.SetActive(false);
-            EventEnd = true;
-        }
+        yield return new WaitUntil(() => isEnd);
+        enemy.gameObject.SetActive(false);
+        EventEnd = true;
+        */
     }
     private void OFFState()
     {
@@ -244,6 +260,8 @@ public class ResearchManager_Simple : MonoBehaviour
             StopSafeCoroutine();
         }
         ResetValue();
+        if (GameManager.Days == 0) currentCoroutine = StartCoroutine(Tuto());
+
         if (GameManager.Days == 1)
         {
             if (isEnd_2)

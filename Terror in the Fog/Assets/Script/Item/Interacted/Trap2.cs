@@ -8,6 +8,7 @@ public class Trap2 : MonoBehaviour
     [SerializeField] private int index = 0;
     private float currentSpeed = 0f;
     private Enemy enemy;
+    private bool isChecking = false;
 
     private static bool IsCanUse = true;
     private void Start()
@@ -26,7 +27,8 @@ public class Trap2 : MonoBehaviour
                 currentSpeed = enemy.navMeshAgent.speed;
                 enemy.navMeshAgent.speed *= 1.5f;
                 isCanUse = false;
-                IsCanUse = false;
+                isChecking = true;
+                StartCoroutine(ResetUse());
             }
         }
         else if(!isCanUse)
@@ -37,8 +39,16 @@ public class Trap2 : MonoBehaviour
                 enemy.navMeshAgent.speed = currentSpeed;
                 SoundDetector.instance.ResetHurry();
                 isCanUse = true;
-                IsCanUse = true;
+                isChecking = false;
             }
+        }
+    }
+    private IEnumerator ResetUse()
+    {
+        yield return new WaitForSeconds(6f);
+        if (isChecking)
+        {
+            isCanUse = true;
         }
     }
 }
