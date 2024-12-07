@@ -169,6 +169,7 @@ public class EventManager : MonoBehaviour //이벤트관리
 
     public void PlayerDead()
     {
+        GameManager.Days = 0;
         GameManager.Instance.GameOverCanvas.SetActive(true);
         isGameOver = true;
     }
@@ -221,9 +222,9 @@ public class EventManager : MonoBehaviour //이벤트관리
 
         if (GameManager.Days == 4 && day4Door != null)
         {
-            if (name == "신전토큰") { count++; if (count == 2) { day4Door.isCanUse = true; } }
-            if (name == "근위대토큰") { count++; if (count == 2) { day4Door.isCanUse = true; } }
-
+            if (name == "신전토큰") { count++; if (count == 3) { day4Door.isCanUse = true; } }
+            if (name == "근위대토큰") { count++; if (count == 3) { day4Door.isCanUse = true; } }
+            if (name == "Alcohol") { count++; if (count == 3) { day4Door.isCanUse = true; } }
         }
 
         if (GameManager.Days == 5 && day5Door != null)
