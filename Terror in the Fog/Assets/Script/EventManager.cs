@@ -169,7 +169,7 @@ public class EventManager : MonoBehaviour //이벤트관리
 
     public void PlayerDead()
     {
-        GameManager.Days = 0;
+        InsideInventory.Instance.ClearAllItem();
         GameManager.Instance.GameOverCanvas.SetActive(true);
         isGameOver = true;
     }

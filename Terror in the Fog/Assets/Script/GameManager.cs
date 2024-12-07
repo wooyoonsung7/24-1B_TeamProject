@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour  //게임 전체적으로 <퀘스트, 각 회차의 �
         CheckDays();
         SETDAY();
         transMap();
-        MasterKey();
+        //MasterKey();
     }
     private void ChangeEvent(EVENTTYPE newType)
     {

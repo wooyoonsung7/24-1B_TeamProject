@@ -134,6 +134,7 @@ public class SettingsMenu : MonoBehaviour
 
     public void GameOver()
     {
+        //Debug.Log("현재날짜는 " + GameManager.Days);
         if (GameManager.Days == 0)
         {
             SceneManager.LoadScene("TutorialScene");
@@ -141,7 +142,6 @@ public class SettingsMenu : MonoBehaviour
         else
         {
             EventManager.playerdead = true;
-            InsideInventory.Instance.ClearAllItem();
             SceneManager.LoadScene("Home");
         }
     }
