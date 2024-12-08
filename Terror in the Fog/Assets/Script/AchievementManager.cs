@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
@@ -19,11 +20,18 @@ public class AchievementManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);              //다른 Scene에서도 적용 하기 위해서 파괴 되지 않게 설정
+            //DontDestroyOnLoad(gameObject);              //다른 Scene에서도 적용 하기 위해서 파괴 되지 않게 설정
         }
         else
         {
             Destroy(gameObject);
+        }
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("MainScene");
         }
     }
 
