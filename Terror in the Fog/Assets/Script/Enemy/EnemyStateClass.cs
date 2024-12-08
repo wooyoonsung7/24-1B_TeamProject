@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -93,11 +94,12 @@ public class FeelStrage : IState
         enemy.navMeshAgent.updateRotation = false;
         enemy.navMeshAgent.isStopped = true;
         SoundManager.instance.PlaySound("EnemyDoubt"); //의심하는 사운드추가
+       
     }
     public void StateFixUpdate(Enemy enemy)
     {
-        enemy.CheckObject();                                        //시야에서 플레이어감지
         enemy.CheckAround();
+        enemy.CheckObject();                                        //시야에서 플레이어감지
     }
     public void StateUpdate(Enemy enemy)
     {
@@ -106,7 +108,6 @@ public class FeelStrage : IState
             //Debug.Log("바뀐다");
             enemy.stateMachine.SetState(enemy, JudgeChase.GetInstance());
         }
-
         if (enemy != null && !enemy.isCheckAround)
         {
             if (enemy.hitTargetList.Count <= 0)
@@ -189,11 +190,13 @@ public class ChaseState : IState
     float notChaseTime = 10f;
 
     PlayerController playerController;
+    bool isOneTime = false;
     public void StateEnter(Enemy enemy)
     {
         playerController = enemy.playerController;
         enemy.isFindPlayer = true;
         SoundManager.instance.PlaySound("EnemyChase");  //쫓기는 브금
+        isOneTime = true;
     }
 
     public void StateFixUpdate(Enemy enemy)
@@ -208,12 +211,17 @@ public class ChaseState : IState
 
         if (playerController.isHide)
         {
-            f_timer += Time.deltaTime;
+            if (isOneTime)
+            {
+                f_timer += Time.deltaTime;
+            }
+
             if (findTime <= f_timer)
             {
                 if (!enemy.isOneTime4) return;
                 enemy.stateMachine.SetState(enemy, FeelStrage.GetInstance());
                 //Debug.Log("숨기 성공");
+                isOneTime=false; 
             }
             else
             {
@@ -237,6 +245,7 @@ public class ChaseState : IState
         f_timer = 0f;                              //타이머초기화
         enemy.timer = 0f;
         enemy.isFindPlayer = false;
-        SoundManager.instance.PauseSound("EnemyChase");  //쫓기는 브금_완
+        SoundManager.instance.PauseSound("EnemyChase");  //쫓기는 브금_완]
+        enemy.hitTargetList.Clear();
     }
 }
