@@ -183,7 +183,7 @@ public class ChaseState : IState
     public static ChaseState GetInstance() { return Instance; }
 
     //숨었때의 변수
-    float findTime = 1f;                       //플레이어가 숨었을 경우, 어그로가 풀릴 때까지의 시간
+    float findTime = 2f;                       //플레이어가 숨었을 경우, 어그로가 풀릴 때까지의 시간
     float f_timer = 0f;
 
     //숨지 않았을 때의 변수

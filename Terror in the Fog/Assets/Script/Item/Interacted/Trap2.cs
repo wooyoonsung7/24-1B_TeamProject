@@ -26,7 +26,7 @@ public class Trap2 : MonoBehaviour
                 SoundDetector.instance.SoundPos.Add(transform.position); //레벨3사운드발생
                 SoundManager.instance.PlaySound("Emergency_Trap" + index);
                 currentSpeed = enemy.navMeshAgent.speed;
-                enemy.navMeshAgent.speed *= 1.5f;
+                enemy.navMeshAgent.speed *= 1.15f;
                 isCanUse = false;
                 isChecking = true;
             }
