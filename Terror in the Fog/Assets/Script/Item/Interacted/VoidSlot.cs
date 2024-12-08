@@ -95,9 +95,7 @@ public class VoidSlot : MonoBehaviour, IItem
                 }
             }
         }
-        yield return new WaitForSeconds(0.5f);
-        gameObject.layer = 6;
-        isUsing = false;
+        yield return null;
     }
 
     private void CheckCorrect()
@@ -129,6 +127,8 @@ public class VoidSlot : MonoBehaviour, IItem
 
                 if (saveToken == null)
                 {
+                    gameObject.layer = 6;
+                    isUsing = false;
                     SaveData.instance.data.Remove("ÅäÅ«½½·Ô" + index);
                 }
                 else

@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour  //게임 전체적으로 <퀘스트, 각 회차의 �
     {
         SETDAY();
         transMap();
-        //MasterKey();
+        MasterKey();
         //Debug.Log(Days);
     }
     private void ChangeEvent(EVENTTYPE newType)
