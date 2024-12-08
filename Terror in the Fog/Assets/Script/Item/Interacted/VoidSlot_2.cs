@@ -70,7 +70,7 @@ public class VoidSlot_2 : MonoBehaviour, IItem
                 SaveData.instance.data.Add("±Õ¡ﬂ«∞ΩΩ∑‘" + index, i);
             }
         }
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.5f);
         isUsing = false;
     }
 

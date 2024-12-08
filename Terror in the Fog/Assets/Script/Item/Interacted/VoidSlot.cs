@@ -94,7 +94,7 @@ public class VoidSlot : MonoBehaviour, IItem
                 }
             }
         }
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.5f);
         isUsing = false;
     }
 

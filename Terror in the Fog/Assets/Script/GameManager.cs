@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour  //게임 전체적으로 <퀘스트, 각 회차의 �
         CheckDays();
         SETDAY();
         transMap();
-        //MasterKey();
+        MasterKey();
     }
     private void ChangeEvent(EVENTTYPE newType)
     {
@@ -113,15 +113,6 @@ public class GameManager : MonoBehaviour  //게임 전체적으로 <퀘스트, 각 회차의 �
     }
     public void transMap()
     {
-        if (currentMap == 2)
-        {
-            //잠시 빼 놓자
-        }
-
-        if (currentMap == 1)
-        {
-            
-        }
         EventManager.instance.GotoTargetHouse(Days);
         EventManager.instance.CheckGoToStreet();
     }

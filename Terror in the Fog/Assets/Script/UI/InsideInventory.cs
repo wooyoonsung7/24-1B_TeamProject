@@ -37,6 +37,7 @@ public class InsideInventory : MonoBehaviour
     int[] indexs = { 15, 16, 17, 18, 19, 90, 91, 92, 93, 94 };
     int[] tokenIndexs = { 15, 16, 17, 18, 19 };
     int[] ValuableId = { 90, 91, 92, 93, 94 };
+    int count = 0;
     private void Awake()
     {
         if (Instance == null)
@@ -225,7 +226,17 @@ public class InsideInventory : MonoBehaviour
                 for (int j = 0; j < tokenIndexs.Length; j++)
                 {
                     if (slots[i].item.index == tokenIndexs[j]) break;
-                    else if (j == tokenIndexs.Length - 1) return false;
+                    else if(j == tokenIndexs.Length - 1) return false;
+                }
+            }
+            else
+            {
+                Debug.Log("°³¼ö : " + count);
+                count++;
+                if (count >= 3)
+                {
+                    count = 0;
+                    return false;
                 }
             }
         }
