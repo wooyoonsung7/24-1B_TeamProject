@@ -90,9 +90,9 @@ public class Enemy : MonoBehaviour
         Vector3 leftDir = AngleToDir(transform.eulerAngles.y - ViewAngle * 0.5f);
         lookDir = AngleToDir(lookingAngle);
 
-        Debug.DrawRay(myPos, rightDir * ViewRadius, Color.blue);
-        Debug.DrawRay(myPos, leftDir * ViewRadius, Color.blue);
-        Debug.DrawRay(myPos, lookDir * ViewRadius, Color.cyan);
+        //Debug.DrawRay(myPos, rightDir * ViewRadius, Color.blue);
+        //Debug.DrawRay(myPos, leftDir * ViewRadius, Color.blue);
+        //Debug.DrawRay(myPos, lookDir * ViewRadius, Color.cyan);
 
         Collider[] Targets = Physics.OverlapSphere(myPos, ViewRadius, TargetMask);
 
@@ -106,12 +106,10 @@ public class Enemy : MonoBehaviour
             float targetAngle = Mathf.Acos(Vector3.Dot(lookDir, targetDir)) * Mathf.Rad2Deg;
             float distance = Vector3.Distance(targetPos, myPos);
 
-            Debug.DrawRay(myPos, targetDir * distance, Color.red);
-            if (targetAngle <= ViewAngle * 0.5f && !Physics.Raycast(myPos, targetDir, distance, ObstacleMask))
+            //Debug.DrawRay(myPos, targetDir * distance, Color.red);
+            if (!Physics.Raycast(myPos, targetDir, distance, ObstacleMask))
             {
-                Vector3 maxHigh = transform.position * floorHigh;
-                Vector3 minHigh = transform.position * bottomHigh;
-                if (maxHigh.y > targetPos.y && minHigh.y < targetPos.y)
+                if (targetAngle <= ViewAngle * 0.5f)
                 {
                     if (hitTargetList.Count < 1)
                     {
