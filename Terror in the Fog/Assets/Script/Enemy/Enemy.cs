@@ -197,7 +197,7 @@ public class Enemy : MonoBehaviour
     public void CheckAround()  //초기화  같은 층에서만 사운드재생
     {
         isCheckAround = true;
-        Debug.Log("상태전환확인");
+        //Debug.Log("상태전환확인");
 
         currentTime += Time.deltaTime;
         if (currentTime <= 0.2f)

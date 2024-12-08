@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour  //°ÔÀÓ ÀüÃ¼ÀûÀ¸·Î <Äù½ºÆ®, °¢ È¸Â÷ÀÇ ¸
     {
         CheckDays();   //ÀÓ½Ã·Î »©³õÀ½
         AfterPlayerDead();
-        Debug.Log("°ÔÀÓ½ÃÀÛ ³¯Â¥" + Days);
+        //Debug.Log("°ÔÀÓ½ÃÀÛ ³¯Â¥" + Days);
     }
 
     private void Update()
@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour  //°ÔÀÓ ÀüÃ¼ÀûÀ¸·Î <Äù½ºÆ®, °¢ È¸Â÷ÀÇ ¸
         SETDAY();
         transMap();
         //MasterKey();
-        Debug.Log(Days);
+        //Debug.Log(Days);
     }
     private void ChangeEvent(EVENTTYPE newType)
     {
@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour  //°ÔÀÓ ÀüÃ¼ÀûÀ¸·Î <Äù½ºÆ®, °¢ È¸Â÷ÀÇ ¸
         if (Days == 3) ChangeEvent(EVENTTYPE.DayThree);
         if (Days == 4) ChangeEvent(EVENTTYPE.DayFour);
         if (Days == 5) ChangeEvent(EVENTTYPE.DayFive);
-        Debug.Log("¹Ù²ï ³¯Â¥" + Days);
+        //Debug.Log("¹Ù²ï ³¯Â¥" + Days);
     }
 
     private void MasterKey()
@@ -122,7 +122,7 @@ public class GameManager : MonoBehaviour  //°ÔÀÓ ÀüÃ¼ÀûÀ¸·Î <Äù½ºÆ®, °¢ È¸Â÷ÀÇ ¸
     public void PassDay()
     {
         Days++;
-        Debug.Log("ÇöÀç ³¯Â¥´Â" + Days + "ÀÏÂ÷ÀÔ´Ï´Ù");
+        //Debug.Log("ÇöÀç ³¯Â¥´Â" + Days + "ÀÏÂ÷ÀÔ´Ï´Ù");
     }
     public void AfterPlayerDead()
     {

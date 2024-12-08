@@ -123,7 +123,6 @@ public class EventManager : MonoBehaviour //이벤트관리
     {
         if (homeDoor != null)
         {
-            Debug.Log("현재 날짜" + GameManager.Days);
             if (GameManager.Days != 5)
             {
                 if (isCanOpen && InsideInventory.Instance.CheckInventory())

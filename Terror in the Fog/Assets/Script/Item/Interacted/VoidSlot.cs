@@ -70,6 +70,7 @@ public class VoidSlot : MonoBehaviour, IItem
             SoundManager.instance.PlaySound("SetToken");
             isCanUse = false;
             isUsing = true;
+            gameObject.layer = 0;
             StartCoroutine(SetToken());
         }
         CheckCorrect();
@@ -90,11 +91,12 @@ public class VoidSlot : MonoBehaviour, IItem
                 {
                     GameObject temp = Instantiate(tokenPrf[i], transform.position - transform.forward * 0.03f, quaternion);
                     saveToken = temp.GetComponent<Token>();
-                    SaveData.instance.data.Add("ÅäÅ«½½·Ô" + index, i);
+                    if (!SaveData.instance.data.ContainsKey("ÅäÅ«½½·Ô" + index)) SaveData.instance.data.Add("ÅäÅ«½½·Ô" + index, i);
                 }
             }
         }
         yield return new WaitForSeconds(0.5f);
+        gameObject.layer = 6;
         isUsing = false;
     }
 

@@ -52,6 +52,7 @@ public class VoidSlot_2 : MonoBehaviour, IItem
         {
             isCanUse = false;
             isUsing = true;
+            gameObject.layer = 0;
             StartCoroutine(SetValuable());
         }
     }
@@ -71,6 +72,7 @@ public class VoidSlot_2 : MonoBehaviour, IItem
             }
         }
         yield return new WaitForSeconds(0.5f);
+        gameObject.layer = 6;
         isUsing = false;
     }
 
