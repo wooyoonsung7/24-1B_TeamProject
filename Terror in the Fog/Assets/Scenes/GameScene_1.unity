@@ -1432,9 +1432,12 @@ MonoBehaviour:
   housedoor: {fileID: 0}
   enemy: {fileID: 0}
   targetHousedoor: {fileID: 0}
+  arrow: {fileID: 0}
+  arrow_2: {fileID: 0}
   bed: {fileID: 0}
   homeDoor: {fileID: 0}
   spawnPos: {fileID: 0}
+  textCanvas: {fileID: 0}
   safe: {fileID: 1777518998}
   day1Door: {fileID: 1099937535}
   day2Door: {fileID: 0}
@@ -3038,13 +3041,28 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2748577489228065827, guid: 272ce375b7695a743aa01db9e83f4565,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2748577489228065827, guid: 272ce375b7695a743aa01db9e83f4565,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1662222
+      objectReference: {fileID: 0}
+    - target: {fileID: 2748577489228065827, guid: 272ce375b7695a743aa01db9e83f4565,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2748577489228065827, guid: 272ce375b7695a743aa01db9e83f4565,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.136436
       objectReference: {fileID: 0}
     - target: {fileID: 2748577489228065827, guid: 272ce375b7695a743aa01db9e83f4565,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.565
+      value: 5.58
       objectReference: {fileID: 0}
     - target: {fileID: 2748577489228065827, guid: 272ce375b7695a743aa01db9e83f4565,
         type: 3}
@@ -3425,6 +3443,21 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: f236695cc5f519541b72399a64b3b5c9, type: 2}
+    - target: {fileID: 6841937279520258746, guid: b545940f7ee3bd14b8d6b8e9e0564dae,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6841937279520258746, guid: b545940f7ee3bd14b8d6b8e9e0564dae,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.0064079165
+      objectReference: {fileID: 0}
+    - target: {fileID: 6841937279520258746, guid: b545940f7ee3bd14b8d6b8e9e0564dae,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.20370215
+      objectReference: {fileID: 0}
     - target: {fileID: 6870879389432036114, guid: b545940f7ee3bd14b8d6b8e9e0564dae,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
