@@ -25,8 +25,6 @@ public class Enemy : MonoBehaviour
 
     public NavMeshAgent navMeshAgent; // 경로 계산 AI 에이전트
 
-    float floorHigh = 3f;
-    float bottomHigh = 0.5f;
     public float seizeRadius = 0.5f;
     Collider[] target = new Collider[0];
     private bool isFind = false; //타이머기능용

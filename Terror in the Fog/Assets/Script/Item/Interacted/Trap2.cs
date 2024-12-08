@@ -14,6 +14,7 @@ public class Trap2 : MonoBehaviour
     private void Start()
     {
         enemy = FindObjectOfType<Enemy>();
+        StartCoroutine(ResetUse());
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -28,7 +29,6 @@ public class Trap2 : MonoBehaviour
                 enemy.navMeshAgent.speed *= 1.5f;
                 isCanUse = false;
                 isChecking = true;
-                StartCoroutine(ResetUse());
             }
         }
         else if(!isCanUse)
@@ -43,12 +43,15 @@ public class Trap2 : MonoBehaviour
             }
         }
     }
-    private IEnumerator ResetUse()
+    private IEnumerator ResetUse()  //오류수정용
     {
-        yield return new WaitForSeconds(6f);
-        if (isChecking)
+        while (true)
         {
-            isCanUse = true;
+            if (!isChecking)
+            {
+                isCanUse = true;
+            }
+            yield return null;
         }
     }
 }
