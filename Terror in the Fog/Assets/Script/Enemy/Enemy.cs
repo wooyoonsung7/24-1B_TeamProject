@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour
     public bool isFindPlayer = false;  //chase상테에서만 적용하기위한 불값
 
     public float timer = 0f; //플레이 놓침타이머
-    public bool isCheckAround = false;
+    public bool isCheckAround = true;
 
     public bool pauseResearch = false;
 
