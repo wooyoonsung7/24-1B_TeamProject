@@ -12,6 +12,8 @@ public class SceneUI : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;        
         Cursor.visible = true;
         if(settingsMenu != null) settingsMenu.SetActive(false);
+        UnlockAchievements();
+
     }
 
     private void Update()
@@ -57,4 +59,17 @@ public class SceneUI : MonoBehaviour
     {
         SceneManager.LoadScene("MainScene");
     }
+
+    public void UnlockAchievements()
+    {
+        // 게임 시작 시 업적 달성
+        PlayerPrefs.SetInt("FirstStart", 1);  // 첫 게임 시작 업적 달성
+        PlayerPrefs.SetInt("FirstSleep", 0);  // 잠자는 업적은 아직 달성하지 않음
+        PlayerPrefs.SetInt("GameEnding", 0);  // 엔딩 업적은 아직 달성하지 않음
+
+        // 업적 씬으로 이동
+        
+    }
+
+    
 }

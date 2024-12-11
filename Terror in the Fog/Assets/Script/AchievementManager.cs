@@ -96,8 +96,8 @@ public class AchievementManager : MonoBehaviour
         {
             new Achievement
             {
-                name = "box key",
-                description = "Obtained the box key.",
+                name = "clover key",
+                description = "Obtained the clover key.",
                 isUnlocked = false,
                 showAlert = true
             },

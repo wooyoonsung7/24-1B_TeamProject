@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static IItem;
 
 public class Bed : MonoBehaviour, IItem
@@ -53,6 +54,7 @@ public class Bed : MonoBehaviour, IItem
         }
         yield return new WaitForSeconds(1.5f);
         reUse = true;
+
     }
 
     private IEnumerator UseBed()
@@ -64,4 +66,6 @@ public class Bed : MonoBehaviour, IItem
         yield return new WaitUntil(() => !bed.isFading);
         SoundManager.instance.PlaySound("WakeUp");
     }
+
+   
 }
