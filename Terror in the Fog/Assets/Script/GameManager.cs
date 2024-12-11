@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class GameManager : MonoBehaviour  //°ÔÀÓ ÀüÃ¼ÀûÀ¸·Î <Äù½ºÆ®, °¢ È¸Â÷ÀÇ ¸Ê>
 {
     public static GameManager Instance;
@@ -9,6 +10,7 @@ public class GameManager : MonoBehaviour  //°ÔÀÓ ÀüÃ¼ÀûÀ¸·Î <Äù½ºÆ®, °¢ È¸Â÷ÀÇ ¸
     public static int currentMap = 0;            //0¹ø Æ©Åä¸®¾ó, 1¹øÀÌ Áý, 2¹øÀÌ °¡´Â°Å¸®, 3¹øÀÌ Å¸°ÙÀÇ Áý, 4¹øÀÌ µ¹¾Æ¿À´Â °Å¸®
     public GameObject GameOverCanvas;
     private EVENTTYPE eventType;
+    public AchievementManager achievementManager;
     private enum EVENTTYPE
     {
         Tutorial,
@@ -64,6 +66,7 @@ public class GameManager : MonoBehaviour  //°ÔÀÓ ÀüÃ¼ÀûÀ¸·Î <Äù½ºÆ®, °¢ È¸Â÷ÀÇ ¸
         Debug.Log("°ÔÀÓ½ÃÀÛ ³¯Â¥" + Days);
         CheckDays();   //ÀÓ½Ã·Î »©³õÀ½
         AfterPlayerDead();
+
        
     }
 
@@ -73,6 +76,8 @@ public class GameManager : MonoBehaviour  //°ÔÀÓ ÀüÃ¼ÀûÀ¸·Î <Äù½ºÆ®, °¢ È¸Â÷ÀÇ ¸
         transMap();
         //MasterKey();
         //Debug.Log(Days);
+
+     
     }
     private void ChangeEvent(EVENTTYPE newType)
     {
@@ -166,5 +171,7 @@ public class GameManager : MonoBehaviour  //°ÔÀÓ ÀüÃ¼ÀûÀ¸·Î <Äù½ºÆ®, °¢ È¸Â÷ÀÇ ¸
     {
         EventManager.instance.DayFiveEvent();
     }
+
+  
 }
 

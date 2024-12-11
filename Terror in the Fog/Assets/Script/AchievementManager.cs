@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 
@@ -10,75 +9,123 @@ using UnityEngine.UI;
 
 public class AchievementManager : MonoBehaviour
 {
-    public static AchievementManager instance;          //싱글톤 화
-    public List<Achievement> achievements;              //Achievement 클래스를 List로 관리
+    [System.Serializable]
+    public class Achievement
+    {
+        public string name;
+        public string description;
+        public bool isUnlocked;
+        public bool showAlert;  // 알람을 띄울지 여부
+        
 
-    public Text[] AchievementTexts = new Text[3];
+
+
+        // UI 연결
+        private AchievementManager  achievementManager;
+
+        public void Initialize(AchievementManager system)
+        {
+            achievementManager = system;
+        }
+
+
+        public void Unlock()
+        {
+            if (!isUnlocked)
+            {
+                isUnlocked = true;
+                Debug.Log($"업적 달성: {name}");
+
+                if (showAlert)
+                {
+                    ShowAchievementAlert();
+                }
+            }
+        }
+
+        private void ShowAchievementAlert()
+        {
+            // 알람을 띄우는 로직 추가 (예: UI 알람, 팝업 등)
+            Debug.Log($"알람: {name} 달성!");
+        }
+    }
+
+    public Achievement[] achievements;
+
+    // UI 알림 텍스트 및 패널
+    public GameObject alertPanel;
+    public Text alertTitleText;
+    public Text alertDescriptionText;
+
+ 
+
+
+    public void CheckAchievements(string condition)
+    {
+        // 특정 조건을 만족하는 경우 해당 업적 달성
+        foreach (Achievement achievement in achievements)
+        {
+            if (!achievement.isUnlocked && condition == achievement.name)
+            {
+                achievement.Unlock();
+            }
+        }
+    }
+
+
+
+  
+
+
+    public void ShowAchievementAlert(string title, string description)
+    {
+        if (alertPanel != null)
+        {
+            alertPanel.SetActive(true);
+            alertTitleText.text = title;
+            alertDescriptionText.text = description;
+
+            // 일정 시간 후 알림 숨기기
+            Invoke(nameof(HideAchievementAlert), 3f);
+        }
+    }
 
     private void Awake()
     {
-        if (instance == null)
+        // 업적 배열 초기화
+        achievements = new Achievement[]
         {
-            instance = this;
-            //DontDestroyOnLoad(gameObject);              //다른 Scene에서도 적용 하기 위해서 파괴 되지 않게 설정
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            SceneManager.LoadScene("MainScene");
-        }
-    }
-
-    public void UpdateAchievementUI()
-    {
-
-
-        for (int i = 0; i < achievements.Count; i++)
-        {
-            var achievement = achievements[i];
-            Image iconImage = AchievementTexts[i].transform.Find("Icon").GetComponent<Image>(); // Icon 이미지 가져오기
-
-            if (achievement.isUnlocked)
+            new Achievement
             {
-                // 업적이 해제된 경우 선명하게
-                iconImage.color = new Color(iconImage.color.r, iconImage.color.g, iconImage.color.b, 1f);
-            }
-            else
+                name = "box key",
+                description = "I got the box key.",
+                isUnlocked = false,
+                showAlert = true
+            },
+            new Achievement
             {
-                // 업적이 잠긴 경우 흐릿하게
-                iconImage.color = new Color(iconImage.color.r, iconImage.color.g, iconImage.color.b, 0.8f); // 알파값 0.5로 흐릿하게
+                name = "diamond key",
+                description = "Obtained the Diamond Key.",
+                isUnlocked = false,
+                showAlert = true
+            },
+            new Achievement
+            {
+                name = "spade key",
+                description = "Obtained the spade key.",
+                isUnlocked = false,
+                showAlert = true
             }
-
-            // 텍스트 업데이트
-            AchievementTexts[0].text = achievement.name;
-            AchievementTexts[1].text = achievement.description;
-            AchievementTexts[2].text = $"{achievement.currentProgress}/{achievement.goal}";
-            AchievementTexts[3].text = achievement.isUnlocked ? "달성" : "미달성";
-        }
-
+        };
     }
 
-
-    public void AddProgress(string achievementName, int amount) //업적 진행 상활 갱신 함수
+    private void HideAchievementAlert()
     {
-        Achievement achievement = achievements.Find(a => a.name == achievementName);         //인수에서 받아온 이름으로 업적 리스트에서 찾아서 반환
-        if (achievement != null)                                                            //반환된 업적이 있을 경우
+        if (alertPanel != null)
         {
-            achievement.AddProgress(amount);                                                //프로그래스를 증가 시킨다.
+            alertPanel.SetActive(false);
         }
     }
-
-    //새로운 업적 추가 함수
-    public void AddAchievement(Achievement achievement)
-    {
-        //Achievement temp = new Achievement("이름", "설명", 5);
-        achievements.Add(achievement);                              //List에 업적 추가
-    }
-   
 }
+
+    
