@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using UnityEditor;
 using UnityEngine;
 using static IItem;
 
@@ -13,25 +14,45 @@ public class Bed : MonoBehaviour, IItem
     public Sprite itemImage { get; set; }
     public bool isCanUse { get; set; }
 
+    private bool reUse = true;
+
     private void Start()
     {
         type = ItemType.interacted;
         itemName = "침대";
-        isCanUse = true;
+        isCanUse = false;
     }
 
     public void Use(GameObject target)
     {
+        if (reUse)
+        {
+            reUse = false;
+            StartCoroutine(CheckCanUse());
+        }
+    }
+
+    private IEnumerator CheckCanUse()
+    {
+        //Debug.Log(isCanUse);
+        if (InsideInventory.Instance.CheckInventory())
+        {
+            isCanUse = true;
+        }
+        yield return null;
+
         if (isCanUse)
         {
             //Debug.Log("침대사용");
             isCanUse = false;
             StartCoroutine(UseBed());
             //자고 일어나는 애니메이션
-            
+
             EventManager.instance.isCanOpen = true;
-            if(GameManager.Days != 5 )GameManager.Instance.PassDay();
+            if (GameManager.Days != 5) GameManager.Instance.PassDay();
         }
+        yield return new WaitForSeconds(1.5f);
+        reUse = true;
     }
 
     private IEnumerator UseBed()

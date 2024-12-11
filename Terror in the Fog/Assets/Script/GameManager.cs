@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour  //게임 전체적으로 <퀘스트, 각 회차의 �
 
     private void Start()
     {
-        Debug.Log("게임시작 날짜" + Days);
+        //Debug.Log("게임시작 날짜" + Days);
         CheckDays();   //임시로 빼놓음
         AfterPlayerDead();
 
@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour  //게임 전체적으로 <퀘스트, 각 회차의 �
         if (Days == 3) ChangeEvent(EVENTTYPE.DayThree);
         if (Days == 4) ChangeEvent(EVENTTYPE.DayFour);
         if (Days == 5) ChangeEvent(EVENTTYPE.DayFive);
-        Debug.Log("바뀐 날짜" + Days);
+        //Debug.Log("바뀐 날짜" + Days);
     }
 
     private void MasterKey()
