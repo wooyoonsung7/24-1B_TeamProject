@@ -15,8 +15,7 @@ public class AchievementManager : MonoBehaviour
         public string name;
         public string description;
         public bool isUnlocked;
-        public bool showAlert;  // 알람을 띄울지 여부
-        
+        public bool showAlert; 
 
 
 
@@ -45,14 +44,14 @@ public class AchievementManager : MonoBehaviour
 
         private void ShowAchievementAlert()
         {
-            // 알람을 띄우는 로직 추가 (예: UI 알람, 팝업 등)
+            
             Debug.Log($"알람: {name} 달성!");
         }
     }
 
     public Achievement[] achievements;
 
-    // UI 알림 텍스트 및 패널
+   
     public GameObject alertPanel;
     public Text alertTitleText;
     public Text alertDescriptionText;
@@ -62,7 +61,7 @@ public class AchievementManager : MonoBehaviour
 
     public void CheckAchievements(string condition)
     {
-        // 특정 조건을 만족하는 경우 해당 업적 달성
+        
         foreach (Achievement achievement in achievements)
         {
             if (!achievement.isUnlocked && condition == achievement.name)
@@ -85,20 +84,20 @@ public class AchievementManager : MonoBehaviour
             alertTitleText.text = title;
             alertDescriptionText.text = description;
 
-            // 일정 시간 후 알림 숨기기
+           
             Invoke(nameof(HideAchievementAlert), 3f);
         }
     }
 
     private void Awake()
     {
-        // 업적 배열 초기화
+       
         achievements = new Achievement[]
         {
             new Achievement
             {
                 name = "box key",
-                description = "I got the box key.",
+                description = "Obtained the box key.",
                 isUnlocked = false,
                 showAlert = true
             },
