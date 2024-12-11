@@ -188,7 +188,7 @@ public class ChaseState : IState
     float f_timer = 0f;
 
     //숨지 않았을 때의 변수
-    float notChaseTime = 10f;
+    float notChaseTime = 8f;
 
     PlayerController playerController;
     bool isOneTime = false;
