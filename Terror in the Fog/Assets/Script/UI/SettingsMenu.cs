@@ -17,9 +17,24 @@ public class SettingsMenu : MonoBehaviour
     private HandController handController;
 
     private Enemy enemy;
-
+    /*
+    private void Awake()
+    {
+        AchievementManager achievementManager = AchievementManager.instance;
+        if(achievementManager != null && GameObject.Find("alertPanel") != null) achievementManager.alertPanel = GameObject.Find("alertPanel");
+        achievementManager.alertTitleText = GameObject.Find("alertTitleText").GetComponent<Text>();
+        achievementManager.alertDescriptionText = GameObject.Find("alertDescriptionText").GetComponent<Text>();
+        if(AchievementManager.instance.alertPanel != null) achievementManager.alertPanel.SetActive(false);
+    }*/
+    
     void Start()
     {
+        AchievementManager achievementManager = AchievementManager.instance;
+        if (achievementManager != null && GameObject.Find("alertPanel") != null) achievementManager.alertPanel = GameObject.Find("alertPanel");
+        achievementManager.alertTitleText = GameObject.Find("alertTitleText").GetComponent<Text>();
+        achievementManager.alertDescriptionText = GameObject.Find("alertDescriptionText").GetComponent<Text>();
+        if (AchievementManager.instance.alertPanel != null) achievementManager.alertPanel.SetActive(false);
+
         pausemenu.SetActive(false);
         settingsMenu.SetActive(false);
         if(FindAnyObjectByType<Enemy>() != null) enemy = FindAnyObjectByType<Enemy>();

@@ -143,13 +143,10 @@ public class EventManager : MonoBehaviour //이벤트관리
 
                 CheckGameClear();
 
-                if (GameManager.Days == 5)
+                if (isOneTime)
                 {
-                    if (isOneTime)
-                    {
-                        textCanvas.SetActive(true);
-                        isOneTime = false;
-                    }
+                    textCanvas.SetActive(true);
+                    isOneTime = false;
                 }
             }
         }

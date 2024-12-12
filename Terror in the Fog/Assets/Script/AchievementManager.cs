@@ -99,11 +99,6 @@ public class AchievementManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        alertPanel = GameObject.Find("alertPanel");
-        alertTitleText = alertPanel.transform.GetChild(0).GetComponent<Text>();
-        alertDescriptionText = alertPanel.transform.GetChild(1).GetComponent<Text>();
-        HideAchievementAlert();
-
         achievements = new Achievement[]
         {
             new Achievement
