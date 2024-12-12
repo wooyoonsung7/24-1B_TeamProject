@@ -3360,7 +3360,7 @@ PrefabInstance:
     - target: {fileID: 4951417731868065427, guid: 6461ee2a1a9462a438f1ed1745c88365,
         type: 3}
       propertyPath: sounds.Array.data[4].volume
-      value: 0.4
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4951417731868065427, guid: 6461ee2a1a9462a438f1ed1745c88365,
         type: 3}
@@ -3485,7 +3485,7 @@ PrefabInstance:
     - target: {fileID: 4951417731868065427, guid: 6461ee2a1a9462a438f1ed1745c88365,
         type: 3}
       propertyPath: sounds.Array.data[4].soundType
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4951417731868065427, guid: 6461ee2a1a9462a438f1ed1745c88365,
         type: 3}
@@ -3786,6 +3786,11 @@ PrefabInstance:
         type: 3}
       propertyPath: sounds.Array.data[10].soundLevel
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4951417731868065427, guid: 6461ee2a1a9462a438f1ed1745c88365,
+        type: 3}
+      propertyPath: sounds.Array.data[4].spatialBlend
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4951417731868065427, guid: 6461ee2a1a9462a438f1ed1745c88365,
         type: 3}
@@ -7841,7 +7846,7 @@ PrefabInstance:
     - target: {fileID: 7983301423857739694, guid: a1f916e2ad45f874ca926e5d387ad54a,
         type: 3}
       propertyPath: MaxDistance
-      value: 300
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
