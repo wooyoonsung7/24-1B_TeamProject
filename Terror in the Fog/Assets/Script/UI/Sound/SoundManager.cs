@@ -45,9 +45,9 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private Slider E_slider;
     [SerializeField] private Slider O_slider;
     [SerializeField] private Slider C_slider;
-    private static float E_sliderValue = 0;
-    private static float O_sliderValue = 0;
-    private static float C_sliderValue = 0;
+    private static float E_sliderValue = 5f;
+    private static float O_sliderValue = 5f;
+    private static float C_sliderValue = 5f;
 
     public bool isEnd = false;
     //public float soundValue = 1f;

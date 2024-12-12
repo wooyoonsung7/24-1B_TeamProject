@@ -32,10 +32,11 @@ public class VoidSlot : MonoBehaviour, IItem
 
         if (!isSettingAtHome)
         {
-            itemName = "ºóÃ¥Àå";
+            itemName = "ºó°ø°£";
             itemRot = Vector3.zero;
             itemRot.x -= 75.4f;
             quaternion = Quaternion.Euler(itemRot);
+            StartCoroutine(CheckToken());
         }
         else
         {
@@ -70,6 +71,7 @@ public class VoidSlot : MonoBehaviour, IItem
             SoundManager.instance.PlaySound("SetToken");
             isCanUse = false;
             isUsing = true;
+            gameObject.layer = 0;
             StartCoroutine(SetToken());
         }
         CheckCorrect();
@@ -84,18 +86,18 @@ public class VoidSlot : MonoBehaviour, IItem
             {
                 if (!isSettingAtHome)
                 {
-                    Instantiate(tokenPrf[i], transform.position + transform.forward * 0.05f, quaternion);
+                    GameObject temp = Instantiate(tokenPrf[i], transform.position + transform.forward * 0.05f, quaternion);
+                    saveToken = temp.GetComponent<Token>();
                 }
                 else
                 {
                     GameObject temp = Instantiate(tokenPrf[i], transform.position - transform.forward * 0.03f, quaternion);
                     saveToken = temp.GetComponent<Token>();
-                    SaveData.instance.data.Add("ÅäÅ«½½·Ô" + index, i);
+                    if (!SaveData.instance.data.ContainsKey("ÅäÅ«½½·Ô" + index)) SaveData.instance.data.Add("ÅäÅ«½½·Ô" + index, i);
                 }
             }
         }
-        yield return new WaitForSeconds(0.2f);
-        isUsing = false;
+        yield return null;
     }
 
     private void CheckCorrect()
@@ -127,12 +129,23 @@ public class VoidSlot : MonoBehaviour, IItem
 
                 if (saveToken == null)
                 {
+                    gameObject.layer = 6;
+                    isUsing = false;
                     SaveData.instance.data.Remove("ÅäÅ«½½·Ô" + index);
                 }
-                else
-                {
-                    //Debug.Log("¾ø¾îÁ³´Ù");
-                }
+            }
+                yield return null;
+        }
+    }
+
+    private IEnumerator CheckToken()
+    {
+        while (true)
+        {
+            if (saveToken == null)
+            {
+                gameObject.layer = 6;
+                isUsing = false;
             }
             yield return null;
         }

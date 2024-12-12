@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 
 public class EventManager : MonoBehaviour //이벤트관리
@@ -15,11 +16,14 @@ public class EventManager : MonoBehaviour //이벤트관리
 
     [Header("AtStreet")]
     [SerializeField] private Door targetHousedoor;
+    [SerializeField] private GameObject arrow;
+    [SerializeField] private GameObject arrow_2;
 
     [Header("AtHome")]
     [SerializeField] private Bed bed;
     [SerializeField] private Door homeDoor;
     [SerializeField] private Transform spawnPos;
+    [SerializeField] private GameObject textCanvas;
 
     [Header("DayOne Event")]
     [SerializeField] private Safe safe;
@@ -101,7 +105,16 @@ public class EventManager : MonoBehaviour //이벤트관리
             if (isOneTime)
             {
                 isOneTime = false;
+                if (GameManager.Days == 1) arrow_2.SetActive(true);
                 SoundManager.instance.PlaySound("Knell");
+            }
+        }
+        if (arrow != null && GameManager.Days == 0)
+        {
+            if (isOneTime)
+            {
+                arrow.SetActive(true);
+                isOneTime = false;
             }
         }
     }
@@ -129,6 +142,15 @@ public class EventManager : MonoBehaviour //이벤트관리
                 else homeDoor.isCanUse = false;
 
                 CheckGameClear();
+
+                if (GameManager.Days == 5)
+                {
+                    if (isOneTime)
+                    {
+                        textCanvas.SetActive(true);
+                        isOneTime = false;
+                    }
+                }
             }
         }
     }
@@ -139,7 +161,6 @@ public class EventManager : MonoBehaviour //이벤트관리
         {
             GameManager.currentMap = 2;
             SceneManager.LoadScene("Street_2");
-            isOneTime = true;
         }
     }
 
@@ -162,6 +183,7 @@ public class EventManager : MonoBehaviour //이벤트관리
     {
         //전부 초기화
         //애니메이션(연출)넣기
+        PlayerPrefs.SetInt("GameEnding", 1);
         GameManager.Days = 0;
         SceneManager.LoadScene("GameClear");
     }
@@ -236,15 +258,13 @@ public class EventManager : MonoBehaviour //이벤트관리
                 day5Door.isCanUse = true; 
             }
         }
-    }
-    /*
-    public bool CheckInventory()
-    {
-        if (GameManager.Days != 5)
-        {
 
+        if (name == "클로버열쇠" || name == "다이아몬드열쇠" || name == "스페이드열쇠")
+        {
+            string _name = name;
+            AchievementManager.instance.CheckAchievements(_name);
         }
-    }*/
+    }
 
     public void DayOneEvent()
     {
@@ -302,10 +322,6 @@ public class EventManager : MonoBehaviour //이벤트관리
                 SceneManager.LoadScene("Street_1");
             }
         }
-        if (ResearchManager_Simple.instance != null)  //Day3일 때, Street_1에만 해당 스크립트 넣기
-        {
-
-        }
     }
 
     public void DayFourEvent()
@@ -318,10 +334,6 @@ public class EventManager : MonoBehaviour //이벤트관리
                 GameManager.currentMap = 4;          //거리로 이동
                 SceneManager.LoadScene("Street_1");
             }
-        }
-        if (ResearchManager_Simple.instance != null)  //Day4일 때, Street_1에만 해당 스크립트 넣기
-        {
-
         }
     }
 
@@ -336,10 +348,7 @@ public class EventManager : MonoBehaviour //이벤트관리
                 SceneManager.LoadScene("Street_1");
             }
         }
-        if (ResearchManager_Simple.instance != null)  //Day5일 때, Street_1에만 해당 스크립트 넣기
-        {
 
-        }
     }
 
     IEnumerator Day5Event()

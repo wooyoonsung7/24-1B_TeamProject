@@ -67,6 +67,7 @@ public class Toy : MonoBehaviour, IItem
     {
         yield return new WaitUntil(() => isGen);
         Instantiate(generatedItem, itemPos, quaternion);
+        SoundManager.instance.PlaySound("FalledKey");
         StopCoroutine("CheckUse");
     }
 }

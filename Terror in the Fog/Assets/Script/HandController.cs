@@ -56,7 +56,7 @@ public class HandController : MonoBehaviour
         Vector3 rayOrigin = playerCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0f));
         Vector3 rayDir = transform.forward;
 
-        Debug.DrawRay(rayOrigin, rayDir * distance, Color.red);
+        //Debug.DrawRay(rayOrigin, rayDir * distance, Color.red);
 
         
         if (Physics.Raycast(rayOrigin, rayDir, out hitInfo, distance, whatIsTarget)) //아이템 감지
@@ -209,17 +209,18 @@ public class HandController : MonoBehaviour
 
     private void Interaction() //가구등 상호작용
     {
+        int[] checkIndex = { 15, 16, 17, 18, 19, 90, 91, 92, 93, 94 , 100 };  //100은 예외용
         if (hitInfo.transform != null && item != null)
         {
             if (item.type == IItem.ItemType.interacted)
             {
+                if (item.itemName == "케이크" || item.itemName == "책장") return;
+                for (int i = 0; i < checkIndex.Length; i++)
+                {
+                    if (item.index == checkIndex[i]) return;
+                }
                 item.Use(transform.parent.gameObject);
             }
         }
-    }
-
-    public void isDead()  //사망시, 옷장밖으로 내보내기
-    {
-        Interaction();
     }
 }

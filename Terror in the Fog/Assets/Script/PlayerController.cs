@@ -384,10 +384,11 @@ public class PlayerController : MonoBehaviour
         rayPositions.Add(transform.position - Vector3.up * transform.localScale.y /2 *1.5f);
         rayPositions.Add(transform.position - Vector3.up * 0.1f);
 
+        /*
         foreach (Vector3 pos in rayPositions)
         {
-            Debug.DrawRay(pos, movement * scope, Color.red);
-        }
+            //Debug.DrawRay(pos, movement * scope, Color.red);
+        }*/
 
         foreach (Vector3 pos in rayPositions)
         {
