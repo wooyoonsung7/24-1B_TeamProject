@@ -1817,6 +1817,7 @@ Transform:
   - {fileID: 340781083}
   - {fileID: 1834006927}
   - {fileID: 1773911670990453775}
+  - {fileID: 618647628}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &509247932 stripped
@@ -2170,6 +2171,100 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6105837205701872731, guid: 3f823775fd30092489e8154e5102bbb7,
     type: 3}
   m_PrefabInstance: {fileID: 537519286}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &618647627
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 502561730}
+    m_Modifications:
+    - target: {fileID: 2395397235124014916, guid: d1e52fc8db6bb3548a4ee780f7650103,
+        type: 3}
+      propertyPath: m_Name
+      value: Achievement Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4111482887723170989, guid: d1e52fc8db6bb3548a4ee780f7650103,
+        type: 3}
+      propertyPath: alertPanel
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4111482887723170989, guid: d1e52fc8db6bb3548a4ee780f7650103,
+        type: 3}
+      propertyPath: alertTitleText
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4111482887723170989, guid: d1e52fc8db6bb3548a4ee780f7650103,
+        type: 3}
+      propertyPath: alertDescriptionText
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4111482887723170989, guid: d1e52fc8db6bb3548a4ee780f7650103,
+        type: 3}
+      propertyPath: achievements.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6083213073603655987, guid: d1e52fc8db6bb3548a4ee780f7650103,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -642.78674
+      objectReference: {fileID: 0}
+    - target: {fileID: 6083213073603655987, guid: d1e52fc8db6bb3548a4ee780f7650103,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 71.52594
+      objectReference: {fileID: 0}
+    - target: {fileID: 6083213073603655987, guid: d1e52fc8db6bb3548a4ee780f7650103,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 161.66504
+      objectReference: {fileID: 0}
+    - target: {fileID: 6083213073603655987, guid: d1e52fc8db6bb3548a4ee780f7650103,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6083213073603655987, guid: d1e52fc8db6bb3548a4ee780f7650103,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6083213073603655987, guid: d1e52fc8db6bb3548a4ee780f7650103,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6083213073603655987, guid: d1e52fc8db6bb3548a4ee780f7650103,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6083213073603655987, guid: d1e52fc8db6bb3548a4ee780f7650103,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6083213073603655987, guid: d1e52fc8db6bb3548a4ee780f7650103,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6083213073603655987, guid: d1e52fc8db6bb3548a4ee780f7650103,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d1e52fc8db6bb3548a4ee780f7650103, type: 3}
+--- !u!4 &618647628 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6083213073603655987, guid: d1e52fc8db6bb3548a4ee780f7650103,
+    type: 3}
+  m_PrefabInstance: {fileID: 618647627}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &639564145
 GameObject:
@@ -2714,6 +2809,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameOverCanvas: {fileID: 0}
+  achievementManager: {fileID: 0}
 --- !u!1001 &798004586
 PrefabInstance:
   m_ObjectHideFlags: 0

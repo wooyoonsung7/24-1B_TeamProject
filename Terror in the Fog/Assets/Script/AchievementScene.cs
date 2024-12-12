@@ -20,6 +20,8 @@ public class AchievementScene : MonoBehaviour
 
     void Start()
     {
+        Debug.Log(PlayerPrefs.GetInt("FirstSleep", 0));
+
         if (PlayerPrefs.GetInt("FirstStart", 0) == 1)
         {
             firstStartImage.gameObject.SetActive(true);

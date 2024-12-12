@@ -44,6 +44,8 @@ public class Bed : MonoBehaviour, IItem
 
         if (isCanUse)
         {
+            PlayerPrefs.SetInt("FirstSleep", 1);
+            //Debug.Log(PlayerPrefs.GetInt("FirstSleep", 0));
             //Debug.Log("침대사용");
             isCanUse = false;
             StartCoroutine(UseBed());

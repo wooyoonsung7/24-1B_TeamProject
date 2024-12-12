@@ -183,6 +183,7 @@ public class EventManager : MonoBehaviour //이벤트관리
     {
         //전부 초기화
         //애니메이션(연출)넣기
+        PlayerPrefs.SetInt("GameEnding", 1);
         GameManager.Days = 0;
         SceneManager.LoadScene("GameClear");
     }
@@ -256,6 +257,12 @@ public class EventManager : MonoBehaviour //이벤트관리
                 SoundManager.instance.PlaySound("GetSpecial");
                 day5Door.isCanUse = true; 
             }
+        }
+
+        if (name == "클로버열쇠" || name == "다이아몬드열쇠" || name == "스페이드열쇠")
+        {
+            string _name = name;
+            AchievementManager.instance.CheckAchievements(_name);
         }
     }
 

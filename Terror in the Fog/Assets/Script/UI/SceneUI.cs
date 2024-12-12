@@ -7,13 +7,21 @@ using UnityEngine.SceneManagement;
 public class SceneUI : MonoBehaviour
 {
     public GameObject settingsMenu;
+    private static bool isGameStart = false;
     void Start()
     {
         Cursor.lockState = CursorLockMode.None;        
         Cursor.visible = true;
         if(settingsMenu != null) settingsMenu.SetActive(false);
-        UnlockAchievements();
 
+        if (!isGameStart)
+        {
+            UnlockAchievements();
+            //Debug.Log("작동한다ㅏㅏ");
+            isGameStart = true;
+        }
+
+        PlayerPrefs.SetInt("FirstStart", 1);
     }
 
     private void Update()
